@@ -1,0 +1,156 @@
+/* =========================
+   HOME PAGE
+========================= */
+
+.hero{
+    min-height:100vh;
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    align-items:center;
+    text-align:center;
+
+    padding:50px 20px;
+
+    background:linear-gradient(135deg,#2563EB,#60A5FA);
+
+    color:white;
+}
+
+.hero h1{
+
+    font-size:64px;
+
+    margin-bottom:20px;
+
+}
+
+.hero p{
+
+    font-size:22px;
+
+    max-width:700px;
+
+    line-height:1.6;
+
+    margin-bottom:40px;
+
+}
+
+.hero-button{
+
+    display:flex;
+
+    gap:20px;
+
+}
+
+.btn-primary{
+
+    background:white;
+
+    color:#2563EB;
+
+    padding:15px 35px;
+
+    border-radius:10px;
+
+    font-weight:bold;
+
+    transition:.3s;
+
+}
+
+.btn-primary:hover{
+
+    transform:translateY(-4px);
+
+}
+
+.btn-secondary{
+
+    border:2px solid white;
+
+    color:white;
+
+    padding:15px 35px;
+
+    border-radius:10px;
+
+    transition:.3s;
+
+}
+
+.btn-secondary:hover{
+
+    background:white;
+
+    color:#2563EB;
+
+}
+
+/* =========================
+        FEATURE
+========================= */
+
+.feature{
+
+    padding:80px 8%;
+
+}
+
+.feature h2{
+
+    text-align:center;
+
+    font-size:40px;
+
+    margin-bottom:50px;
+
+}
+
+.feature-grid{
+
+    display:grid;
+
+    grid-template-columns:repeat(2,1fr);
+
+    gap:30px;
+
+}
+
+.feature-card{
+
+    background:white;
+
+    padding:40px;
+
+    border-radius:15px;
+
+    box-shadow:0 10px 25px rgba(0,0,0,.08);
+
+    transition:.3s;
+
+}
+
+.feature-card:hover{
+
+    transform:translateY(-10px);
+
+}
+
+.feature-card h3{
+
+    font-size:28px;
+
+    margin-bottom:20px;
+
+}
+
+.feature-card p{
+
+    color:#555;
+
+    line-height:1.7;
+
+}

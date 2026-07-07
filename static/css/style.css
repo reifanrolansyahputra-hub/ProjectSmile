@@ -1,0 +1,26 @@
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+body{
+    font-family:Arial, sans-serif;
+    background:#F5F7FB;
+    color:#222;
+}
+
+a{
+    text-decoration:none;
+}
+
+img{
+    max-width:100%;
+}
+
+:root{
+    --primary:#2563EB;
+    --secondary:#1E293B;
+    --background:#F5F7FB;
+    --white:#FFFFFF;
+}

@@ -1,0 +1,85 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/home.css' %}">
+{% endblock %}
+{% block content %}
+
+<header class="hero">
+
+    <h1>😊 Project Smile</h1>
+
+    <p>
+        Belajar Menjadi Menyenangkan
+    </p>
+
+    <div class="hero-button">
+
+        <a href="/login/" class="btn-primary">
+
+            Login
+
+        </a>
+
+        <a href="#fitur" class="btn-secondary">
+
+            Pelajari Lebih Lanjut
+
+        </a>
+
+    </div>
+
+</header>
+
+<section id="fitur" class="feature">
+
+    <h2>Fitur</h2>
+
+    <div class="feature-grid">
+
+        <div class="feature-card">
+
+            <h3>📝 Quiz</h3>
+
+            <p>
+                Kerjakan soal interaktif.
+            </p>
+
+        </div>
+
+        <div class="feature-card">
+
+            <h3>🧩 Puzzle</h3>
+
+            <p>
+                Asah kemampuan berpikir.
+            </p>
+
+        </div>
+
+        <div class="feature-card">
+
+            <h3>🎮 Game</h3>
+
+            <p>
+                Belajar melalui permainan.
+            </p>
+
+        </div>
+
+        <div class="feature-card">
+
+            <h3>📚 Materi</h3>
+
+            <p>
+                Pelajari materi sekolah.
+            </p>
+
+        </div>
+
+    </div>
+
+</section>
+
+{% endblock %}

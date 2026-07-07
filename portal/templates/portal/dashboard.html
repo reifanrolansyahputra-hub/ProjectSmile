@@ -1,0 +1,111 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/dashboard.css' %}">
+{% endblock %}
+
+{% block content %}
+
+<div class="dashboard">
+
+    <aside class="sidebar">
+
+        <h2>😊 Project Smile</h2>
+
+        <nav>
+
+            <a href="#">🏠 Dashboard</a>
+
+            <a href="#">📦 Semua Project</a>
+
+            <a href="#">🏆 Leaderboard</a>
+
+            <a href="#">👤 Profile</a>
+
+            <a href="#">⚙️ Pengaturan</a>
+
+            <a href="{% url 'logout' %}">🚪 Logout</a>
+
+        </nav>
+
+    </aside>
+
+    <main class="content">
+
+        <div class="topbar">
+
+            <h1>Halo, {{ request.user.username }} 👋</h1>
+
+            <p>Selamat datang di Project Smile.</p>
+
+        </div>
+
+        <div class="stat-box">
+
+            <div class="stat">
+                <h3>{{ projects|length }}</h3>
+                <p>Total Project</p>
+            </div>
+
+            <div class="stat">
+                <h3>{{ projects|length }}</h3>
+                <p>Project Aktif</p>
+            </div>
+
+            <div class="stat">
+                <h3>Portal</h3>
+                <p>Version 1.0</p>
+            </div>
+
+            <div class="stat">
+                <h3>{{ request.user.username }}</h3>
+                <p>User Login</p>
+            </div>
+
+        </div>
+
+        <h2 class="section-title">
+            Daftar Project
+        </h2>
+
+        <div class="cards">
+
+            {% for project in projects %}
+
+            <div class="card">
+              {% if project.image %}
+             <img src="{{ project.image.url }}" alt="{{ project.name }}" class="project-image">
+              {% endif %}
+                <h3>{{ project.name }}</h3>
+
+                <p>{{ project.description }}</p>
+
+                <a href="{{ project.url }}" target="_blank">
+
+                    <button>Buka Project</button>
+
+                </a>
+
+            </div>
+
+            {% empty %}
+
+            <div class="card">
+
+                <h3>Belum Ada Project</h3>
+
+                <p>Silakan tambahkan Project melalui Django Admin.</p>
+
+            </div>
+
+            {% endfor %}
+
+        </div>
+
+    </main>
+
+</div>
+
+{% endblock %}
