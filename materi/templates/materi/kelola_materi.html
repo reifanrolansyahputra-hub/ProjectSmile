@@ -1,0 +1,230 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Kelola Materi</title>
+
+    <link rel="stylesheet" href="{% static 'css/kelola_materi.css' %}">
+
+</head>
+
+<body>
+
+<div class="dashboard">
+
+    <aside class="sidebar">
+
+        <h2>😊 Project Smile</h2>
+
+        <nav>
+
+            <a href="{% url 'guru_dashboard' %}">🏠 Dashboard</a>
+
+            <a href="#">📦 Semua Project</a>
+
+            <a href="{% url 'kelola_materi' %}" class="active">📚 Kelola Materi</a>
+
+            <a href="#">👤 Profile</a>
+
+            <a href="#">⚙️ Pengaturan</a>
+
+            <a href="{% url 'logout' %}">🚪 Logout</a>
+
+        </nav>
+
+    </aside>
+
+    <main class="content">
+
+        <div class="topbar">
+
+            <h1>📚 Kelola Materi</h1>
+
+            <p>Tambah, Edit, dan Hapus Materi Pembelajaran.</p>
+
+        </div>
+
+        <div class="form-card">
+
+            {% if edit_data %}
+                <h2>Edit Materi</h2>
+
+                <form method="POST"
+                      enctype="multipart/form-data"
+                      action="{% url 'edit_materi' edit_data.id %}">
+            {% else %}
+                <h2>Tambah Materi</h2>
+
+                <form method="POST"
+                      enctype="multipart/form-data"
+                      action="{% url 'tambah_materi' %}">
+            {% endif %}
+
+                {% csrf_token %}
+
+                <div class="input-group">
+
+                    <label>Judul Materi</label>
+
+                    <input
+                        type="text"
+                        name="judul"
+                        required
+                        value="{% if edit_data %}{{ edit_data.judul }}{% endif %}">
+
+                </div>
+
+                <div class="input-group">
+
+                    <label>Mata Pelajaran</label>
+
+                    <select name="mapel" required>
+
+                        <option value="">-- Pilih Mata Pelajaran --</option>
+
+                        <option value="MTK" {% if edit_data.mapel == "MTK" %}selected{% endif %}>Matematika</option>
+
+                        <option value="IPA" {% if edit_data.mapel == "IPA" %}selected{% endif %}>IPA</option>
+
+                        <option value="IPS" {% if edit_data.mapel == "IPS" %}selected{% endif %}>IPS</option>
+
+                        <option value="BIO" {% if edit_data.mapel == "BIO" %}selected{% endif %}>Biologi</option>
+
+                        <option value="FIS" {% if edit_data.mapel == "FIS" %}selected{% endif %}>Fisika</option>
+
+                        <option value="KIM" {% if edit_data.mapel == "KIM" %}selected{% endif %}>Kimia</option>
+
+                        <option value="ING" {% if edit_data.mapel == "ING" %}selected{% endif %}>Bahasa Inggris</option>
+
+                        <option value="IND" {% if edit_data.mapel == "IND" %}selected{% endif %}>Bahasa Indonesia</option>
+
+                    </select>
+
+                </div>
+
+                <div class="input-group">
+
+                    <label>Deskripsi</label>
+
+                    <textarea
+                        name="deskripsi"
+                        rows="5"
+                        required>{% if edit_data %}{{ edit_data.deskripsi }}{% endif %}</textarea>
+
+                </div>
+
+                <div class="input-group">
+
+                    <label>Upload File</label>
+
+                    <input
+                        type="file"
+                        name="file"
+                        {% if not edit_data %}required{% endif %}>
+
+                </div>
+
+                <button type="submit" class="save-btn">
+
+                    {% if edit_data %}
+                        ✏ Update Materi
+                    {% else %}
+                        💾 Simpan Materi
+                    {% endif %}
+
+                </button>
+
+            </form>
+
+        </div>
+
+        <h2 class="section-title">
+
+            Daftar Materi
+
+        </h2>
+
+        <div class="cards">
+
+            {% for materi in materis %}
+
+            <div class="card">
+
+                <h3>{{ materi.judul }}</h3>
+
+                <p><b>Mapel :</b> {{ materi.get_mapel_display }}</p>
+
+                <p>{{ materi.deskripsi }}</p>
+
+                <p>
+
+                    <b>Tanggal :</b>
+
+                    {{ materi.created_at|date:"d M Y" }}
+
+                </p>
+
+                <div class="aksi">
+
+                    <a href="{{ materi.file.url }}" target="_blank">
+
+                        <button>
+
+                            📄 Lihat
+
+                        </button>
+
+                    </a>
+
+                    <a href="{% url 'edit_materi' materi.id %}">
+
+                        <button class="edit">
+
+                            ✏ Edit
+
+                        </button>
+
+                    </a>
+
+                    <a href="{% url 'hapus_materi' materi.id %}"
+                       onclick="return confirm('Yakin ingin menghapus materi ini?')">
+
+                        <button class="hapus">
+
+                            🗑 Hapus
+
+                        </button>
+
+                    </a>
+
+                </div>
+
+            </div>
+
+            {% empty %}
+
+            <div class="card">
+
+                <h3>Belum Ada Materi</h3>
+
+                <p>Silakan tambahkan materi pertama.</p>
+
+            </div>
+
+            {% endfor %}
+
+        </div>
+
+    </main>
+
+</div>
+
+</body>
+
+</html>

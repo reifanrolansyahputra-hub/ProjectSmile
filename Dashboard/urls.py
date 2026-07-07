@@ -9,7 +9,7 @@ urlpatterns = [
     path("", home),
     path("", include("accounts.urls")),
     path("", include("portal.urls")),
-    
+    path("", include("materi.urls")),
 ]
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
