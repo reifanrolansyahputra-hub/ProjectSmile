@@ -127,3 +127,12 @@ STATICFILES_DIRS = [
 MEDIA_URL = "/media/"
 
 MEDIA_ROOT = BASE_DIR / "media"
+
+
+# ===== Konfigurasi SSO ke Quiz App (Node.js) =====
+# PENTING: string ini HARUS SAMA PERSIS dengan SSO_SHARED_SECRET di backend Node.js.
+# Untuk produksi nanti, pindahkan ke environment variable, jangan hardcode di sini.
+SSO_SHARED_SECRET = "da727c59842dece4ac522aad50de334f0dca8e65de8a3c89a27cdf060d64801b"
+
+# Alamat server quiz Node.js
+QUIZ_APP_URL = "http://localhost:3000"

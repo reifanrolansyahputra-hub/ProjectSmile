@@ -21,6 +21,8 @@
 
             <a href="#">📦 Semua Project</a>
 
+            <a href="{% url 'buka_quiz' %}">📝 Quiz</a>
+
             <a href="#materi">📚 Materi</a>
 
             <a href="#">🏆 Leaderboard</a>
@@ -90,9 +92,15 @@
 
                 <p>{{ project.description }}</p>
 
+                {% if QUIZ_APP_URL in project.url %}
+                <a href="{% url 'buka_quiz' %}">
+                    <button>Buka Project</button>
+                </a>
+                {% else %}
                 <a href="{{ project.url }}" target="_blank">
                     <button>Buka Project</button>
                 </a>
+                {% endif %}
 
             </div>
 
