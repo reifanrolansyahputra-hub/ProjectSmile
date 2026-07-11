@@ -1,184 +1,76 @@
+{% extends 'base.html' %}
+
 {% load static %}
 
-<!DOCTYPE html>
-<html lang="en">
+{% block extra_css %}
+<script src="https://cdn.tailwindcss.com"></script>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+    .guru-wrapper { font-family: 'Poppins', sans-serif; }
+</style>
+{% endblock %}
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard Guru</title>
-
-    <link rel="stylesheet" href="{% static 'css/guru_dashboard.css' %}">
-</head>
-
-<body>
-
-<div class="dashboard">
-
-    <!-- Sidebar -->
-    <aside class="sidebar">
-
-        <h2>😊 Project Smile</h2>
-
-        <nav>
-            <a href="{% url 'guru_dashboard' %}">🏠 Dashboard</a>
-            <a href="#">📦 Semua Project</a>
-
-            <a href="{% url 'buka_quiz' %}">📝 Quiz</a>
-
-            <!-- Karena guru_materi sudah dihapus -->
-            <a href="{% url 'guru_dashboard' %}#materi">📚 Kelola Materi</a>
-
-            <a href="#">👤 Profile</a>
-            <a href="#">⚙️ Pengaturan</a>
-            <a href="{% url 'logout' %}">🚪 Logout</a>
-        </nav>
-
-    </aside>
-
-    <!-- Content -->
-    <main class="content">
-
-        <div class="topbar">
-            <h1>Halo, {{ request.user.username }} 👋</h1>
-            <p>Selamat datang di Dashboard Guru.</p>
+{% block content %}
+<div class="guru-wrapper min-h-screen bg-slate-50 pb-12">
+    
+    <!-- NAVBAR GURU -->
+    <nav class="bg-indigo-900 text-white px-6 py-4 flex justify-between items-center shadow-md">
+        <div class="flex items-center gap-3">
+            <span class="text-xl">👩‍🏫</span>
+            <span class="font-black text-xl tracking-wide">SMILE <span class="text-xs font-medium bg-indigo-700 px-2.5 py-1 rounded-full ml-2">Ruang Guru</span></span>
         </div>
+        <a href="/logout" class="bg-indigo-800 hover:bg-red-600 px-4 py-2 rounded-xl text-xs font-bold transition">Keluar</a>
+    </nav>
 
-        <!-- Statistik -->
-        <div class="stat-box">
-
-            <div class="stat">
-                <h3>{{ projects|length }}</h3>
-                <p>Total Project</p>
-            </div>
-
-            <div class="stat">
-                <h3>{{ materis|length }}</h3>
-                <p>Total Materi</p>
-            </div>
-
-            <div class="stat">
-                <h3>Guru</h3>
-                <p>Role</p>
-            </div>
-
-            <div class="stat">
-                <h3>{{ request.user.username }}</h3>
-                <p>User Login</p>
-            </div>
-
-        </div>
-
-        <!-- Project -->
-        <h2 class="section-title">Daftar Project</h2>
-
-        <div class="cards">
-
-            {% for project in projects %}
-
-            <div class="card">
-
-                {% if project.image %}
-                <img src="{{ project.image.url }}" class="project-image">
-                {% endif %}
-
-                <h3>{{ project.name }}</h3>
-
-                <p>{{ project.description }}</p>
-
-                {% if QUIZ_APP_URL in project.url %}
-                <a href="{% url 'buka_quiz' %}">
-                    <button>Buka Project</button>
-                </a>
-                {% else %}
-                <a href="{{ project.url }}" target="_blank">
-                    <button>Buka Project</button>
-                </a>
-                {% endif %}
-
-            </div>
-
-            {% empty %}
-
-            <div class="card">
-                <h3>Belum Ada Project</h3>
-                <p>Tidak ada project.</p>
-            </div>
-
-            {% endfor %}
-
-        </div>
-
-        <!-- Materi -->
-        <div class="materi-header" id="materi">
-
-            <h2>📚 Materi Saya</h2>
-
-            <a href="{% url 'tambah_materi' %}">
-                <button class="add-btn">
-                    + Tambah Materi
-                </button>
-            </a>
-
-        </div>
-
-        <div class="cards">
-
-            {% for materi in materis %}
-
-            <div class="card">
-
-                <h3>{{ materi.judul }}</h3>
-
-                <p>{{ materi.deskripsi }}</p>
-
-                <p>
-                    <b>Dibuat :</b>
-                    {{ materi.created_at|date:"d M Y" }}
-                </p>
-
-                <div class="aksi">
-
-                    <a href="{{ materi.file.url }}" target="_blank">
-                        <button>
-                            📄 Lihat
-                        </button>
-                    </a>
-
+    <!-- KONTEN GURU -->
+    <main class="max-w-6xl mx-auto px-4 mt-8">
+        
+        <!-- Ringkasan Statistik Kelas (Efek 3D Card Angka) -->
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-6 mb-8">
+            <div class="bg-white p-5 rounded-2xl shadow-sm border border-slate-100 flex items-center justify-between">
+                <div>
+                    <p class="text-xs text-slate-400 font-bold uppercase">Total Materi Aktif</p>
+                    <p class="text-3xl font-black text-indigo-600 mt-1">18</p>
                 </div>
-
+                <span class="text-3xl bg-indigo-50 p-3 rounded-xl">📚</span>
             </div>
-
-            {% empty %}
-
-            <div class="card">
-
-                <h3>Belum Ada Materi</h3>
-
-                <p>Silakan tambahkan materi pertama Anda.</p>
-
-                <a href="{% url 'tambah_materi' %}">
-                    <button class="add-btn">
-                        + Tambah Materi
-                    </button>
-                </a>
-
-                <a href="{% url 'kelola_materi' %}">>
-                    <button class="add-btn">
-                        Kelola Materi
-                    </button>
-                </a>
-
+            <div class="bg-white p-5 rounded-2xl shadow-sm border border-slate-100 flex items-center justify-between">
+                <div>
+                    <p class="text-xs text-slate-400 font-bold uppercase">Total Murid Terdaftar</p>
+                    <p class="text-3xl font-black text-emerald-600 mt-1">142</p>
+                </div>
+                <span class="text-3xl bg-emerald-50 p-3 rounded-xl">👨‍</span>
             </div>
+            <div class="bg-white p-5 rounded-2xl shadow-sm border border-slate-100 flex items-center justify-between">
+                <div>
+                    <p class="text-xs text-slate-400 font-bold uppercase">Kelas Pengampu</p>
+                    <p class="text-3xl font-black text-amber-600 mt-1">1 - 6</p>
+                </div>
+                <span class="text-3xl bg-amber-50 p-3 rounded-xl">🏫</span>
+            </div>
+        </div>
 
+        <!-- Tombol Kontrol Tambah Materi -->
+        <div class="bg-white rounded-2xl p-6 shadow-sm border border-slate-100 mb-8 flex flex-col sm:flex-row items-center justify-between gap-4">
+            <div>
+                <h3 class="text-md font-extrabold text-slate-800">Manajemen Konten Pelajaran</h3>
+                <p class="text-slate-400 text-xs mt-0.5">Tambah materi pelajaran IPA, Matematika, atau Bahasa Inggris baru ke dashboard siswa.</p>
+            </div>
+            <a href="/materi/tambah" class="bg-gradient-to-r from-indigo-600 to-purple-600 text-white font-bold text-xs px-6 py-3 rounded-xl shadow-md transform active:scale-95 transition">
+                + Tambah Materi Baru
+            </a>
+        </div>
+
+        <!-- List Kontrol Cepat Jalur Kelas -->
+        <h4 class="text-xs font-bold text-slate-500 uppercase tracking-wider mb-4">Kelola Materi Per Kelas</h4>
+        <div class="grid grid-cols-2 sm:grid-cols-6 gap-4">
+            {% for i in "123456" %}
+                <a href="/materi/kelas/{{ i }}" class="bg-white border border-slate-100 rounded-xl p-4 text-center hover:border-indigo-500 hover:shadow-sm transition font-bold text-sm text-slate-700">
+                    Kelas {{ i }}
+                </a>
             {% endfor %}
-
         </div>
 
     </main>
-
 </div>
-
-</body>
-
-</html>
+{% endblock %}

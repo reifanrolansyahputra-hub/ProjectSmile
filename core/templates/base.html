@@ -3,24 +3,24 @@
 <html>
 
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Project Smile</title>
 
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Memanggil script Tailwind CSS secara global agar semua halaman otomatis support -->
+    <script src="https://cdn.tailwindcss.com"></script>
 
-<title>Project Smile</title>
+    <!-- CSS Lama kamu (tetap dibiarkan jika ada halaman lain yang masih pakai) -->
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
 
-<link rel="stylesheet" href="{% static 'css/style.css' %}">
-
-{% block extra_css %}
-{% endblock %}
-
+    {% block extra_css %}
+    {% endblock %}
 </head>
 
 <body>
-
-{% block content %}
-{% endblock %}
-
+    <!-- Tempat konten halaman lain akan muncul -->
+    {% block content %}
+    {% endblock %}
 </body>
 
 </html>

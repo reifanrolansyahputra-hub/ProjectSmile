@@ -3,181 +3,168 @@
 {% load static %}
 
 {% block extra_css %}
-<link rel="stylesheet" href="{% static 'css/dashboard.css' %}">
+<script src="https://cdn.tailwindcss.com"></script>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+    .dashboard-wrapper { font-family: 'Poppins', sans-serif; }
+    .bg-3d-pattern {
+        background-color: #f8fafc;
+        background-image: radial-gradient(#8b5cf6 0.5px, transparent 0.5px), radial-gradient(#8b5cf6 0.5px, #f8fafc 0.5px);
+        background-size: 24px 24px;
+        background-position: 0 0, 12px 12px;
+        opacity: 0.25;
+    }
+</style>
 {% endblock %}
 
 {% block content %}
+<div class="dashboard-wrapper min-h-screen relative bg-slate-50 overflow-hidden pb-12">
+    <div class="absolute inset-0 bg-3d-pattern pointer-events-none"></div>
 
-<div class="dashboard">
+    <!-- NAVBAR ATAS -->
+    <nav class="relative max-w-7xl mx-auto mt-4 mx-4 md:mx-auto bg-white/80 backdrop-blur-md rounded-2xl border border-slate-100 shadow-[0_10px_30px_-10px_rgba(0,0,0,0.05)] px-6 py-4 flex justify-between items-center z-10">
+        <div class="flex items-center gap-3">
+            <div class="w-10 h-10 bg-gradient-to-tr from-indigo-600 to-purple-600 rounded-xl flex items-center justify-center shadow-md">
+                <svg class="w-6 h-6 text-yellow-300" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3L2 8l10 5 10-5-10-5z"></path>
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M8 14s1.5 2 4 2 4-2 4-2" stroke="white"></path>
+                </svg>
+            </div>
+            <span class="font-black text-xl bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent tracking-wide">SMILE</span>
+        </div>
+        <div class="flex items-center gap-4">
+            <div class="text-right hidden sm:block">
+                <p class="text-xs font-bold text-slate-700">Halo, Adventurer Pintar! 🕹️</p>
+                <p class="text-[10px] text-emerald-500 font-bold">● Ruang Siswa</p>
+            </div>
+            <a href="/logout" class="bg-red-50 hover:bg-red-100 text-red-500 font-bold text-xs px-4 py-2 rounded-xl transition shadow-sm">Keluar</a>
+        </div>
+    </nav>
 
-    <!-- Sidebar -->
-    <aside class="sidebar">
+    <!-- KONTEN UTAMA GAME HUB -->
+    <main class="relative max-w-7xl mx-auto px-4 mt-8 z-10 grid grid-cols-1 lg:grid-cols-4 gap-8">
+        
+        <!-- KOLOM UTAMA (LEBAR - KIRI): Semua Menu Fitur Utama -->
+        <div class="lg:col-span-3 space-y-10">
+            
+            <!-- BANNER HERO UTAMA -->
+            <div class="bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-500 rounded-[30px] p-8 text-white shadow-[0_20px_40px_-15px_rgba(109,40,217,0.4)] relative overflow-hidden">
+                <div class="relative z-10 max-w-xl">
+                    <span class="bg-white/20 backdrop-blur-sm px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider">SMILE Game Arcade Edition v1.0</span>
+                    <h2 class="text-2xl md:text-3xl font-black mt-3 leading-tight">Dunia Petualangan Belajar Interaktif! 🧭</h2>
+                    <p class="text-purple-100 text-xs mt-2 font-medium">Pilih zona bermain kamu di bawah ini, taklukkan tantangan, dan jadilah juara kelas!</p>
+                </div>
+            </div>
 
-        <h2>😊 Project Smile</h2>
+            <!-- ================= ZONA 1: UTAMA - PETUALANGAN MATERI KELAS 1-6 ================= -->
+            <div>
+                <div class="flex items-center gap-2 mb-4">
+                    <span class="text-2xl">📚</span>
+                    <h3 class="text-base font-black text-slate-800 uppercase tracking-wide">Zona 1: Modul Belajar (Kelas 1 - 6)</h3>
+                </div>
+                <div class="grid grid-cols-1 sm:grid-cols-3 gap-6">
+                    <!-- IPA Card -->
+                    <div class="bg-white border-2 border-slate-100 rounded-[24px] p-5 shadow-sm hover:border-emerald-400 hover:shadow-md transition duration-200 flex flex-col justify-between group">
+                        <div class="flex items-start justify-between">
+                            <div class="w-12 h-12 bg-emerald-50 text-emerald-500 rounded-xl flex items-center justify-center text-2xl group-hover:scale-110 transition">🔬</div>
+                            <span class="text-[9px] font-black bg-emerald-100 text-emerald-700 px-2 py-0.5 rounded-full uppercase">Sains</span>
+                        </div>
+                        <h4 class="text-sm font-black text-slate-800 mt-4 mb-1">Materi & Eksperimen IPA</h4>
+                        <p class="text-slate-400 text-[11px] leading-relaxed mb-4">Eksplorasi rahasia alam, biologi, dan fisika seru.</p>
+                        <a href="/materi/ipa" class="w-full bg-gradient-to-r from-emerald-500 to-teal-500 text-white text-center font-bold py-2.5 rounded-xl text-[11px] block shadow-sm">Buka Modul Kelas ➔</a>
+                    </div>
+                    <!-- MATEMATIKA Card -->
+                    <div class="bg-white border-2 border-slate-100 rounded-[24px] p-5 shadow-sm hover:border-blue-400 hover:shadow-md transition duration-200 flex flex-col justify-between group">
+                        <div class="flex items-start justify-between">
+                            <div class="w-12 h-12 bg-blue-50 text-blue-500 rounded-xl flex items-center justify-center text-2xl group-hover:scale-110 transition">📐</div>
+                            <span class="text-[9px] font-black bg-blue-100 text-blue-700 px-2 py-0.5 rounded-full uppercase">Math</span>
+                        </div>
+                        <h4 class="text-sm font-black text-slate-800 mt-4 mb-1">Matematika Asyik</h4>
+                        <p class="text-slate-400 text-[11px] leading-relaxed mb-4">Taklukkan angka dan bangun ruang lewat visual interaktif.</p>
+                        <a href="/materi/matematika" class="w-full bg-gradient-to-r from-blue-500 to-indigo-500 text-white text-center font-bold py-2.5 rounded-xl text-[11px] block shadow-sm">Buka Modul Kelas ➔</a>
+                    </div>
+                    <!-- BAHASA INGGRIS Card -->
+                    <div class="bg-white border-2 border-slate-100 rounded-[24px] p-5 shadow-sm hover:border-purple-400 hover:shadow-md transition duration-200 flex flex-col justify-between group">
+                        <div class="flex items-start justify-between">
+                            <div class="w-12 h-12 bg-purple-50 text-purple-500 rounded-xl flex items-center justify-center text-2xl group-hover:scale-110 transition">🇬🇧</div>
+                            <span class="text-[9px] font-black bg-purple-100 text-purple-700 px-2 py-0.5 rounded-full uppercase">English</span>
+                        </div>
+                        <h4 class="text-sm font-black text-slate-800 mt-4 mb-1">English Is Fun!</h4>
+                        <p class="text-slate-400 text-[11px] leading-relaxed mb-4">Latihan percakapan, vocab, dan cerita seru bersuara.</p>
+                        <a href="/materi/english" class="w-full bg-gradient-to-r from-purple-500 to-pink-500 text-white text-center font-bold py-2.5 rounded-xl text-[11px] block shadow-sm">Buka Modul Kelas ➔</a>
+                    </div>
+                </div>
+            </div>
 
-        <nav>
+            <!-- ================= ZONA 2: BARU - AREA GAME & LIVE QUIZ ================= -->
+            <div>
+                <div class="flex items-center gap-2 mb-4">
+                    <span class="text-2xl">🎮</span>
+                    <h3 class="text-base font-black text-slate-800 uppercase tracking-wide">Zona 2: Game Arcade & Evaluasi Interaktif</h3>
+                </div>
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                    <!-- FITUR ONLINE QUIZ -->
+                    <div class="bg-gradient-to-br from-amber-500 to-orange-600 rounded-[24px] p-6 text-white shadow-md relative overflow-hidden group transform hover:-translate-y-1 transition duration-200">
+                        <div class="absolute right-4 bottom-4 text-7xl opacity-15 font-black group-hover:scale-110 transition">⏱️</div>
+                        <span class="bg-white/20 text-[10px] font-black uppercase px-2.5 py-1 rounded-full">Real-Time Battle</span>
+                        <h4 class="text-lg font-black mt-4 mb-1">Online Quiz Arena</h4>
+                        <p class="text-amber-100 text-xs leading-relaxed max-w-xs mb-6">Uji kecepatan berpikirmu melawan waktu! Kerjakan kuis seru berhadiah skor bintang kilat.</p>
+                        <a href="/quiz" class="inline-block bg-white text-orange-600 font-extrabold text-xs px-5 py-3 rounded-xl shadow-md hover:bg-amber-50 transition">
+                            Masuk Arena Kuis ➔
+                        </a>
+                    </div>
 
-            <a href="#">🏠 Dashboard</a>
-
-            <a href="#">📦 Semua Project</a>
-
-            <a href="{% url 'buka_quiz' %}">📝 Quiz</a>
-
-            <a href="#materi">📚 Materi</a>
-
-            <a href="#">🏆 Leaderboard</a>
-
-            <a href="#">👤 Profile</a>
-
-            <a href="#">⚙️ Pengaturan</a>
-
-            <a href="{% url 'logout' %}">🚪 Logout</a>
-
-        </nav>
-
-    </aside>
-
-    <!-- Content -->
-    <main class="content">
-
-        <div class="topbar">
-
-            <h1>Halo, {{ request.user.username }} 👋</h1>
-
-            <p>Selamat datang di Project Smile.</p>
+                    <!-- FITUR GAME LIVE PUZZLE -->
+                    <div class="bg-gradient-to-br from-cyan-500 to-blue-600 rounded-[24px] p-6 text-white shadow-md relative overflow-hidden group transform hover:-translate-y-1 transition duration-200">
+                        <div class="absolute right-4 bottom-4 text-7xl opacity-15 font-black group-hover:scale-110 transition">🧩</div>
+                        <span class="bg-white/20 text-[10px] font-black uppercase px-2.5 py-1 rounded-full">Brain Teaser</span>
+                        <h4 class="text-lg font-black mt-4 mb-1">Game Live Puzzle</h4>
+                        <p class="text-cyan-100 text-xs leading-relaxed max-w-xs mb-6">Cocokkan gambar sains, susun rumus matematika, dan rakit kata bahasa inggris secara langsung!</p>
+                        <a href="/puzzle" class="inline-block bg-white text-cyan-600 font-extrabold text-xs px-5 py-3 rounded-xl shadow-md hover:bg-cyan-50 transition">
+                            Mainkan Puzzle ➔
+                        </a>
+                    </div>
+                </div>
+            </div>
 
         </div>
 
-        <!-- Statistik -->
-        <div class="stat-box">
-
-            <div class="stat">
-                <h3>{{ projects|length }}</h3>
-                <p>Total Project</p>
+        <!-- KOLOM SAMPING (KECIL - KANAN): Panel Skor & Pengumuman -->
+        <div class="space-y-6">
+            <!-- PENCAPAIAN 3D -->
+            <div class="bg-white border border-slate-100 rounded-[24px] p-6 shadow-sm text-center">
+                <h4 class="text-xs font-bold text-slate-400 uppercase tracking-wider mb-4">Pencapaian Akun</h4>
+                <div class="flex items-center justify-center gap-2 mb-2">
+                    <span class="text-3xl animate-bounce">⭐</span>
+                    <span class="text-4xl font-black text-slate-800">120</span>
+                </div>
+                <p class="text-xs text-slate-500 font-semibold">Bintang Prestasi</p>
+                <div class="w-full bg-slate-100 h-2 rounded-full mt-4 overflow-hidden">
+                    <div class="bg-gradient-to-r from-amber-400 to-yellow-300 h-full w-[70%] rounded-full"></div>
+                </div>
+                <p class="text-[10px] text-slate-400 mt-2">30 Bintang lagi untuk level-up!</p>
             </div>
 
-            <div class="stat">
-                <h3>{{ materis|length }}</h3>
-                <p>Total Materi</p>
+            <!-- LEADERBOARD MINI -->
+            <div class="bg-white border border-slate-100 rounded-[24px] p-5 shadow-sm">
+                <h4 class="text-xs font-black text-slate-700 mb-4 flex items-center gap-1.5">🏆 Top Player Minggu Ini</h4>
+                <div class="space-y-3">
+                    <div class="flex items-center justify-between bg-amber-50/50 p-2 rounded-xl text-[11px] font-bold border border-amber-100/30">
+                        <span class="text-slate-700">🥇 1. Dika Pratama</span>
+                        <span class="text-amber-600">250 ⭐</span>
+                    </div>
+                    <div class="flex items-center justify-between p-2 text-[11px] font-semibold text-slate-600">
+                        <span>🥈 2. Siti Rahma</span>
+                        <span>210 ⭐</span>
+                    </div>
+                    <div class="flex items-center justify-between p-2 text-[11px] font-semibold text-slate-600">
+                        <span>🥉 3. Budi Santoso</span>
+                        <span>185 ⭐</span>
+                    </div>
+                </div>
             </div>
-
-            <div class="stat">
-                <h3>Pelajar</h3>
-                <p>Role</p>
-            </div>
-
-            <div class="stat">
-                <h3>{{ request.user.username }}</h3>
-                <p>User Login</p>
-            </div>
-
-        </div>
-
-        <!-- Project -->
-        <h2 class="section-title">
-            📦 Daftar Project
-        </h2>
-
-        <div class="cards">
-
-            {% for project in projects %}
-
-            <div class="card">
-
-                {% if project.image %}
-                <img src="{{ project.image.url }}" class="project-image">
-                {% endif %}
-
-                <h3>{{ project.name }}</h3>
-
-                <p>{{ project.description }}</p>
-
-                {% if QUIZ_APP_URL in project.url %}
-                <a href="{% url 'buka_quiz' %}">
-                    <button>Buka Project</button>
-                </a>
-                {% else %}
-                <a href="{{ project.url }}" target="_blank">
-                    <button>Buka Project</button>
-                </a>
-                {% endif %}
-
-            </div>
-
-            {% empty %}
-
-            <div class="card">
-
-                <h3>Belum Ada Project</h3>
-
-                <p>Tidak ada project.</p>
-
-            </div>
-
-            {% endfor %}
-
-        </div>
-
-        <!-- Materi -->
-        <div class="materi-header" id="materi">
-
-            <h2>📚 Materi Pembelajaran</h2>
-
-        </div>
-
-        <div class="cards">
-
-            {% for materi in materis %}
-
-            <div class="card">
-
-                <h3>{{ materi.judul }}</h3>
-
-                <p>{{ materi.deskripsi }}</p>
-
-                <p>
-                    <strong>📖 Mata Pelajaran :</strong>
-                    {{ materi.get_mapel_display }}
-                </p>
-
-                <p>
-                    <strong>👨‍🏫 Guru :</strong>
-                    {{ materi.guru.username }}
-                </p>
-
-                <p>
-                    <strong>📅 Upload :</strong>
-                    {{ materi.created_at|date:"d M Y" }}
-                </p>
-
-                <a href="{{ materi.file.url }}" target="_blank">
-
-                    <button>
-
-                        📄 Lihat Materi
-
-                    </button>
-
-                </a>
-
-            </div>
-
-            {% empty %}
-
-            <div class="card">
-
-                <h3>Belum Ada Materi</h3>
-
-                <p>Guru belum mengupload materi.</p>
-
-            </div>
-
-            {% endfor %}
-
         </div>
 
     </main>
-
 </div>
-
 {% endblock %}
