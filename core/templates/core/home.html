@@ -2,73 +2,68 @@
 {% load static %}
 
 {% block extra_css %}
-<!-- Menggunakan font Poppins agar senada dengan halaman login & dashboard -->
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+<script src="https://cdn.tailwindcss.com"></script>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Poppins:wght@400;600;700;800&display=swap" rel="stylesheet">
 <style>
-    .landing-wrapper { font-family: 'Poppins', sans-serif; }
-    /* Pattern background 3D dot yang sama dengan dashboard */
-    .bg-3d-pattern {
-        background-color: #ffffff;
-        background-image: radial-gradient(#8b5cf6 0.5px, transparent 0.5px), radial-gradient(#8b5cf6 0.5px, #ffffff 0.5px);
+    .smile-wrapper { font-family: 'Poppins', sans-serif; }
+    .font-kids { font-family: 'Fredoka One', cursive; }
+    
+    .bg-grid-3d {
+        background-color: #f5f3ff;
+        background-image: radial-gradient(#8b5cf6 0.6px, transparent 0.6px), radial-gradient(#8b5cf6 0.6px, #f5f3ff 0.6px);
         background-size: 24px 24px;
         background-position: 0 0, 12px 12px;
-        opacity: 0.25;
+        opacity: 0.35;
     }
-    @keyframes float {
-        0%, 100% { transform: translateY(0px); }
-        50% { transform: translateY(-12px); }
+    .btn-pop-3d {
+        transform: translateY(-6px);
+        box-shadow: 0 10px 0 #be185d, 0 20px 25px rgba(219, 39, 119, 0.3);
+        transition: all 0.1s ease;
     }
-    .animate-float { animation: float 4s ease-in-out infinite; }
+    .btn-pop-3d:active {
+        transform: translateY(2px);
+        box-shadow: 0 2px 0 #be185d, 0 8px 10px rgba(219, 39, 119, 0.3);
+    }
+    .logo-container-3d {
+        box-shadow: 0 12px 0 #4f46e5, inset 0 -6px 0 rgba(0,0,0,0.1);
+    }
 </style>
 {% endblock %}
 
 {% block content %}
-<div class="landing-wrapper min-h-screen relative bg-slate-50 overflow-hidden flex flex-col justify-center items-center px-4">
+<div class="smile-wrapper min-h-screen flex flex-col justify-center items-center relative overflow-hidden p-6 bg-gradient-to-tr from-amber-100 via-violet-100 to-blue-200">
     <!-- Background Pattern -->
-    <div class="absolute inset-0 bg-3d-pattern pointer-events-none"></div>
+    <div class="absolute inset-0 bg-grid-3d pointer-events-none"></div>
 
-    <!-- Konten Utama Tengah -->
-    <div class="relative z-10 text-center max-w-2xl mx-auto space-y-6">
-        
-        <!-- LOGO BRANDING (Sama dengan Login & Dashboard, Tanpa Emoticon) -->
-        <div class="animate-float inline-flex flex-col items-center gap-3">
-            <div class="w-16 h-16 bg-gradient-to-tr from-indigo-600 via-purple-600 to-pink-500 rounded-2xl flex items-center justify-center shadow-[0_15px_30px_-10px_rgba(109,40,217,0.4)]">
-                <!-- Ikon Topi Wisuda & Senyum Interaktif -->
-                <svg class="w-10 h-10 text-yellow-300" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3L2 8l10 5 10-5-10-5z"></path>
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M8 14s1.5 2 4 2 4-2 4-2" stroke="white"></path>
+    <!-- Floating 3D Orbs -->
+    <div class="absolute -top-10 -left-10 w-72 h-72 bg-yellow-300 rounded-full blur-3xl opacity-40 animate-pulse"></div>
+    <div class="absolute -bottom-10 -right-10 w-80 h-80 bg-pink-400 rounded-full blur-3xl opacity-40 animate-pulse"></div>
+
+    <div class="text-center max-w-2xl z-10">
+        <!-- Logo SMILE 3D Pop Out -->
+        <div class="flex justify-center mb-6">
+            <div class="w-24 h-24 bg-gradient-to-tr from-indigo-500 via-purple-500 to-pink-500 rounded-[28px] flex items-center justify-center logo-container-3d border-2 border-white animate-bounce">
+                <!-- SVG SMILE Emas Menyala -->
+                <svg class="w-14 h-14 text-yellow-300 drop-shadow-[0_3px_2px_rgba(0,0,0,0.2)]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="12" cy="12" r="9"></circle>
+                    <path d="M8 14s1.5 2 4 2 4-2 4-2"></path>
+                    <line x1="9" y1="9" x2="9.01" y2="9"></line>
+                    <line x1="15" y1="9" x2="15.01" y2="9"></line>
                 </svg>
             </div>
-            <span class="font-black text-2xl bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-500 bg-clip-text text-transparent tracking-wider">SMILE</span>
         </div>
-
-        <!-- Judul Utama & Slogan -->
-        <div class="space-y-2">
-            <h1 class="text-3xl md:text-5xl font-black tracking-tight text-slate-800">
-                Dunia Petualangan Belajar
-            </h1>
-            <p class="text-sm md:text-base font-bold text-indigo-600 tracking-wide uppercase">
-                🚀 Belajar Menjadi Menyenangkan!
-            </p>
-        </div>
-
-        <!-- Deskripsi Singkat Aplikasi -->
-        <p class="text-xs md:text-sm text-slate-400 font-medium max-w-md mx-auto leading-relaxed">
-            Platform gamifikasi interaktif untuk siswa kelas 1 sampai kelas 6. Kuasai materi sekolah, taklukkan Online Quiz, dan mainkan Game Live Puzzle seru!
+        
+        <h1 class="font-kids text-6xl tracking-wide mb-3 drop-shadow-[0_4px_0px_rgba(79,70,229,0.2)] bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-500 bg-clip-text text-transparent">SMILE</h1>
+        <h2 class="font-kids text-4xl text-slate-800 mb-2 leading-tight">Dunia Petualangan Belajar! 🚀</h2>
+        <p class="text-pink-600 font-extrabold text-sm tracking-widest uppercase mb-8">✨ BELAJAR MENJADI MENYENANGKAN! ✨</p>
+        
+        <p class="text-slate-600 text-base font-medium mb-10 max-w-md mx-auto leading-relaxed">
+            Platform gamifikasi interaktif untuk siswa kelas 1 sampai kelas 6. Kuasai materi sekolah, taklukkan Kuis Online, dan mainkan Game Live Puzzle seru!
         </p>
 
-        <!-- Tombol Transisi UX -->
-        <div class="pt-4 flex flex-col sm:flex-row items-center justify-center gap-4 max-w-sm mx-auto w-full">
-            <!-- Tombol Masuk Ke Halaman Login -->
-            <a href="/login" class="w-full bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-500 text-white font-black text-xs px-8 py-4 rounded-xl shadow-[0_10px_25px_-5px_rgba(109,40,217,0.3)] hover:scale-[1.02] active:scale-[0.98] transition transform duration-150 text-center uppercase tracking-wider">
-                Mulai Petualangan ➔
-            </a>
-        </div>
-
+        <a href="/login/" class="btn-pop-3d inline-block bg-gradient-to-r from-pink-500 via-rose-500 to-red-500 text-white font-kids text-2xl px-14 py-5 rounded-full border-2 border-white tracking-wide hover:scale-[1.03] transition-transform">
+            MULAI PETUALANGAN ➜
+        </a>
     </div>
-
-    <!-- Dekorasi Cahaya Gradasi (Aesthetic Ambient Light) -->
-    <div class="absolute -top-40 -left-40 w-96 h-96 bg-indigo-200 rounded-full mix-blend-multiply filter blur-3xl opacity-20 pointer-events-none"></div>
-    <div class="absolute -bottom-40 -right-40 w-96 h-96 bg-pink-200 rounded-full mix-blend-multiply filter blur-3xl opacity-20 pointer-events-none"></div>
 </div>
 {% endblock %}

@@ -1,152 +1,64 @@
-{% extends 'base.html' %}
-
+{% extends 'portal/dashboard.html' %}
 {% load static %}
 
-{% block extra_css %}
-<script src="https://cdn.tailwindcss.com"></script>
-<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@300..700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-<style>
-    .smile-teacher { font-family: 'Fredoka', sans-serif; }
-    
-    .card-teacher-premium {
-        background: #ffffff;
-        border: 2px solid #e2e8f0;
-        box-shadow: 0px 16px 32px -10px rgba(148, 163, 184, 0.1), 0px 8px 0px 0px #cbd5e1;
-        border-radius: 28px;
-    }
-    
-    /* Navigasi Sidebar menggunakan gradasi halus Login */
-    .side-nav-premium.active {
-        background: linear-gradient(135deg, #7c3aed 0%, #3b82f6 100%);
-        color: white;
-        box-shadow: 0px 6px 0px 0px #1d4ed8, 0px 10px 15px -3px rgba(59, 130, 246, 0.3);
-    }
-    .side-nav-hover:hover:not(.active) {
-        background: #f5f3ff;
-        color: #7c3aed;
-        transform: translateX(6px);
-    }
-</style>
-{% endblock %}
-
-{% block content %}
-<div class="smile-teacher min-h-screen bg-[#f8fafc] flex text-slate-800">
-
-    <!-- SIDEBAR MANAGEMENT PANEL (PREMIUM) -->
-    <aside class="w-68 bg-white border-r-2 border-slate-200/80 min-h-screen flex flex-col justify-between fixed left-0 top-0 z-20 shadow-[8px_0_0_0_#e2e8f0]">
-        <div>
-            <!-- Header Sidebar & Logo Dosen -->
-            <div class="px-6 py-6 border-b-2 border-slate-100 flex items-center gap-3">
-                <div class="w-10 h-10 border-4 border-emerald-500 rounded-full flex items-center justify-center bg-white shadow-sm relative shrink-0">
-                    <div class="absolute top-[35%] left-[28%] w-1.5 h-1.5 bg-emerald-600 rounded-full"></div>
-                    <div class="absolute top-[35%] right-[28%] w-1.5 h-1.5 bg-emerald-600 rounded-full"></div>
-                    <div class="w-4 h-2 border-b-3 border-emerald-600 rounded-b-full mt-1.5"></div>
-                </div>
-                <div class="flex flex-col">
-                    <span class="font-black text-xl text-slate-800 tracking-tight leading-none">SMILE</span>
-                    <span class="text-[9px] font-black text-purple-500 tracking-wider uppercase mt-1">Teacher Portal</span>
-                </div>
+{% block sub_content %}
+<div class="space-y-8">
+    <!-- Header Berwarna Dinamis -->
+    <div class="panel-clay-3d p-6 bg-gradient-to-r from-violet-600 via-indigo-600 to-cyan-500 text-white border-b-[8px] border-indigo-800 shadow-xl">
+        <div class="flex flex-wrap items-center justify-between gap-4">
+            <div>
+                <span class="bg-yellow-400 text-slate-950 font-kids text-[10px] px-3 py-1 rounded-full uppercase tracking-wider font-bold shadow-sm">PORTAL GURU / STATISTIK KURIKULUM</span>
+                <h1 class="font-kids text-3xl mt-2 tracking-wide flex items-center gap-2">Pantau Perkembangan Siswa 📈</h1>
             </div>
-
-            <!-- Menu Navigasi Kelas Kakao -->
-            <nav class="px-4 py-8 space-y-3">
-                <p class="px-3 text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1">Menu Utama</p>
-                <a href="#" class="side-nav-premium active flex items-center gap-3 px-4 py-3 rounded-2xl text-xs font-black transition-all">
-                    <i class="fas fa-th-large text-sm"></i> Dashboard Guru
-                </a>
-                
-                <p class="px-3 text-[10px] font-black text-slate-400 uppercase tracking-widest pt-5 mb-1">Kelola 3 Pilar</p>
-                <a href="/kelola-materi" class="side-nav-hover flex items-center gap-3 px-4 py-3 rounded-2xl text-slate-600 font-bold text-xs transition-all duration-200 border border-transparent">
-                    <span class="text-base">📚</span> SMILE Learn (Materi)
-                </a>
-                <a href="/kelola-game" class="side-nav-hover flex items-center gap-3 px-4 py-3 rounded-2xl text-slate-600 font-bold text-xs transition-all duration-200 border border-transparent">
-                    <span class="text-base">🎮</span> SMILE Play (AI Game)
-                </a>
-                <a href="/kelola-kuis" class="side-nav-hover flex items-center gap-3 px-4 py-3 rounded-2xl text-slate-600 font-bold text-xs transition-all duration-200 border border-transparent">
-                    <span class="text-base">🏆</span> SMILE Quiz (Kuis)
-                </a>
-            </nav>
+            <div class="bg-white/10 backdrop-blur-md p-3 rounded-2xl border border-white/20 text-right">
+                <span class="text-[10px] uppercase font-bold text-indigo-200 block">Wali Kelas</span>
+                <span class="font-kids text-sm text-yellow-300">Ibu Budi, S.Pd. (4A)</span>
+            </div>
         </div>
-
-        <!-- Profil Akun Guru Samping -->
-        <div class="p-4 border-t-2 border-slate-100 bg-purple-50/50 m-3 rounded-2xl">
-            <div class="flex items-center gap-3 mb-3">
-                <div class="w-10 h-10 bg-gradient-to-br from-purple-500 to-blue-500 text-white font-black rounded-xl flex items-center justify-center shadow-md">IB</div>
-                <div>
-                    <p class="text-xs font-black text-slate-700 leading-none">Ibu Budi, S.Pd.</p>
-                    <p class="text-[9px] text-purple-600 font-bold mt-1.5">● Wali Kelas 4A</p>
-                </div>
-            </div>
-            <a href="/logout" class="w-full text-center block bg-red-50 hover:bg-red-100 text-red-500 font-black text-xs py-3 rounded-xl transition border-2 border-red-100">Keluar</a>
+        
+        <div class="mt-4 bg-slate-950/20 p-4 rounded-xl border border-white/10 text-xs text-indigo-100 max-w-3xl leading-relaxed">
+            <span class="font-bold text-yellow-300">STAGE 5 & 6: TESTING & ANALYTICS</span> — Rekapitulasi otomatis data aktivitas belajar berbasis sistem <strong>SMILE</strong>. Evaluasi hasil <em>Gesture Recognition</em> serta skor kuis terdata langsung pada modul analitik ini.
         </div>
-    </aside>
-
-    <!-- AREA DASHBOARD UTAMA KANAN -->
-    <div class="flex-1 pl-68">
-        <!-- TOP NAVBAR STATIS -->
-        <header class="h-16 bg-white border-b-2 border-slate-200 px-8 flex items-center justify-between sticky top-0 z-10 shadow-sm">
-            <div class="flex items-center gap-2 text-xs font-bold text-slate-400">
-                <span>Portal Manajemen Guru</span> <i class="fas fa-chevron-right text-[8px]"></i> <span class="text-purple-600">Ringkasan Statistik</span>
-            </div>
-        </header>
-
-        <!-- KONTEN GURU KELAS -->
-        <main class="p-8 space-y-8">
-            <!-- HERO BANNER DENGAN AKZENT GRADASI UNGU GELAP UNTUK GURU -->
-            <div class="bg-gradient-to-r from-purple-950 via-slate-900 to-[#1e40af] rounded-[32px] p-8 text-white shadow-[0_20px_40px_-15px_rgba(30,64,175,0.2)] border-b-8 border-slate-950 relative overflow-hidden">
-                <div class="absolute right-0 top-0 w-64 h-64 bg-purple-500/10 rounded-full blur-2xl"></div>
-                <span class="bg-gradient-to-r from-purple-500 to-blue-500 text-white px-4 py-1.5 rounded-full text-[10px] font-black uppercase tracking-wider shadow-sm">SMILE Teacher System</span>
-                <h2 class="text-3xl font-black mt-4 tracking-wide">Pantau Tumbuh Kembang Belajar Siswa Anda 📈</h2>
-                <p class="text-slate-300 text-xs md:text-sm mt-1.5 opacity-90">Akses analitik penuh dari rekapitulasi data aktivitas pilar bacaan, kuis otomatis, dan game tangkasan tubuh.</p>
-            </div>
-
-            <!-- INDIKATOR STATISTIK (4 KOTAK) -->
-            <div class="grid grid-cols-1 sm:grid-cols-4 gap-6">
-                <div class="card-teacher-premium p-6 border-b-[8px] border-purple-200">
-                    <span class="text-[10px] font-black uppercase tracking-widest text-slate-400 block mb-2">Total Murid</span>
-                    <p class="text-4xl font-black text-slate-800">32</p>
-                </div>
-                <div class="card-teacher-premium p-6 border-b-[8px] border-fuchsia-200">
-                    <span class="text-[10px] font-black uppercase tracking-widest text-slate-400 block mb-2">SMILE Learn</span>
-                    <p class="text-4xl font-black text-slate-800">12</p>
-                </div>
-                <div class="card-teacher-premium p-6 border-b-[8px] border-blue-200">
-                    <span class="text-[10px] font-black uppercase tracking-widest text-slate-400 block mb-2">Rataan Kuis</span>
-                    <p class="text-4xl font-black text-slate-800">84.5</p>
-                </div>
-                <div class="card-teacher-premium p-6 border-b-[8px] border-emerald-200">
-                    <span class="text-[10px] font-black uppercase tracking-widest text-slate-400 block mb-2">Penyelesaian Game</span>
-                    <p class="text-4xl font-black text-slate-800">78%</p>
-                </div>
-            </div>
-
-            <!-- GRAFIK PROGRES PILAR -->
-            <div class="card-teacher-premium p-6 border-b-[10px] border-slate-300">
-                <h3 class="text-sm font-black text-slate-800 mb-6 uppercase tracking-wider">Efektivitas Penggunaan 3 Pilar di Kelas</h3>
-                <div class="space-y-5">
-                    <div>
-                        <div class="flex justify-between text-xs font-black text-slate-600 mb-2">
-                            <span>1. Pemahaman Bacaan (SMILE Learn)</span>
-                            <span class="text-purple-600">100% Efektif</span>
-                        </div>
-                        <div class="w-full bg-slate-100 h-4 rounded-full border-2 border-slate-200/60 p-0.5">
-                            <div class="bg-gradient-to-r from-purple-500 to-fuchsia-500 h-full rounded-full"></div>
-                        </div>
-                    </div>
-                    <div>
-                        <div class="flex justify-between text-xs font-black text-slate-600 mb-2">
-                            <span>2. Interaksi Gesture AI (SMILE Play)</span>
-                            <span class="text-blue-600">85% Efektif</span>
-                        </div>
-                        <div class="w-full bg-slate-100 h-4 rounded-full border-2 border-slate-200/60 p-0.5">
-                            <div class="bg-gradient-to-r from-fuchsia-500 to-blue-500 h-full rounded-full" style="width: 85%"></div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </main>
     </div>
 
+    <!-- Statistik Utama Dengan Warna Yang Lebih Hidup -->
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+        <!-- Card 1 -->
+        <div class="panel-clay-3d p-5 bg-gradient-to-br from-purple-50 to-purple-100/50 border-b-8 border-purple-400">
+            <span class="text-[10px] font-bold text-purple-500 uppercase tracking-wider block">TOTAL MURID</span>
+            <div class="flex items-baseline gap-2 mt-2">
+                <span class="font-kids text-4xl text-purple-700">32</span>
+                <span class="font-bold text-slate-500 text-sm">Siswa</span>
+            </div>
+            <div class="mt-3 text-[11px] text-purple-600 bg-purple-200/50 py-1 px-2.5 rounded-lg inline-block font-medium">🧑‍🤝‍🧑 Aktif Semester Ini</div>
+        </div>
+
+        <!-- Card 2 -->
+        <div class="panel-clay-3d p-5 bg-gradient-to-br from-emerald-50 to-emerald-100/50 border-b-8 border-emerald-400">
+            <span class="text-[10px] font-bold text-emerald-600 uppercase tracking-wider block">RERATA NILAI IPA</span>
+            <div class="flex items-baseline gap-2 mt-2">
+                <span class="font-kids text-4xl text-emerald-700">88.2</span>
+            </div>
+            <div class="mt-3 text-[11px] text-emerald-700 bg-emerald-200/50 py-1 px-2.5 rounded-lg inline-block font-medium">🎯 Di atas KKM (75)</div>
+        </div>
+
+        <!-- Card 3 -->
+        <div class="panel-clay-3d p-5 bg-gradient-to-br from-amber-50 to-amber-100/50 border-b-8 border-amber-400">
+            <span class="text-[10px] font-bold text-amber-600 uppercase tracking-wider block">RERATA NILAI MTK</span>
+            <div class="flex items-baseline gap-2 mt-2">
+                <span class="font-kids text-4xl text-amber-700">82.5</span>
+            </div>
+            <div class="mt-3 text-[11px] text-amber-700 bg-amber-200/50 py-1 px-2.5 rounded-lg inline-block font-medium">⚡ Mengalami Kenaikan</div>
+        </div>
+
+        <!-- Card 4 -->
+        <div class="panel-clay-3d p-5 bg-gradient-to-br from-blue-50 to-blue-100/50 border-b-8 border-blue-400">
+            <span class="text-[10px] font-bold text-blue-600 uppercase tracking-wider block">PROGRES B. INGGRIS</span>
+            <div class="flex items-baseline gap-2 mt-2">
+                <span class="font-kids text-4xl text-blue-700">90%</span>
+            </div>
+            <div class="mt-3 text-[11px] text-blue-700 bg-blue-200/50 py-1 px-2.5 rounded-lg inline-block font-medium">🏁 Modul Hampir Selesai</div>
+        </div>
+    </div>
 </div>
 {% endblock %}

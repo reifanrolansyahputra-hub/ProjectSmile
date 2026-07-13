@@ -1,50 +1,48 @@
 {% extends 'base.html' %}
-
 {% load static %}
 
 {% block extra_css %}
-<!-- Tailwind CDN & Font Google Premium -->
 <script src="https://cdn.tailwindcss.com"></script>
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Poppins:wght@400;600;700;800&display=swap" rel="stylesheet">
 <style>
     .login-wrapper { font-family: 'Poppins', sans-serif; }
-    /* Pola latar belakang Isometrik 3D lembut */
-    .bg-3d-pattern {
+    .font-kids { font-family: 'Fredoka One', cursive; }
+    .bg-grid-3d {
         background-color: #f3e8ff;
         background-image: radial-gradient(#8b5cf6 0.5px, transparent 0.5px), radial-gradient(#8b5cf6 0.5px, #f3e8ff 0.5px);
         background-size: 20px 20px;
         background-position: 0 0, 10px 10px;
         opacity: 0.4;
     }
+    .clay-card-3d {
+        background: rgba(255, 255, 255, 0.95);
+        border-radius: 35px;
+        box-shadow: 0 30px 60px -15px rgba(109,40,217,0.25), inset 0 -10px 0 rgba(0,0,0,0.05);
+    }
+    .btn-orange-3d {
+        transform: translateY(-5px);
+        box-shadow: 0 8px 0 #c25e03, 0 15px 20px rgba(245, 158, 11, 0.3);
+        transition: all 0.1s ease;
+    }
+    .btn-orange-3d:active {
+        transform: translateY(2px);
+        box-shadow: 0 2px 0 #c25e03;
+    }
 </style>
 {% endblock %}
 
 {% block content %}
-<!-- Latar belakang gradasi premium 3 warna ceria -->
 <div class="login-wrapper min-h-screen relative flex items-center justify-center p-6 bg-gradient-to-tr from-amber-100 via-purple-100 to-blue-200 overflow-hidden">
-    
-    <!-- Lapisan pola 3D di latar belakang -->
-    <div class="absolute inset-0 bg-3d-pattern pointer-events-none"></div>
+    <div class="absolute inset-0 bg-3d-pattern pointer-events-none bg-grid-3d"></div>
 
-    <!-- Elemen Dekoratif Floating 3D di belakang card -->
-    <div class="absolute top-12 left-12 w-24 h-24 bg-yellow-400 rounded-full blur-xl opacity-60 animate-pulse"></div>
-    <div class="absolute bottom-12 right-12 w-32 h-32 bg-indigo-400 rounded-full blur-xl opacity-60 animate-pulse"></div>
-
-    <!-- MAIN CARD: Berbentuk Vertikal (Atas-Bawah) dengan efek bayangan 3D Tebal -->
-    <div class="relative bg-white/90 backdrop-blur-md rounded-[35px] shadow-[0_25px_60px_-15px_rgba(109,40,217,0.3)] border-2 border-white max-w-md w-full overflow-hidden transform transition duration-500 hover:scale-[1.02] flex flex-col">
-        
-        <!-- BAGIAN ATAS: Banner Penyambut Bergradasi + LOGO KEREN SVG -->
-        <div class="bg-gradient-to-b from-indigo-600 via-purple-600 to-pink-500 p-8 text-center relative text-white">
-            <!-- Dekorasi Gelombang/Cahaya -->
-            <div class="absolute top-0 right-0 w-24 h-24 bg-white/10 rounded-full -mr-6 -mt-6"></div>
-            
-            <div class="inline-block bg-white/20 backdrop-blur-sm px-4 py-1.5 rounded-full text-xs font-bold uppercase tracking-wider mb-4 shadow-inner">
-                🚀 Apps Berbasis Game
+    <div class="clay-card-3d w-full max-w-md overflow-hidden border-4 border-white transform transition duration-500 hover:scale-[1.01] flex flex-col">
+        <!-- HEADER CARD BANNER -->
+        <div class="bg-gradient-to-b from-indigo-600 via-purple-600 to-pink-500 p-8 text-center relative text-white border-b-8 border-purple-700">
+            <div class="absolute top-4 right-4 bg-white/20 backdrop-blur-sm px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider shadow-inner">
+                🚀 EDUTECH PLATFORM
             </div>
 
-            <!-- KELOMPOK LOGO DAN NAMA (Menyatu & Profesional) -->
-            <div class="flex flex-col items-center justify-center gap-3">
-                <!-- LOGO VEKTOR PREMIUM: Emoticon Senyum Minimalis -->
+            <div class="flex flex-col items-center justify-center gap-2 mt-2">
                 <div class="w-16 h-16 bg-white/10 backdrop-blur-md rounded-2xl flex items-center justify-center border border-white/20 shadow-lg transform transition duration-500 hover:rotate-12">
                     <svg class="w-10 h-10 text-yellow-300" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
                         <circle cx="12" cy="12" r="9"></circle>
@@ -53,34 +51,27 @@
                         <line x1="15" y1="9" x2="15.01" y2="9"></line>
                     </svg>
                 </div>
-
-                <!-- Nama Aplikasi dengan Tipografi Tebal Bergradasi Emas -->
                 <div>
-                    <h1 class="text-3xl font-black tracking-tight drop-shadow-[0_2px_4px_rgba(0,0,0,0.3)] bg-gradient-to-r from-white via-yellow-200 to-white bg-clip-text text-transparent">
-                        SMILE
-                    </h1>
-                    <p class="text-purple-100 text-[11px] mt-0.5 font-semibold uppercase tracking-widest">
-                        Smart Interactive Learning
-                    </p>
+                    <h1 class="font-kids text-3xl tracking-tight drop-shadow-[0_2px_4px_rgba(0,0,0,0.2)] bg-gradient-to-r from-white via-yellow-200 to-white bg-clip-text text-transparent">SMILE</h1>
+                    <p class="text-purple-100 text-[10px] font-bold uppercase tracking-widest">Smart Interactive Learning</p>
                 </div>
             </div>
         </div>
 
-        <!-- BAGIAN BAWAH: Formulir Login Yang Bersih & Profesional -->
-        <div class="p-8 bg-white rounded-t-[30px] -mt-6 relative shadow-[0_-10px_20px_rgba(0,0,0,0.02)]">
+        <!-- FORMULIR LOGIN -->
+        <div class="p-8 bg-white rounded-t-[30px] -mt-5 relative shadow-inner">
             <div class="text-center mb-6">
-                <h2 class="text-xl font-bold text-gray-800">Mulai Petualangan! 👋</h2>
-                <p class="text-gray-400 text-xs mt-1">Masukkan akun siswa atau guru kamu di bawah ini</p>
+                <h2 class="font-kids text-2xl text-slate-800">Selamat Datang, Juara! ✨</h2>
+                <p class="text-gray-400 text-xs mt-1 font-semibold">Yuk, masuk menggunakan akun sekolahmu</p>
             </div>
 
-            <!-- Pesan Error Bawaan Django Temanmu -->
             {% if error %}
                 <div class="bg-red-50 border-2 border-red-200 text-red-700 px-4 py-3 rounded-2xl text-xs mb-4 flex items-center gap-2 font-medium">
                     <span>⚠️</span> {{ error }}
                 </div>
             {% endif %}
 
-            <form method="POST" class="space-y-4">
+             <form method="POST" class="space-y-4">
                 {% csrf_token %}
                 
                 <!-- Input Username -->
@@ -111,15 +102,13 @@
                     </div>
                 </div>
 
-                <!-- Tombol Submit Efek 3D Tebal -->
-                <button type="submit" class="w-full bg-gradient-to-r from-purple-600 via-indigo-600 to-blue-600 text-white font-bold py-3.5 rounded-2xl shadow-[0_8px_20px_rgba(79,70,229,0.3)] hover:shadow-[0_12px_24px_rgba(79,70,229,0.4)] transition duration-300 transform active:translate-y-1 text-xs uppercase tracking-wider block text-center mt-6">
-                    Ayo Masuk Belajar! 🌟
+                <button type="submit" class="btn-orange-3d w-full bg-gradient-to-r from-amber-500 to-orange-500 text-white font-kids text-xl py-4 rounded-2xl border-2 border-white tracking-wide block text-center mt-6">
+                    MULAI BERPETUALANG! 🌟
                 </button>
             </form>
 
-            <!-- Tombol Kembali Beranda -->
             <div class="text-center mt-6">
-                <a href="/" class="inline-block text-xs text-gray-400 hover:text-purple-600 font-bold transition transform hover:scale-105">
+                <a href="/" class="inline-block text-xs text-slate-400 hover:text-purple-600 font-bold transition transform hover:scale-105">
                     ← Kembali ke Beranda
                 </a>
             </div>

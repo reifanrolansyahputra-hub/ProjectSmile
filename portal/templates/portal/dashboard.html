@@ -1,162 +1,146 @@
 {% extends 'base.html' %}
-
 {% load static %}
 
 {% block extra_css %}
 <script src="https://cdn.tailwindcss.com"></script>
-<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@300..700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Poppins:wght@400;600;700;800&display=swap" rel="stylesheet">
 <style>
-    .smile-student { font-family: 'Fredoka', sans-serif; }
+    .split-dashboard { font-family: 'Poppins', sans-serif; background-color: #f0f7ff; }
+    .font-kids { font-family: 'Fredoka One', cursive; }
     
-    /* Background Gradient Lembut Selaras Login */
-    .bg-gradient-page {
-        background: radial-gradient(circle at top right, #f3e8ff 0%, #e0e7ff 50%, #f0fdf4 100%);
+    .sidebar-clay-3d {
+        background: #ffffff;
+        box-shadow: 8px 0 0 #d1e2f3;
+        border-right: 3px solid #d1e2f3;
     }
-
-    /* Card Premium dengan Efek Glassmorphism Lembut */
-    .card-premium-3d {
-        background: rgba(255, 255, 255, 0.85);
-        backdrop-filter: blur(12px);
-        border: 2px solid rgba(255, 255, 255, 0.6);
-        box-shadow: 0px 20px 40px -15px rgba(148, 163, 184, 0.15), 0px 8px 0px 0px #cbd5e1;
-        border-radius: 32px;
-        transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    .panel-clay-3d {
+        background: #ffffff;
+        border-radius: 30px;
+        box-shadow: 0 16px 0 #d1e2f3, 0 20px 25px -5px rgba(0, 0, 0, 0.05);
+        border: 3px solid #d1e2f3;
     }
-    .card-premium-3d:hover {
+    .portal-btn-3d {
         transform: translateY(-4px);
-        box-shadow: 0px 24px 48px -10px rgba(148, 163, 184, 0.25), 0px 12px 0px 0px #cbd5e1;
+        transition: all 0.1s ease;
     }
-    
-    /* Tombol Gradasi Selaras Halaman Login */
-    .btn-login-gradient {
-        background: linear-gradient(135deg, #a855f7 0%, #3b82f6 100%);
-        box-shadow: 0px 6px 0px 0px #2563eb, 0px 12px 20px -5px rgba(59, 130, 246, 0.4);
-        transition: all 0.15s ease;
-    }
-    .btn-login-gradient:hover {
-        filter: brightness(1.05);
-    }
-    .btn-login-gradient:active {
-        transform: translateY(4px);
-        box-shadow: 0px 2px 0px 0px #2563eb;
+    .portal-btn-3d:active {
+        transform: translateY(2px);
     }
 </style>
 {% endblock %}
 
 {% block content %}
-<div class="smile-student min-h-screen bg-gradient-page pb-16 relative overflow-hidden">
-    <!-- Ornamen Lingkaran Blur Glowing Persis Tampilan Login -->
-    <div class="absolute top-[-10%] left-[-5%] w-96 h-96 bg-yellow-200 rounded-full blur-3xl opacity-50 pointer-events-none"></div>
-    <div class="absolute bottom-[5%] right-[-5%] w-[500px] h-[500px] bg-purple-300 rounded-full blur-3xl opacity-40 pointer-events-none"></div>
-    <div class="absolute top-[40%] right-[15%] w-80 h-80 bg-blue-300 rounded-full blur-3xl opacity-30 pointer-events-none"></div>
-
-    <!-- NAVBAR DENGAN LOGO DOSEN & WARNA SELARAS LOGIN -->
-    <nav class="max-w-7xl mx-auto mt-6 mx-4 xl:mx-auto bg-white/80 backdrop-blur-md border-2 border-white/60 rounded-[28px] shadow-[0_10px_30px_-10px_rgba(148,163,184,0.1),0_8px_0_0_#e2e8f0] px-8 py-4 flex justify-between items-center relative z-10">
-        <div class="flex items-center gap-4">
-            <!-- LOGO DOSEN: Tetap Mengikuti Gambar Utama Dosen -->
-            <div class="w-12 h-12 border-4 border-emerald-500 rounded-full flex items-center justify-center bg-white shadow-sm relative shrink-0">
-                <div class="absolute top-[35%] left-[28%] w-2 h-2 bg-emerald-600 rounded-full"></div>
-                <div class="absolute top-[35%] right-[28%] w-2 h-2 bg-emerald-600 rounded-full"></div>
-                <div class="w-5 h-2.5 border-b-4 border-emerald-600 rounded-b-full mt-2"></div>
+<div class="split-dashboard min-h-screen flex flex-col md:flex-row">
+    
+    <!-- ================= SEBELAH KIRI: SIDEBAR KONTROL PORTAL ================= -->
+    <aside class="w-full md:w-80 sidebar-clay-3d p-6 flex flex-col justify-between gap-8 z-10 bg-white">
+        <div class="space-y-6">
+            <!-- Logo Sistem SMILE dengan SVG 3D Pop Out -->
+            <div class="flex items-center space-x-3 bg-gradient-to-r from-indigo-500 to-purple-600 p-3 rounded-2xl text-white border-b-4 border-indigo-800 shadow">
+                <div class="w-10 h-10 bg-yellow-400 rounded-xl flex items-center justify-center shadow-inner border border-white/20">
+                    <svg class="w-7 h-7 text-slate-900 drop-shadow-[0_1.5px_0px_rgba(255,255,255,0.6)]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="9" fill="#facc15" stroke="#1e293b"></circle>
+                        <path d="M8 14s1.5 2 4 2 4-2 4-2" stroke="#1e293b"></path>
+                        <line x1="9" y1="9" x2="9.01" y2="9" stroke="#1e293b" stroke-width="3"></line>
+                        <line x1="15" y1="9" x2="15.01" y2="9" stroke="#1e293b" stroke-width="3"></line>
+                    </svg>
+                </div>
+                <div>
+                    <h2 class="font-kids text-xl tracking-wide leading-none text-yellow-300">SMILE</h2>
+                    <span class="text-[9px] font-black text-purple-200 uppercase tracking-widest block mt-0.5">Central Gateway</span>
+                </div>
             </div>
-            <div class="flex flex-col">
-                <span class="font-black text-2xl tracking-tight leading-none text-slate-800">SMILE</span>
-                <span class="text-[9px] font-bold text-slate-400 tracking-tight uppercase mt-1">
-                    <span class="text-emerald-500">SM</span>art <span class="text-purple-500">I</span>nteractive <span class="text-blue-500">LE</span>arning
-                </span>
+
+            <!-- Navigasi Utama Perpindahan Dashboard -->
+            <nav class="space-y-4 pt-4">
+                <span class="text-[10px] font-bold text-slate-400 uppercase tracking-widest block px-2">PILIH PORTAL UTAMA</span>
+                
+                <!-- Ke Dashboard Utama -->
+                <a href="{% url 'dashboard_utama' %}" class="portal-btn-3d flex items-center space-x-3 bg-indigo-600 text-white font-kids px-4 py-3.5 rounded-2xl border-b-4 border-indigo-800 shadow-md text-sm">
+                    <span class="text-lg">🎛️</span> <span>Dashboard Utama</span>
+                </a>
+
+                <!-- Ke Dashboard Guru -->
+                <a href="{% url 'guru_dashboard' %}" class="portal-btn-3d flex items-center space-x-3 bg-gradient-to-r from-sky-400 to-sky-500 text-white font-kids px-4 py-3.5 rounded-2xl border-b-4 border-sky-700 text-sm">
+                    <span class="text-lg">👩‍🏫</span> <span>Portal Dashboard Guru</span>
+                </a>
+
+                <!-- Ke Dashboard Murid -->
+                <a href="{% url 'murid_dashboard' %}" class="portal-btn-3d flex items-center space-x-3 bg-gradient-to-r from-emerald-400 to-emerald-500 text-white font-kids px-4 py-3.5 rounded-2xl border-b-4 border-emerald-700 text-sm">
+                    <span class="text-lg">👶</span> <span>Portal Dashboard Murid</span>
+                </a>
+
+                <div class="border-t-2 border-dashed border-slate-200 my-2 pt-2"></div>
+                <span class="text-[10px] font-bold text-slate-400 uppercase tracking-widest block px-2">MODUL PENGEMBANGAN</span>
+
+                <!-- PLACEHOLDER: SMILE Play -->
+                <a href="#" onclick="alert('Modul SMILE Play sedang dikembangkan oleh tim lewat GitHub!'); return false;" class="portal-btn-3d flex items-center space-x-3 bg-gradient-to-r from-amber-400 to-orange-400 text-white font-kids px-4 py-3 rounded-2xl border-b-4 border-orange-600 text-xs opacity-90 hover:opacity-100">
+                    <span class="text-lg">🎮</span> <span>SMILE Play (Game)</span>
+                </a>
+
+                <!-- PLACEHOLDER: SMILE Quiz -->
+                <a href="#" onclick="alert('Modul SMILE Quiz sedang dikembangkan oleh tim lewat GitHub!'); return false;" class="portal-btn-3d flex items-center space-x-3 bg-gradient-to-r from-fuchsia-400 to-pink-500 text-white font-kids px-4 py-3 rounded-2xl border-b-4 border-pink-700 text-xs opacity-90 hover:opacity-100">
+                    <span class="text-lg">📝</span> <span>SMILE Quiz (Kuis)</span>
+                </a>
+            </nav>
+        </div>
+
+        <!-- Info Tambahan / Status Sistem -->
+        <div class="bg-slate-50 p-4 rounded-2xl border-2 border-slate-100 text-center">
+            <span class="text-[9px] font-black text-slate-400 uppercase tracking-wider block mb-1">Status Sistem</span>
+            <div class="inline-flex items-center gap-1.5 bg-emerald-100 text-emerald-700 font-bold px-3 py-1 rounded-full text-[10px] mb-3">
+                <span class="w-2 h-2 rounded-full bg-emerald-500 animate-ping"></span> Terintegrasi
+            </div>
+            <a href="/" class="w-full block text-center bg-rose-100 text-rose-600 font-kids py-2 rounded-xl text-xs border-b-2 border-rose-300 hover:bg-rose-200 transition">Keluar Halaman</a>
+        </div>
+    </aside>
+
+    <!-- ================= SEBELAH KANAN: AREA ISI KONTEN DINAMIS ================= -->
+    <main class="flex-1 p-6 md:p-8 space-y-8 overflow-y-auto max-h-screen">
+        {% block sub_content %}
+        <!-- Default Konten awal -->
+        <div class="panel-clay-3d p-6 bg-gradient-to-r from-purple-600 to-pink-500 text-white border-b-[8px] border-purple-700">
+            <span class="bg-yellow-400 text-slate-900 font-kids text-[10px] px-3 py-1 rounded-full uppercase tracking-wider shadow">INFO UTAMA</span>
+            <h1 class="font-kids text-3xl mt-3 mb-1 tracking-wide">Pusat Portal Aplikasi SMILE 🚀</h1>
+            <p class="text-purple-100 text-xs font-medium">Silakan pilih portal peran di menu sebelah kiri untuk memuat Dashboard Guru atau Murid ke dalam panel ini.</p>
+        </div>
+
+        <!-- Menu Shortcut Modul Baru (SMILE Play & SMILE Quiz) -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <!-- Box Informasi SMILE Play -->
+            <div class="panel-clay-3d p-6 bg-gradient-to-br from-amber-50 to-orange-100 border-b-8 border-orange-300 flex flex-col justify-between">
+                <div>
+                    <div class="w-12 h-12 bg-amber-400 rounded-2xl flex items-center justify-center text-2xl border-b-4 border-amber-600 shadow-sm">🎮</div>
+                    <h4 class="font-kids text-xl text-orange-900 mt-3 mb-1">SMILE Play</h4>
+                    <p class="text-slate-600 text-xs">Zona belajar interaktif lewat video game edukasi seru yang dirancang khusus untuk melatih ketangkasan berpikir siswa.</p>
+                </div>
+                <button onclick="alert('Modul game ini akan segera aktif setelah repositori GitHub disinkronkan oleh tim developer.');" class="portal-btn-3d mt-4 w-full bg-orange-500 text-white font-kids text-center py-2.5 rounded-xl shadow-[0_4px_0_#c2410c] text-xs">Mainkan Game 🚀</button>
+            </div>
+
+            <!-- Box Informasi SMILE Quiz -->
+            <div class="panel-clay-3d p-6 bg-gradient-to-br from-fuchsia-50 to-pink-100 border-b-8 border-pink-300 flex flex-col justify-between">
+                <div>
+                    <div class="w-12 h-12 bg-fuchsia-400 rounded-2xl flex items-center justify-center text-2xl border-b-4 border-fuchsia-600 shadow-sm">📝</div>
+                    <h4 class="font-kids text-xl text-pink-900 mt-3 mb-1">SMILE Quiz</h4>
+                    <p class="text-slate-600 text-xs">Uji pemahaman materi sekolah menggunakan kuis interaktif berhadiah poin bintang yang menarik dan menyenangkan.</p>
+                </div>
+                <button onclick="alert('Modul kuis ini akan segera aktif setelah repositori GitHub disinkronkan oleh tim developer.');" class="portal-btn-3d mt-4 w-full bg-pink-500 text-white font-kids text-center py-2.5 rounded-xl shadow-[0_4px_0_#be185d] text-xs">Mulai Kuis 🎯</button>
             </div>
         </div>
         
-        <div class="flex items-center gap-4">
-            <div class="hidden sm:flex flex-col text-right bg-slate-50 border border-slate-200/60 px-5 py-2 rounded-2xl">
-                <span class="text-xs font-black text-slate-700">Adi Saputra 👦</span>
-                <span class="text-[10px] font-bold text-purple-600">Siswa • Kelas 4A</span>
-            </div>
-            <a href="/logout" class="bg-red-50 hover:bg-red-100 border-2 border-red-100 text-red-500 font-black text-xs px-5 py-3 rounded-2xl transition-all duration-200 shadow-sm">Keluar</a>
-        </div>
-    </nav>
-
-    <!-- KONTEN UTAMA UTK MURID -->
-    <main class="max-w-7xl mx-auto px-4 mt-10 relative z-10 grid grid-cols-1 lg:grid-cols-4 gap-8">
-        
-        <div class="lg:col-span-3 space-y-10">
-            <!-- HERO BANNER GRADASI LOGIN (UNGU - PINK - BIRU) -->
-            <div class="bg-gradient-to-r from-[#7c3aed] via-[#a855f7] to-[#3b82f6] rounded-[36px] p-10 text-white shadow-[0_20px_40px_-15px_rgba(124,58,237,0.4)] border-b-8 border-purple-900 relative overflow-hidden">
-                <div class="absolute right-6 top-6 bg-white/20 backdrop-blur-md px-4 py-1.5 rounded-full text-[10px] font-black uppercase tracking-wider border border-white/20">🚀 Apps Berbasis Game</div>
-                <div class="relative z-10 max-w-xl mt-4">
-                    <h2 class="text-3xl md:text-5xl font-black leading-tight tracking-wide">Mulai Petualangan Belajar! ✨</h2>
-                    <p class="text-purple-100 text-xs md:text-base mt-3 font-medium opacity-90">Jelajahi materi seru, mainkan game dengan gerakan tubuhmu, dan selesaikan tantangan kuisnya!</p>
-                </div>
-            </div>
-
-            <!-- TIGA PILAR DENGAN DESAIN BARU -->
-            <div class="space-y-6">
-                <div class="flex items-center gap-3">
-                    <span class="text-2xl">🎯</span>
-                    <h3 class="text-base font-black text-slate-800 uppercase tracking-widest">Pilih Aktivitas Belajarmu</h3>
-                </div>
-
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-                    <!-- PILAR 1 -->
-                    <div class="card-premium-3d p-6 border-b-[12px] border-purple-200 flex flex-col justify-between group">
-                        <div>
-                            <div class="flex justify-between items-start">
-                                <div class="w-14 h-14 bg-purple-50 rounded-2xl flex items-center justify-center text-3xl shadow-sm border border-purple-100 group-hover:scale-110 transition-transform">📚</div>
-                                <span class="bg-purple-100 text-purple-700 text-[10px] font-black px-3 py-1 rounded-full uppercase">Pilar 1</span>
-                            </div>
-                            <h4 class="text-base font-black text-slate-800 mt-6">SMILE Learn</h4>
-                            <p class="text-slate-400 text-xs font-medium leading-relaxed mt-2">Membaca materi sekolah mandiri dengan tampilan visual interaktif.</p>
-                        </div>
-                        <a href="/materi/ipa" class="w-full btn-login-gradient text-white text-center font-black py-3 rounded-2xl text-xs block mt-8 uppercase tracking-wider">Buka Materi ➔</a>
-                    </div>
-
-                    <!-- PILAR 2 -->
-                    <div class="card-premium-3d p-6 border-b-[12px] border-fuchsia-200 flex flex-col justify-between group">
-                        <div>
-                            <div class="flex justify-between items-start">
-                                <div class="w-14 h-14 bg-fuchsia-50 rounded-2xl flex items-center justify-center text-3xl shadow-sm border border-fuchsia-100 group-hover:scale-110 transition-transform">🎮</div>
-                                <span class="bg-fuchsia-100 text-fuchsia-700 text-[10px] font-black px-3 py-1 rounded-full uppercase">Pilar 2</span>
-                            </div>
-                            <h4 class="text-base font-black text-slate-800 mt-6">SMILE Play</h4>
-                            <p class="text-slate-400 text-xs font-medium leading-relaxed mt-2">Belajar asyik lewat game interaktif berbasis deteksi gerak AI MediaPipe.</p>
-                        </div>
-                        <a href="/puzzle" class="w-full btn-login-gradient text-white text-center font-black py-3 rounded-2xl text-xs block mt-8 uppercase tracking-wider">Main Game AI ➔</a>
-                    </div>
-
-                    <!-- PILAR 3 -->
-                    <div class="card-premium-3d p-6 border-b-[12px] border-blue-200 flex flex-col justify-between group">
-                        <div>
-                            <div class="flex justify-between items-start">
-                                <div class="w-14 h-14 bg-blue-50 rounded-2xl flex items-center justify-center text-3xl shadow-sm border border-blue-100 group-hover:scale-110 transition-transform">🏆</div>
-                                <span class="bg-blue-100 text-blue-700 text-[10px] font-black px-3 py-1 rounded-full uppercase">Pilar 3</span>
-                            </div>
-                            <h4 class="text-base font-black text-slate-800 mt-6">SMILE Quiz</h4>
-                            <p class="text-slate-400 text-xs font-medium leading-relaxed mt-2">Uji wawasan dan kecepatan berpikirmu melalui kuis edukasi menarik.</p>
-                        </div>
-                        <a href="/quiz" class="w-full btn-login-gradient text-white text-center font-black py-3 rounded-2xl text-xs block mt-8 uppercase tracking-wider">Ikut Kuis ➔</a>
-                    </div>
-                </div>
+        <!-- Pilihan Kelas -->
+        <div class="panel-clay-3d p-6 bg-white border-b-8 border-slate-300">
+            <h3 class="font-kids text-xl text-slate-800 mb-4">📚 MATERI BERDASARKAN KELAS</h3>
+            <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3">
+                <a href="/materi/kelas-1/" class="portal-btn-3d bg-rose-500 text-white font-kids text-center p-4 rounded-xl shadow-[0_5px_0_#9f1239] text-sm">🐣 Kelas 1</a>
+                <a href="/materi/kelas-2/" class="portal-btn-3d bg-orange-500 text-white font-kids text-center p-4 rounded-xl shadow-[0_5px_0_#9a3412] text-sm">🐥 Kelas 2</a>
+                <a href="/materi/kelas-3/" class="portal-btn-3d bg-amber-400 text-white font-kids text-center p-4 rounded-xl shadow-[0_5px_0_#854d0e] text-sm">🦊 Kelas 3</a>
+                <a href="/materi/kelas-4/" class="portal-btn-3d bg-emerald-500 text-white font-kids text-center p-4 rounded-xl shadow-[0_5px_0_#065f46] text-sm">🐼 Kelas 4</a>
+                <a href="/materi/kelas-5/" class="portal-btn-3d bg-sky-500 text-white font-kids text-center p-4 rounded-xl shadow-[0_5px_0_#075985] text-sm">🦅 Kelas 5</a>
+                <a href="/materi/kelas-6/" class="portal-btn-3d bg-purple-500 text-white font-kids text-center p-4 rounded-xl shadow-[0_5px_0_#5b21b6] text-sm">🚀 Kelas 6</a>
             </div>
         </div>
-
-        <!-- SIDEBAR SKOR KANAN -->
-        <div class="space-y-8">
-            <div class="card-premium-3d p-6 border-b-[10px] border-slate-300 text-center">
-                <h4 class="text-[11px] font-black text-slate-400 uppercase tracking-widest mb-4">Papan Bintang</h4>
-                <div class="bg-gradient-to-br from-amber-50 to-orange-50 rounded-2xl p-5 border-2 border-orange-100 inline-block px-8 shadow-sm">
-                    <div class="flex items-center gap-3">
-                        <span class="text-4xl">⭐</span>
-                        <span class="text-5xl font-black text-slate-800">120</span>
-                    </div>
-                </div>
-                <div class="w-full bg-slate-100 h-3.5 rounded-full mt-6 border-2 border-slate-200/60 p-0.5">
-                    <div class="bg-gradient-to-r from-[#a855f7] to-[#3b82f6] h-full rounded-full" style="width: 75%"></div>
-                </div>
-                <p class="text-xs font-black text-purple-600 mt-3">Sedikit lagi naik tingkat!</p>
-            </div>
-        </div>
-
+        {% endblock %}
     </main>
 </div>
 {% endblock %}

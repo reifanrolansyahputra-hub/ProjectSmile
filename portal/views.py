@@ -17,14 +17,12 @@ QUIZ_ROLE_MAP = {
 
 @login_required
 def admin_dashboard(request):
-    return render(request, "portal/admin_dashboard.html")
+    return render(request, "portal/dashboard.html")
 
 
 @login_required
 def guru_dashboard(request):
-
     projects = Project.objects.filter(is_active=True)
-
     materis = Materi.objects.filter(
         guru=request.user
     ).order_by("-created_at")
@@ -38,13 +36,13 @@ def guru_dashboard(request):
 
 @login_required
 def murid_dashboard(request):
-
     projects = Project.objects.filter(is_active=True)
-
+    
     # Ambil SEMUA materi dari semua guru
     materis = Materi.objects.all().order_by("-created_at")
 
-    return render(request, "portal/dashboard.html", {
+    # === DIUBAH DI SINI: Sekarang memanggil file html khusus milik murid ===
+    return render(request, "portal/dashboardmurid.html", {
         "projects": projects,
         "materis": materis,
         "QUIZ_APP_URL": settings.QUIZ_APP_URL,
