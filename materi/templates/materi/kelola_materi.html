@@ -1,230 +1,137 @@
+{% extends 'portal/guru_dashboard.html' %}
 {% load static %}
 
-<!DOCTYPE html>
-<html lang="id">
+{% block sub_content %}
+<div class="max-w-6xl mx-auto space-y-8 text-sm">
 
-<head>
+    <!-- Header -->
+    <div class="panel-clay-3d p-6 bg-gradient-to-r from-sky-500 to-indigo-500 text-white border-b-[8px] border-indigo-700">
+        <span class="bg-yellow-400 text-slate-900 font-kids text-[10px] px-3 py-1 rounded-full uppercase tracking-wider shadow">PORTAL GURU</span>
+        <h1 class="font-kids text-2xl mt-2 mb-1 tracking-wide">📚 Kelola Materi</h1>
+        <p class="text-indigo-100 text-xs font-medium">Tambah, edit, dan hapus materi pembelajaran kamu di sini.</p>
+    </div>
 
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <title>Kelola Materi</title>
-
-    <link rel="stylesheet" href="{% static 'css/kelola_materi.css' %}">
-
-</head>
-
-<body>
-
-<div class="dashboard">
-
-    <aside class="sidebar">
-
-        <h2>😊 Project Smile</h2>
-
-        <nav>
-
-            <a href="{% url 'guru_dashboard' %}">🏠 Dashboard</a>
-
-            <a href="#">📦 Semua Project</a>
-
-            <a href="{% url 'kelola_materi' %}" class="active">📚 Kelola Materi</a>
-
-            <a href="#">👤 Profile</a>
-
-            <a href="#">⚙️ Pengaturan</a>
-
-            <a href="{% url 'logout' %}">🚪 Logout</a>
-
-        </nav>
-
-    </aside>
-
-    <main class="content">
-
-        <div class="topbar">
-
-            <h1>📚 Kelola Materi</h1>
-
-            <p>Tambah, Edit, dan Hapus Materi Pembelajaran.</p>
-
-        </div>
-
-        <div class="form-card">
-
-            {% if edit_data %}
-                <h2>Edit Materi</h2>
-
-                <form method="POST"
-                      enctype="multipart/form-data"
-                      action="{% url 'edit_materi' edit_data.id %}">
-            {% else %}
-                <h2>Tambah Materi</h2>
-
-                <form method="POST"
-                      enctype="multipart/form-data"
-                      action="{% url 'tambah_materi' %}">
-            {% endif %}
-
-                {% csrf_token %}
-
-                <div class="input-group">
-
-                    <label>Judul Materi</label>
-
-                    <input
-                        type="text"
-                        name="judul"
-                        required
-                        value="{% if edit_data %}{{ edit_data.judul }}{% endif %}">
-
-                </div>
-
-                <div class="input-group">
-
-                    <label>Mata Pelajaran</label>
-
-                    <select name="mapel" required>
-
-                        <option value="">-- Pilih Mata Pelajaran --</option>
-
-                        <option value="MTK" {% if edit_data.mapel == "MTK" %}selected{% endif %}>Matematika</option>
-
-                        <option value="IPA" {% if edit_data.mapel == "IPA" %}selected{% endif %}>IPA</option>
-
-                        <option value="IPS" {% if edit_data.mapel == "IPS" %}selected{% endif %}>IPS</option>
-
-                        <option value="BIO" {% if edit_data.mapel == "BIO" %}selected{% endif %}>Biologi</option>
-
-                        <option value="FIS" {% if edit_data.mapel == "FIS" %}selected{% endif %}>Fisika</option>
-
-                        <option value="KIM" {% if edit_data.mapel == "KIM" %}selected{% endif %}>Kimia</option>
-
-                        <option value="ING" {% if edit_data.mapel == "ING" %}selected{% endif %}>Bahasa Inggris</option>
-
-                        <option value="IND" {% if edit_data.mapel == "IND" %}selected{% endif %}>Bahasa Indonesia</option>
-
-                    </select>
-
-                </div>
-
-                <div class="input-group">
-
-                    <label>Deskripsi</label>
-
-                    <textarea
-                        name="deskripsi"
-                        rows="5"
-                        required>{% if edit_data %}{{ edit_data.deskripsi }}{% endif %}</textarea>
-
-                </div>
-
-                <div class="input-group">
-
-                    <label>Upload File</label>
-
-                    <input
-                        type="file"
-                        name="file"
-                        {% if not edit_data %}required{% endif %}>
-
-                </div>
-
-                <button type="submit" class="save-btn">
-
-                    {% if edit_data %}
-                        ✏ Update Materi
-                    {% else %}
-                        💾 Simpan Materi
-                    {% endif %}
-
-                </button>
-
-            </form>
-
-        </div>
-
-        <h2 class="section-title">
-
-            Daftar Materi
-
+    <!-- FORM TAMBAH / EDIT -->
+    <div class="panel-clay-3d p-6 bg-white border-b-8 border-sky-300">
+        <h2 class="font-kids text-lg text-slate-800 mb-4">
+            {% if edit_data %}✏ Edit Materi{% else %}➕ Tambah Materi Baru{% endif %}
         </h2>
 
-        <div class="cards">
+        {% if edit_data %}
+            <form method="POST" enctype="multipart/form-data" action="{% url 'edit_materi' edit_data.id %}" class="space-y-4">
+        {% else %}
+            <form method="POST" enctype="multipart/form-data" action="{% url 'tambah_materi' %}" class="space-y-4">
+        {% endif %}
+            {% csrf_token %}
 
-            {% for materi in materis %}
+            <div>
+                <label class="block text-[10px] font-bold text-gray-500 uppercase tracking-wider mb-2">Judul Materi</label>
+                <input
+                    type="text"
+                    name="judul"
+                    required
+                    value="{% if edit_data %}{{ edit_data.judul }}{% endif %}"
+                    placeholder="Contoh: Siklus Air"
+                    class="w-full px-4 py-3 rounded-2xl border-2 border-gray-100 focus:outline-none focus:border-sky-500 focus:ring-4 focus:ring-sky-100 transition text-xs font-medium text-gray-700 bg-gray-50/50">
+            </div>
 
-            <div class="card">
-
-                <h3>{{ materi.judul }}</h3>
-
-                <p><b>Mapel :</b> {{ materi.get_mapel_display }}</p>
-
-                <p>{{ materi.deskripsi }}</p>
-
-                <p>
-
-                    <b>Tanggal :</b>
-
-                    {{ materi.created_at|date:"d M Y" }}
-
-                </p>
-
-                <div class="aksi">
-
-                    <a href="{{ materi.file.url }}" target="_blank">
-
-                        <button>
-
-                            📄 Lihat
-
-                        </button>
-
-                    </a>
-
-                    <a href="{% url 'edit_materi' materi.id %}">
-
-                        <button class="edit">
-
-                            ✏ Edit
-
-                        </button>
-
-                    </a>
-
-                    <a href="{% url 'hapus_materi' materi.id %}"
-                       onclick="return confirm('Yakin ingin menghapus materi ini?')">
-
-                        <button class="hapus">
-
-                            🗑 Hapus
-
-                        </button>
-
-                    </a>
-
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div>
+                    <label class="block text-[10px] font-bold text-gray-500 uppercase tracking-wider mb-2">Mata Pelajaran</label>
+                    <select name="mapel" required class="w-full px-4 py-3 rounded-2xl border-2 border-gray-100 focus:outline-none focus:border-sky-500 focus:ring-4 focus:ring-sky-100 transition text-xs font-medium text-gray-700 bg-gray-50/50">
+                        <option value="">-- Pilih Mata Pelajaran --</option>
+                        <option value="MTK" {% if edit_data.mapel == "MTK" %}selected{% endif %}>Matematika</option>
+                        <option value="IPA" {% if edit_data.mapel == "IPA" %}selected{% endif %}>IPA</option>
+                        <option value="IPS" {% if edit_data.mapel == "IPS" %}selected{% endif %}>IPS</option>
+                        <option value="BIO" {% if edit_data.mapel == "BIO" %}selected{% endif %}>Biologi</option>
+                        <option value="FIS" {% if edit_data.mapel == "FIS" %}selected{% endif %}>Fisika</option>
+                        <option value="KIM" {% if edit_data.mapel == "KIM" %}selected{% endif %}>Kimia</option>
+                        <option value="ING" {% if edit_data.mapel == "ING" %}selected{% endif %}>Bahasa Inggris</option>
+                        <option value="IND" {% if edit_data.mapel == "IND" %}selected{% endif %}>Bahasa Indonesia</option>
+                    </select>
                 </div>
 
+                <div>
+                    <label class="block text-[10px] font-bold text-gray-500 uppercase tracking-wider mb-2">Kelas</label>
+                    <select name="kelas" required class="w-full px-4 py-3 rounded-2xl border-2 border-gray-100 focus:outline-none focus:border-sky-500 focus:ring-4 focus:ring-sky-100 transition text-xs font-medium text-gray-700 bg-gray-50/50">
+                        <option value="">-- Pilih Kelas --</option>
+                        <option value="1" {% if edit_data.kelas == 1 %}selected{% endif %}>Kelas 1</option>
+                        <option value="2" {% if edit_data.kelas == 2 %}selected{% endif %}>Kelas 2</option>
+                        <option value="3" {% if edit_data.kelas == 3 %}selected{% endif %}>Kelas 3</option>
+                        <option value="4" {% if edit_data.kelas == 4 %}selected{% endif %}>Kelas 4</option>
+                        <option value="5" {% if edit_data.kelas == 5 %}selected{% endif %}>Kelas 5</option>
+                        <option value="6" {% if edit_data.kelas == 6 %}selected{% endif %}>Kelas 6</option>
+                    </select>
+                </div>
             </div>
 
-            {% empty %}
-
-            <div class="card">
-
-                <h3>Belum Ada Materi</h3>
-
-                <p>Silakan tambahkan materi pertama.</p>
-
+            <div>
+                <label class="block text-[10px] font-bold text-gray-500 uppercase tracking-wider mb-2">Deskripsi</label>
+                <textarea
+                    name="deskripsi"
+                    rows="4"
+                    required
+                    placeholder="Jelaskan singkat isi materinya..."
+                    class="w-full px-4 py-3 rounded-2xl border-2 border-gray-100 focus:outline-none focus:border-sky-500 focus:ring-4 focus:ring-sky-100 transition text-xs font-medium text-gray-700 bg-gray-50/50">{% if edit_data %}{{ edit_data.deskripsi }}{% endif %}</textarea>
             </div>
 
-            {% endfor %}
+            <div>
+                <label class="block text-[10px] font-bold text-gray-500 uppercase tracking-wider mb-2">Upload File</label>
+                <input
+                    type="file"
+                    name="file"
+                    {% if not edit_data %}required{% endif %}
+                    class="w-full text-xs font-medium text-gray-600 file:mr-4 file:py-2.5 file:px-4 file:rounded-xl file:border-0 file:font-kids file:text-xs file:bg-sky-500 file:text-white hover:file:bg-sky-600 file:cursor-pointer">
+                {% if edit_data.file %}
+                    <p class="text-[10px] text-slate-400 mt-1.5">📎 File saat ini: {{ edit_data.file.name }}</p>
+                {% endif %}
+            </div>
 
-        </div>
+            <div class="flex items-center gap-3 pt-2">
+                <button type="submit" class="portal-btn-3d bg-sky-500 text-white font-kids text-sm px-6 py-3 rounded-2xl shadow-[0_5px_0_#075985]">
+                    {% if edit_data %}✏ Update Materi{% else %}💾 Simpan Materi{% endif %}
+                </button>
+                {% if edit_data %}
+                    <a href="{% url 'kelola_materi' %}" class="text-xs font-bold text-rose-500 hover:underline">✕ Batal edit</a>
+                {% endif %}
+            </div>
+        </form>
+    </div>
 
-    </main>
+    <!-- DAFTAR MATERI GURU -->
+    <div class="space-y-3">
+        <h3 class="font-kids text-lg text-slate-700">📋 Daftar Materi Kamu</h3>
+
+        {% if materis %}
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+                {% for materi in materis %}
+                    <div class="panel-clay-3d p-5 bg-white border-b-8 border-sky-300 flex flex-col justify-between gap-3">
+                        <div>
+                            <div class="flex items-center justify-between mb-2">
+                                <span class="bg-sky-100 text-sky-700 text-[10px] font-bold uppercase tracking-wider px-2.5 py-1 rounded-full">{{ materi.get_mapel_display }}</span>
+                                <span class="bg-slate-100 text-slate-500 text-[10px] font-bold px-2.5 py-1 rounded-full">Kelas {{ materi.kelas }}</span>
+                            </div>
+                            <h4 class="font-kids text-base text-slate-800 leading-snug">{{ materi.judul }}</h4>
+                            <p class="text-slate-500 text-[11px] mt-1.5 leading-relaxed line-clamp-3">{{ materi.deskripsi }}</p>
+                            <p class="text-[10px] text-slate-400 font-semibold mt-2">🗓️ {{ materi.created_at|date:"d M Y" }}</p>
+                        </div>
+
+                        <div class="grid grid-cols-3 gap-2 pt-2">
+                            <a href="{{ materi.file.url }}" target="_blank" class="portal-btn-3d text-center bg-slate-500 text-white font-kids text-[10px] py-2 rounded-lg shadow-[0_3px_0_#334155]">📄 Lihat</a>
+                            <a href="{% url 'edit_materi' materi.id %}" class="portal-btn-3d text-center bg-amber-500 text-white font-kids text-[10px] py-2 rounded-lg shadow-[0_3px_0_#b45309]">✏ Edit</a>
+                            <a href="{% url 'hapus_materi' materi.id %}" onclick="return confirm('Yakin ingin menghapus materi ini?')" class="portal-btn-3d text-center bg-rose-500 text-white font-kids text-[10px] py-2 rounded-lg shadow-[0_3px_0_#9f1239]">🗑 Hapus</a>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        {% else %}
+            <div class="panel-clay-3d p-10 bg-white border-b-8 border-slate-200 text-center">
+                <span class="text-4xl">📭</span>
+                <p class="font-kids text-slate-600 mt-3">Belum ada materi nih...</p>
+                <p class="text-slate-400 text-xs mt-1">Yuk tambahkan materi pertama kamu lewat form di atas.</p>
+            </div>
+        {% endif %}
+    </div>
 
 </div>
-
-</body>
-
-</html>
+{% endblock %}

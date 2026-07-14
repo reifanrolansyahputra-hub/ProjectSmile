@@ -1,115 +1,167 @@
-{% extends 'portal/dashboard.html' %}
+{% extends 'base.html' %}
 {% load static %}
 
-{% block sub_content %}
-<div class="max-w-6xl mx-auto space-y-6 text-sm"> <!-- Membatasi kontainer agar tidak terlalu lebar/zoom -->
-    
-    <!-- Top Bar Ringkas Info Murid -->
-    <div class="flex flex-col sm:flex-row items-center justify-between bg-white border-2 border-slate-200 p-4 rounded-2xl shadow-sm gap-4">
-        <div class="flex items-center space-x-3">
-            <div class="w-10 h-10 bg-emerald-400 rounded-xl flex items-center justify-center font-kids text-lg text-white shadow-inner">👶</div>
-            <div>
-                <h4 class="font-kids text-slate-800 leading-tight">Halo, Adi Saputra!</h4>
-                <span class="text-xs text-slate-400 font-bold">Siswa Kelas 4A</span>
+{% block extra_css %}
+<script src="https://cdn.tailwindcss.com"></script>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Poppins:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+    .split-dashboard { font-family: 'Poppins', sans-serif; background-color: #f0f7ff; }
+    .font-kids { font-family: 'Fredoka One', cursive; }
+    .sidebar-clay-3d { background: #ffffff; box-shadow: 8px 0 0 #d1e2f3; border-right: 3px solid #d1e2f3; }
+    .panel-clay-3d { background: #ffffff; border-radius: 30px; box-shadow: 0 16px 0 #d1e2f3, 0 20px 25px -5px rgba(0,0,0,0.05); border: 3px solid #d1e2f3; }
+    .portal-btn-3d { transform: translateY(-4px); transition: all 0.1s ease; }
+    .portal-btn-3d:active { transform: translateY(2px); }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="split-dashboard min-h-screen flex flex-col md:flex-row">
+
+    <!-- SIDEBAR KHUSUS MURID -->
+    <aside class="w-full md:w-80 sidebar-clay-3d p-6 flex flex-col justify-between gap-8 z-10 bg-white">
+        <div class="space-y-6">
+            <div class="flex items-center space-x-3 bg-gradient-to-r from-emerald-500 to-teal-500 p-3 rounded-2xl text-white border-b-4 border-emerald-800 shadow">
+                <div class="w-10 h-10 bg-yellow-400 rounded-xl flex items-center justify-center shadow-inner border border-white/20">
+                    <span class="text-slate-900 font-kids text-lg">👶</span>
+                </div>
+                <div>
+                    <h2 class="font-kids text-xl tracking-wide leading-none text-yellow-300">SMILE</h2>
+                    <span class="text-[9px] font-black text-emerald-100 uppercase tracking-widest block mt-0.5">Portal Murid</span>
+                </div>
             </div>
+
+            <nav class="space-y-4 pt-4">
+                <span class="text-[10px] font-bold text-slate-400 uppercase tracking-widest block px-2">MENU MURID</span>
+
+                <a href="{% url 'murid_dashboard' %}" class="portal-btn-3d flex items-center space-x-3 bg-emerald-500 text-white font-kids px-4 py-3.5 rounded-2xl border-b-4 border-emerald-700 shadow-md text-sm">
+                    <span class="text-lg">🎛️</span> <span>Dashboard</span>
+                </a>
+
+                <a href="{% url 'daftar_materi' %}" class="portal-btn-3d flex items-center space-x-3 bg-gradient-to-r from-sky-400 to-sky-500 text-white font-kids px-4 py-3.5 rounded-2xl border-b-4 border-sky-700 text-sm">
+                    <span class="text-lg">📚</span> <span>Materi Belajar</span>
+                </a>
+
+                <a href="{% url 'buka_quiz' %}" target="_blank" class="portal-btn-3d flex items-center space-x-3 bg-gradient-to-r from-fuchsia-400 to-pink-500 text-white font-kids px-4 py-3 rounded-2xl border-b-4 border-pink-700 text-xs">
+                    <span class="text-lg">📝</span> <span>SMILE Quiz</span>
+                </a>
+            </nav>
         </div>
-        
-        <!-- Papan Skor Bintang Lebih Minimalis -->
-        <div class="flex items-center space-x-4 bg-amber-50 border border-amber-200 px-4 py-2 rounded-xl">
-            <div class="flex items-center space-x-1.5">
-                <span class="text-xl">⭐</span>
-                <span class="font-kids text-lg text-amber-700">120</span>
-                <span class="text-[10px] text-amber-600 font-bold uppercase tracking-wider">Poin Bintang</span>
-            </div>
-            <div class="h-6 w-[1px] bg-amber-200"></div>
-            <div class="text-[10px] text-slate-500">
-                <div class="font-bold text-slate-600">Level 4</div>
-                <div class="w-20 bg-slate-200 h-1.5 rounded-full mt-0.5 overflow-hidden">
-                    <div class="bg-amber-400 h-full w-[70%] rounded-full"></div>
-                </div>
-            </div>
+
+        <div class="bg-slate-50 p-4 rounded-2xl border-2 border-slate-100 text-center">
+            <span class="text-[9px] font-black text-slate-400 uppercase tracking-wider block mb-1">Login Sebagai</span>
+            <div class="font-kids text-sm text-slate-700 mb-3">{{ request.user.username }}</div>
+            <a href="{% url 'logout' %}" class="w-full block text-center bg-rose-100 text-rose-600 font-kids py-2 rounded-xl text-xs border-b-2 border-rose-300 hover:bg-rose-200 transition">Keluar</a>
         </div>
-    </div>
+    </aside>
 
-    <!-- Banner Mulai Petualangan Lebih Pendek -->
-    <div class="panel-clay-3d p-5 bg-gradient-to-r from-blue-600 to-indigo-600 text-white border-b-4 border-indigo-800 rounded-2xl">
-        <span class="bg-yellow-400 text-slate-900 font-kids text-[9px] px-2.5 py-0.5 rounded-full uppercase tracking-wider font-bold">ZONA BELAJAR</span>
-        <h2 class="font-kids text-xl mt-1.5 mb-1">Mulai Petualangan Belajar! ✨</h2>
-        <p class="text-indigo-100 text-xs">Pilih materi seru di bawah ini untuk mengumpulkan poin bintang rahasia hasil sinkronisasi modul pembelajaran!</p>
-    </div>
+    <main class="flex-1 p-6 md:p-8 space-y-8 overflow-y-auto max-h-screen">
+        {% block sub_content %}
+        <div class="max-w-6xl mx-auto space-y-6 text-sm">
 
-    <!-- Pilih Mata Pelajaran Grid Lebih Rapat (Tidak Kebesaran) -->
-    <div class="space-y-3">
-        <h3 class="font-kids text-base text-slate-700 flex items-center gap-1.5">🎨 PILIH MATA PELAJARAN</h3>
-        
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-            <!-- Materi IPA -->
-            <div class="bg-white border-2 border-emerald-200 p-4 rounded-xl shadow-sm hover:border-emerald-400 transition flex flex-col justify-between gap-3">
-                <div class="flex items-start justify-between">
-                    <div>
-                        <h4 class="font-kids text-sm text-slate-800">Materi IPA</h4>
-                        <p class="text-slate-500 text-[11px] mt-1 leading-relaxed">Eksplorasi alam semesta, tubuh manusia, dan sains interaktif yang asyik.</p>
-                    </div>
-                    <span class="text-xl p-1 bg-emerald-50 rounded-lg">🧬</span>
-                </div>
-                <a href="/materi/ipa/" class="portal-btn-3d w-full block text-center bg-emerald-500 text-white font-kids text-xs py-2 rounded-lg shadow-[0_3px_0_#047857]">BUKA SAINS ➔</a>
-            </div>
-
-            <!-- Materi Matematika -->
-            <div class="bg-white border-2 border-amber-200 p-4 rounded-xl shadow-sm hover:border-amber-400 transition flex flex-col justify-between gap-3">
-                <div class="flex items-start justify-between">
-                    <div>
-                        <h4 class="font-kids text-sm text-slate-800">Matematika</h4>
-                        <p class="text-slate-500 text-[11px] mt-1 leading-relaxed">Hitung cepat penuh tantangan logika angka berhadiah medali emas.</p>
-                    </div>
-                    <span class="text-xl p-1 bg-amber-50 rounded-lg">📐</span>
-                </div>
-                <a href="/materi/matematika/" class="portal-btn-3d w-full block text-center bg-amber-500 text-white font-kids text-xs py-2 rounded-lg shadow-[0_3px_0_#b45309]">MULAI BERHITUNG ➔</a>
-            </div>
-
-            <!-- Materi Bahasa Inggris -->
-            <div class="bg-white border-2 border-indigo-200 p-4 rounded-xl shadow-sm hover:border-indigo-400 transition flex flex-col justify-between gap-3">
-                <div class="flex items-start justify-between">
-                    <div>
-                        <h4 class="font-kids text-sm text-slate-800">Bahasa Inggris</h4>
-                        <p class="text-slate-500 text-[11px] mt-1 leading-relaxed">Belajar kosa kata dunia internasional lewat game percakapan ceria.</p>
-                    </div>
-                    <span class="text-sm font-bold p-1 bg-indigo-50 text-indigo-600 rounded-lg">GB</span>
-                </div>
-                <a href="/materi/inggris/" class="portal-btn-3d w-full block text-center bg-indigo-500 text-white font-kids text-xs py-2 rounded-lg shadow-[0_3px_0_#4338ca]">GO STUDY ➔</a>
-            </div>
-        </div>
-    </div>
-
-    <!-- INTEGRASI MENU MINI: SMILE Play & SMILE Quiz Khusus Untuk Akses Cepat Murid -->
-    <div class="border-t-2 border-dashed border-slate-200 pt-4 mt-6">
-        <h3 class="font-kids text-base text-slate-700 mb-3 flex items-center gap-1.5">🚀 AKTIVITAS SERU LAINNYA</h3>
-        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            <!-- Akses Cepat Play -->
-            <button onclick="alert('Modul game edukasi SMILE Play akan segera aktif!');" class="portal-btn-3d flex items-center justify-between p-3 bg-gradient-to-r from-amber-400 to-orange-400 text-white rounded-xl border-b-4 border-orange-600 text-left">
+            <!-- Top Bar Ringkas Info Murid -->
+            <div class="flex flex-col sm:flex-row items-center justify-between bg-white border-2 border-slate-200 p-4 rounded-2xl shadow-sm gap-4">
                 <div class="flex items-center space-x-3">
-                    <span class="text-2xl bg-white/20 p-1 rounded-lg">🎮</span>
+                    <div class="w-10 h-10 bg-emerald-400 rounded-xl flex items-center justify-center font-kids text-lg text-white shadow-inner">👶</div>
                     <div>
-                        <h5 class="font-kids text-xs">Main SMILE Play</h5>
-                        <p class="text-[10px] text-orange-100 font-medium">Belajar asyik lewat video game edukasi</p>
+                        <h4 class="font-kids text-slate-800 leading-tight">Halo, {{ request.user.first_name|default:request.user.username }}!</h4>
+                        <span class="text-xs text-slate-400 font-bold">Siswa</span>
                     </div>
                 </div>
-                <span class="text-xs font-bold bg-orange-700/30 px-2 py-1 rounded-md">MULAI 🕹️</span>
-            </button>
 
-            <!-- Akses Cepat Quiz -->
-            <button onclick="alert('Modul kuis interaktif SMILE Quiz akan segera aktif!');" class="portal-btn-3d flex items-center justify-between p-3 bg-gradient-to-r from-fuchsia-400 to-pink-500 text-white rounded-xl border-b-4 border-pink-700 text-left">
-                <div class="flex items-center space-x-3">
-                    <span class="text-2xl bg-white/20 p-1 rounded-lg">📝</span>
-                    <div>
-                        <h5 class="font-kids text-xs">Ikut SMILE Quiz</h5>
-                        <p class="text-[10px] text-pink-100 font-medium">Uji kemampuan & kumpulkan bintang</p>
+                <!-- Papan Skor Bintang -->
+                <div class="flex items-center space-x-4 bg-amber-50 border border-amber-200 px-4 py-2 rounded-xl">
+                    <div class="flex items-center space-x-1.5">
+                        <span class="text-xl">⭐</span>
+                        <span class="font-kids text-lg text-amber-700">120</span>
+                        <span class="text-[10px] text-amber-600 font-bold uppercase tracking-wider">Poin Bintang</span>
+                    </div>
+                    <div class="h-6 w-[1px] bg-amber-200"></div>
+                    <div class="text-[10px] text-slate-500">
+                        <div class="font-bold text-slate-600">Level 4</div>
+                        <div class="w-20 bg-slate-200 h-1.5 rounded-full mt-0.5 overflow-hidden">
+                            <div class="bg-amber-400 h-full w-[70%] rounded-full"></div>
+                        </div>
                     </div>
                 </div>
-                <span class="text-xs font-bold bg-pink-700/30 px-2 py-1 rounded-md">BUKA 🎯</span>
-            </button>
+            </div>
+
+            <!-- Banner Mulai Petualangan -->
+            <div class="panel-clay-3d p-5 bg-gradient-to-r from-blue-600 to-indigo-600 text-white border-b-4 border-indigo-800 rounded-2xl">
+                <span class="bg-yellow-400 text-slate-900 font-kids text-[9px] px-2.5 py-0.5 rounded-full uppercase tracking-wider font-bold">ZONA BELAJAR</span>
+                <h2 class="font-kids text-xl mt-1.5 mb-1">Mulai Petualangan Belajar! ✨</h2>
+                <p class="text-indigo-100 text-xs">Pilih materi seru di bawah ini untuk mengumpulkan poin bintang rahasia hasil sinkronisasi modul pembelajaran!</p>
+            </div>
+
+            <!-- Pilih Mata Pelajaran -->
+            <div class="space-y-3">
+                <h3 class="font-kids text-base text-slate-700 flex items-center gap-1.5">🎨 PILIH MATA PELAJARAN</h3>
+
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <div class="bg-white border-2 border-emerald-200 p-4 rounded-xl shadow-sm hover:border-emerald-400 transition flex flex-col justify-between gap-3">
+                        <div class="flex items-start justify-between">
+                            <div>
+                                <h4 class="font-kids text-sm text-slate-800">Materi IPA</h4>
+                                <p class="text-slate-500 text-[11px] mt-1 leading-relaxed">Eksplorasi alam semesta, tubuh manusia, dan sains interaktif yang asyik.</p>
+                            </div>
+                            <span class="text-xl p-1 bg-emerald-50 rounded-lg">🧬</span>
+                        </div>
+                        <a href="{% url 'daftar_materi' %}?mapel=IPA" class="portal-btn-3d w-full block text-center bg-emerald-500 text-white font-kids text-xs py-2 rounded-lg shadow-[0_3px_0_#047857]">BUKA SAINS ➔</a>
+                    </div>
+
+                    <div class="bg-white border-2 border-amber-200 p-4 rounded-xl shadow-sm hover:border-amber-400 transition flex flex-col justify-between gap-3">
+                        <div class="flex items-start justify-between">
+                            <div>
+                                <h4 class="font-kids text-sm text-slate-800">Matematika</h4>
+                                <p class="text-slate-500 text-[11px] mt-1 leading-relaxed">Hitung cepat penuh tantangan logika angka berhadiah medali emas.</p>
+                            </div>
+                            <span class="text-xl p-1 bg-amber-50 rounded-lg">📐</span>
+                        </div>
+                        <a href="{% url 'daftar_materi' %}?mapel=MTK" class="portal-btn-3d w-full block text-center bg-amber-500 text-white font-kids text-xs py-2 rounded-lg shadow-[0_3px_0_#b45309]">MULAI BERHITUNG ➔</a>
+                    </div>
+
+                    <div class="bg-white border-2 border-indigo-200 p-4 rounded-xl shadow-sm hover:border-indigo-400 transition flex flex-col justify-between gap-3">
+                        <div class="flex items-start justify-between">
+                            <div>
+                                <h4 class="font-kids text-sm text-slate-800">Bahasa Inggris</h4>
+                                <p class="text-slate-500 text-[11px] mt-1 leading-relaxed">Belajar kosa kata dunia internasional lewat game percakapan ceria.</p>
+                            </div>
+                            <span class="text-sm font-bold p-1 bg-indigo-50 text-indigo-600 rounded-lg">GB</span>
+                        </div>
+                        <a href="{% url 'daftar_materi' %}?mapel=ING" class="portal-btn-3d w-full block text-center bg-indigo-500 text-white font-kids text-xs py-2 rounded-lg shadow-[0_3px_0_#4338ca]">GO STUDY ➔</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Aktivitas Lainnya -->
+            <div class="border-t-2 border-dashed border-slate-200 pt-4 mt-6">
+                <h3 class="font-kids text-base text-slate-700 mb-3 flex items-center gap-1.5">🚀 AKTIVITAS SERU LAINNYA</h3>
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <button onclick="alert('Modul game edukasi SMILE Play akan segera aktif!');" class="portal-btn-3d flex items-center justify-between p-3 bg-gradient-to-r from-amber-400 to-orange-400 text-white rounded-xl border-b-4 border-orange-600 text-left">
+                        <div class="flex items-center space-x-3">
+                            <span class="text-2xl bg-white/20 p-1 rounded-lg">🎮</span>
+                            <div>
+                                <h5 class="font-kids text-xs">Main SMILE Play</h5>
+                                <p class="text-[10px] text-orange-100 font-medium">Belajar asyik lewat video game edukasi</p>
+                            </div>
+                        </div>
+                        <span class="text-xs font-bold bg-orange-700/30 px-2 py-1 rounded-md">MULAI 🕹️</span>
+                    </button>
+
+                    <a href="{% url 'buka_quiz' %}" target="_blank" class="portal-btn-3d flex items-center justify-between p-3 bg-gradient-to-r from-fuchsia-400 to-pink-500 text-white rounded-xl border-b-4 border-pink-700 text-left">
+                        <div class="flex items-center space-x-3">
+                            <span class="text-2xl bg-white/20 p-1 rounded-lg">📝</span>
+                            <div>
+                                <h5 class="font-kids text-xs">Ikut SMILE Quiz</h5>
+                                <p class="text-[10px] text-pink-100 font-medium">Uji kemampuan & kumpulkan bintang</p>
+                            </div>
+                        </div>
+                        <span class="text-xs font-bold bg-pink-700/30 px-2 py-1 rounded-md">BUKA 🎯</span>
+                    </a>
+                </div>
+            </div>
+
         </div>
-    </div>
-
+        {% endblock %}
+    </main>
 </div>
 {% endblock %}

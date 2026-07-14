@@ -1,64 +1,103 @@
-{% extends 'portal/dashboard.html' %}
+{% extends 'base.html' %}
 {% load static %}
 
-{% block sub_content %}
-<div class="space-y-8">
-    <!-- Header Berwarna Dinamis -->
-    <div class="panel-clay-3d p-6 bg-gradient-to-r from-violet-600 via-indigo-600 to-cyan-500 text-white border-b-[8px] border-indigo-800 shadow-xl">
-        <div class="flex flex-wrap items-center justify-between gap-4">
-            <div>
-                <span class="bg-yellow-400 text-slate-950 font-kids text-[10px] px-3 py-1 rounded-full uppercase tracking-wider font-bold shadow-sm">PORTAL GURU / STATISTIK KURIKULUM</span>
-                <h1 class="font-kids text-3xl mt-2 tracking-wide flex items-center gap-2">Pantau Perkembangan Siswa 📈</h1>
+{% block extra_css %}
+<script src="https://cdn.tailwindcss.com"></script>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Poppins:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+    .split-dashboard { font-family: 'Poppins', sans-serif; background-color: #f0f7ff; }
+    .font-kids { font-family: 'Fredoka One', cursive; }
+    .sidebar-clay-3d { background: #ffffff; box-shadow: 8px 0 0 #d1e2f3; border-right: 3px solid #d1e2f3; }
+    .panel-clay-3d { background: #ffffff; border-radius: 30px; box-shadow: 0 16px 0 #d1e2f3, 0 20px 25px -5px rgba(0,0,0,0.05); border: 3px solid #d1e2f3; }
+    .portal-btn-3d { transform: translateY(-4px); transition: all 0.1s ease; }
+    .portal-btn-3d:active { transform: translateY(2px); }
+    .kelas-btn-3d { transform: translateY(-4px); transition: all 0.1s ease; }
+    .kelas-btn-3d:active { transform: translateY(2px); }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="split-dashboard min-h-screen flex flex-col md:flex-row">
+
+    <!-- SIDEBAR KHUSUS GURU -->
+    <aside class="w-full md:w-80 sidebar-clay-3d p-6 flex flex-col justify-between gap-8 z-10 bg-white">
+        <div class="space-y-6">
+            <div class="flex items-center space-x-3 bg-gradient-to-r from-sky-500 to-indigo-600 p-3 rounded-2xl text-white border-b-4 border-indigo-800 shadow">
+                <div class="w-10 h-10 bg-yellow-400 rounded-xl flex items-center justify-center shadow-inner border border-white/20">
+                    <span class="text-slate-900 font-kids text-lg">👩‍🏫</span>
+                </div>
+                <div>
+                    <h2 class="font-kids text-xl tracking-wide leading-none text-yellow-300">SMILE</h2>
+                    <span class="text-[9px] font-black text-sky-200 uppercase tracking-widest block mt-0.5">Portal Guru</span>
+                </div>
             </div>
-            <div class="bg-white/10 backdrop-blur-md p-3 rounded-2xl border border-white/20 text-right">
-                <span class="text-[10px] uppercase font-bold text-indigo-200 block">Wali Kelas</span>
-                <span class="font-kids text-sm text-yellow-300">Ibu Budi, S.Pd. (4A)</span>
-            </div>
+
+            <nav class="space-y-4 pt-4">
+                <span class="text-[10px] font-bold text-slate-400 uppercase tracking-widest block px-2">MENU GURU</span>
+
+                <a href="{% url 'guru_dashboard' %}" class="portal-btn-3d flex items-center space-x-3 bg-indigo-600 text-white font-kids px-4 py-3.5 rounded-2xl border-b-4 border-indigo-800 shadow-md text-sm">
+                    <span class="text-lg">🎛️</span> <span>Dashboard</span>
+                </a>
+
+                <a href="{% url 'kelola_materi' %}" class="portal-btn-3d flex items-center space-x-3 bg-gradient-to-r from-sky-400 to-sky-500 text-white font-kids px-4 py-3.5 rounded-2xl border-b-4 border-sky-700 text-sm">
+                    <span class="text-lg">📚</span> <span>Kelola Materi</span>
+                </a>
+
+                <a href="{% url 'buka_quiz' %}" target="_blank" class="portal-btn-3d flex items-center space-x-3 bg-gradient-to-r from-fuchsia-400 to-pink-500 text-white font-kids px-4 py-3 rounded-2xl border-b-4 border-pink-700 text-xs">
+                    <span class="text-lg">📝</span> <span>SMILE Quiz</span>
+                </a>
+            </nav>
         </div>
-        
-        <div class="mt-4 bg-slate-950/20 p-4 rounded-xl border border-white/10 text-xs text-indigo-100 max-w-3xl leading-relaxed">
-            <span class="font-bold text-yellow-300">STAGE 5 & 6: TESTING & ANALYTICS</span> — Rekapitulasi otomatis data aktivitas belajar berbasis sistem <strong>SMILE</strong>. Evaluasi hasil <em>Gesture Recognition</em> serta skor kuis terdata langsung pada modul analitik ini.
+
+        <div class="bg-slate-50 p-4 rounded-2xl border-2 border-slate-100 text-center">
+            <span class="text-[9px] font-black text-slate-400 uppercase tracking-wider block mb-1">Login Sebagai</span>
+            <div class="font-kids text-sm text-slate-700 mb-3">{{ request.user.username }}</div>
+            <a href="{% url 'logout' %}" class="w-full block text-center bg-rose-100 text-rose-600 font-kids py-2 rounded-xl text-xs border-b-2 border-rose-300 hover:bg-rose-200 transition">Keluar</a>
         </div>
+    </aside>
+
+    <main class="flex-1 p-6 md:p-8 space-y-8 overflow-y-auto max-h-screen">
+        {% block sub_content %}
+
+        <div class="panel-clay-3d p-6 bg-gradient-to-r from-purple-600 to-pink-500 text-white border-b-[8px] border-purple-700">
+            <span class="bg-yellow-400 text-slate-900 font-kids text-[10px] px-3 py-1 rounded-full uppercase tracking-wider shadow">PORTAL GURU</span>
+            <h1 class="font-kids text-3xl mt-3 mb-1 tracking-wide">Halo, {{ request.user.username }}! 👋</h1>
+            <p class="text-purple-100 text-xs font-medium">Kelola materi pelajaran dan pantau aktivitas belajar siswa dari sini.</p>
+        </div>
+
+       <!-- Pilihan Kelas -->
+<div class="panel-clay-3d p-6 bg-white border-b-8 border-slate-200">
+    <span class="text-[10px] font-bold text-slate-400 uppercase tracking-widest block mb-4">Pilih Kelas Untuk Kelola Materi</span>
+    <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-4">
+        <a href="{% url 'kelola_materi' %}?kelas=1" class="kelas-btn-3d bg-rose-500 text-white font-kids text-center p-4 rounded-xl shadow-[0_5px_0_#9f1239] text-sm">🐣 Kelas 1</a>
+        <a href="{% url 'kelola_materi' %}?kelas=2" class="kelas-btn-3d bg-orange-500 text-white font-kids text-center p-4 rounded-xl shadow-[0_5px_0_#9a3412] text-sm">🐥 Kelas 2</a>
+        <a href="{% url 'kelola_materi' %}?kelas=3" class="kelas-btn-3d bg-amber-400 text-white font-kids text-center p-4 rounded-xl shadow-[0_5px_0_#854d0e] text-sm">🦊 Kelas 3</a>
+        <a href="{% url 'kelola_materi' %}?kelas=4" class="kelas-btn-3d bg-emerald-500 text-white font-kids text-center p-4 rounded-xl shadow-[0_5px_0_#065f46] text-sm">🐼 Kelas 4</a>
+        <a href="{% url 'kelola_materi' %}?kelas=5" class="kelas-btn-3d bg-sky-500 text-white font-kids text-center p-4 rounded-xl shadow-[0_5px_0_#075985] text-sm">🦅 Kelas 5</a>
+        <a href="{% url 'kelola_materi' %}?kelas=6" class="kelas-btn-3d bg-purple-500 text-white font-kids text-center p-4 rounded-xl shadow-[0_5px_0_#5b21b6] text-sm">🚀 Kelas 6</a>
     </div>
+</div>
 
-    <!-- Statistik Utama Dengan Warna Yang Lebih Hidup -->
-    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-        <!-- Card 1 -->
-        <div class="panel-clay-3d p-5 bg-gradient-to-br from-purple-50 to-purple-100/50 border-b-8 border-purple-400">
-            <span class="text-[10px] font-bold text-purple-500 uppercase tracking-wider block">TOTAL MURID</span>
-            <div class="flex items-baseline gap-2 mt-2">
-                <span class="font-kids text-4xl text-purple-700">32</span>
-                <span class="font-bold text-slate-500 text-sm">Siswa</span>
-            </div>
-            <div class="mt-3 text-[11px] text-purple-600 bg-purple-200/50 py-1 px-2.5 rounded-lg inline-block font-medium">🧑‍🤝‍🧑 Aktif Semester Ini</div>
+<!-- Ringkasan Materi -->
+<div class="panel-clay-3d p-6 bg-white border-b-8 border-slate-200">
+    <span class="text-[10px] font-bold text-slate-400 uppercase tracking-widest block mb-4">Materi Terbaru Yang Kamu Kelola</span>
+    {% if materis %}
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
+            {% for m in materis|slice:":3" %}
+                <div class="bg-slate-50 p-4 rounded-xl border-2 border-slate-100">
+                    <div class="flex items-center justify-between mb-1">
+                        <span class="text-[10px] font-bold text-sky-600">{{ m.get_mapel_display }}</span>
+                        <span class="text-[10px] font-bold text-slate-400">Kelas {{ m.kelas }}</span>
+                    </div>
+                    <h4 class="font-kids text-sm text-slate-800 mt-1">{{ m.judul }}</h4>
+                </div>
+            {% endfor %}
         </div>
-
-        <!-- Card 2 -->
-        <div class="panel-clay-3d p-5 bg-gradient-to-br from-emerald-50 to-emerald-100/50 border-b-8 border-emerald-400">
-            <span class="text-[10px] font-bold text-emerald-600 uppercase tracking-wider block">RERATA NILAI IPA</span>
-            <div class="flex items-baseline gap-2 mt-2">
-                <span class="font-kids text-4xl text-emerald-700">88.2</span>
-            </div>
-            <div class="mt-3 text-[11px] text-emerald-700 bg-emerald-200/50 py-1 px-2.5 rounded-lg inline-block font-medium">🎯 Di atas KKM (75)</div>
-        </div>
-
-        <!-- Card 3 -->
-        <div class="panel-clay-3d p-5 bg-gradient-to-br from-amber-50 to-amber-100/50 border-b-8 border-amber-400">
-            <span class="text-[10px] font-bold text-amber-600 uppercase tracking-wider block">RERATA NILAI MTK</span>
-            <div class="flex items-baseline gap-2 mt-2">
-                <span class="font-kids text-4xl text-amber-700">82.5</span>
-            </div>
-            <div class="mt-3 text-[11px] text-amber-700 bg-amber-200/50 py-1 px-2.5 rounded-lg inline-block font-medium">⚡ Mengalami Kenaikan</div>
-        </div>
-
-        <!-- Card 4 -->
-        <div class="panel-clay-3d p-5 bg-gradient-to-br from-blue-50 to-blue-100/50 border-b-8 border-blue-400">
-            <span class="text-[10px] font-bold text-blue-600 uppercase tracking-wider block">PROGRES B. INGGRIS</span>
-            <div class="flex items-baseline gap-2 mt-2">
-                <span class="font-kids text-4xl text-blue-700">90%</span>
-            </div>
-            <div class="mt-3 text-[11px] text-blue-700 bg-blue-200/50 py-1 px-2.5 rounded-lg inline-block font-medium">🏁 Modul Hampir Selesai</div>
-        </div>
-    </div>
+    {% else %}
+        <p class="text-slate-400 text-xs">Belum ada materi. Yuk tambahkan lewat menu Kelola Materi.</p>
+    {% endif %}
+</div>
+        {% endblock %}
+    </main>
 </div>
 {% endblock %}

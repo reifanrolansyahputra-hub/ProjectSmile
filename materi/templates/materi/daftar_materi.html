@@ -1,0 +1,116 @@
+{% extends 'portal/dashboardmurid.html' %}
+{% load static %}
+
+{% block sub_content %}
+<div class="max-w-6xl mx-auto space-y-6 text-sm">
+
+    <!-- Header Halaman -->
+    <div class="panel-clay-3d p-6 bg-gradient-to-r from-emerald-500 to-teal-500 text-white border-b-[8px] border-emerald-700">
+        <span class="bg-yellow-400 text-slate-900 font-kids text-[10px] px-3 py-1 rounded-full uppercase tracking-wider shadow">DAFTAR MATERI</span>
+        <h1 class="font-kids text-2xl mt-2 mb-1 tracking-wide">
+            {% if mapel_aktif %}
+                Materi {{ mapel_aktif }} 📚
+            {% else %}
+                Semua Materi Pelajaran 📚
+            {% endif %}
+        </h1>
+        <p class="text-emerald-100 text-xs font-medium">Pilih materi di bawah ini, klik untuk lihat atau download filenya ya!</p>
+    </div>
+
+    <!-- FILTER BAR -->
+<form method="GET" class="panel-clay-3d p-4 bg-white border-b-4 border-slate-200 flex flex-wrap items-end gap-4">
+    <div class="flex flex-col gap-1">
+        <label class="text-[10px] font-bold text-slate-500 uppercase tracking-wider">Mata Pelajaran</label>
+        <select name="mapel" onchange="this.form.submit()" class="text-xs font-semibold rounded-xl border-2 border-slate-100 px-3 py-2 focus:outline-none focus:border-emerald-400 bg-gray-50/50">
+            <option value="">Semua Mapel</option>
+            <option value="MTK" {% if mapel_aktif == "MTK" %}selected{% endif %}>Matematika</option>
+            <option value="IPA" {% if mapel_aktif == "IPA" %}selected{% endif %}>IPA</option>
+            <option value="IPS" {% if mapel_aktif == "IPS" %}selected{% endif %}>IPS</option>
+            <option value="BIO" {% if mapel_aktif == "BIO" %}selected{% endif %}>Biologi</option>
+            <option value="FIS" {% if mapel_aktif == "FIS" %}selected{% endif %}>Fisika</option>
+            <option value="KIM" {% if mapel_aktif == "KIM" %}selected{% endif %}>Kimia</option>
+            <option value="ING" {% if mapel_aktif == "ING" %}selected{% endif %}>Bahasa Inggris</option>
+            <option value="IND" {% if mapel_aktif == "IND" %}selected{% endif %}>Bahasa Indonesia</option>
+        </select>
+    </div>
+<div class="flex flex-col gap-1">
+    <label class="text-[10px] font-bold text-slate-500 uppercase tracking-wider">Kelas</label>
+    <select name="kelas" onchange="this.form.submit()" class="text-xs font-semibold rounded-xl border-2 border-slate-100 px-3 py-2 focus:outline-none focus:border-emerald-400 bg-gray-50/50">
+        <option value="">Semua Kelas</option>
+        {% for i in "123456" %}
+            <option value="{{ i }}" {% if kelas_aktif == i %}selected{% endif %}>Kelas {{ i }}</option>
+        {% endfor %}
+    </select>
+</div>
+    <div class="flex flex-col gap-1">
+        <label class="text-[10px] font-bold text-slate-500 uppercase tracking-wider">Guru</label>
+        <select name="guru" onchange="this.form.submit()" class="text-xs font-semibold rounded-xl border-2 border-slate-100 px-3 py-2 focus:outline-none focus:border-emerald-400 bg-gray-50/50">
+            <option value="">Semua Guru</option>
+            {% for g in guru_list %}
+                <option value="{{ g }}" {% if guru_aktif == g %}selected{% endif %}>{{ g }}</option>
+            {% endfor %}
+        </select>
+    </div>
+
+    <noscript>
+        <button type="submit" class="portal-btn-3d bg-emerald-500 text-white font-kids text-xs px-5 py-2.5 rounded-xl shadow-[0_4px_0_#047857]">
+            🔍 Filter
+        </button>
+    </noscript>
+
+    {% if mapel_aktif or guru_aktif %}
+        <a href="{% url 'daftar_materi' %}" class="text-[11px] font-bold text-rose-500 hover:underline mb-1">✕ Reset filter</a>
+    {% endif %}
+</form>
+        <div class="flex flex-col gap-1">
+            <label class="text-[10px] font-bold text-slate-500 uppercase tracking-wider">Guru</label>
+            <select name="guru" class="text-xs font-semibold rounded-xl border-2 border-slate-100 px-3 py-2 focus:outline-none focus:border-emerald-400 bg-gray-50/50">
+                <option value="">Semua Guru</option>
+                {% for g in guru_list %}
+                    <option value="{{ g }}" {% if guru_aktif == g %}selected{% endif %}>{{ g }}</option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <button type="submit" class="portal-btn-3d bg-emerald-500 text-white font-kids text-xs px-5 py-2.5 rounded-xl shadow-[0_4px_0_#047857]">
+            🔍 Filter
+        </button>
+
+        {% if mapel_aktif or guru_aktif %}
+            <a href="{% url 'daftar_materi' %}" class="text-[11px] font-bold text-rose-500 hover:underline mb-1">✕ Reset filter</a>
+        {% endif %}
+    </form>
+
+    <!-- LIST MATERI -->
+    {% if materis %}
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+            {% for m in materis %}
+                <div class="panel-clay-3d p-5 bg-white border-b-8 border-emerald-300 flex flex-col justify-between gap-3">
+                    <div>
+                        <div class="flex items-center justify-between mb-2">
+                            <span class="bg-emerald-100 text-emerald-700 text-[10px] font-bold uppercase tracking-wider px-2.5 py-1 rounded-full">{{ m.get_mapel_display }}</span>
+                            <span class="text-[10px] text-slate-400 font-semibold">{{ m.created_at|date:"d M Y" }}</span>
+                        </div>
+                        <h4 class="font-kids text-base text-slate-800 leading-snug">{{ m.judul }}</h4>
+                        <p class="text-slate-500 text-[11px] mt-1.5 leading-relaxed line-clamp-3">{{ m.deskripsi }}</p>
+                        <p class="text-[10px] text-slate-400 font-semibold mt-2">👩‍🏫 {{ m.guru.username }}</p>
+                    </div>
+
+                    {% if m.file %}
+                        <a href="{{ m.file.url }}" target="_blank" class="portal-btn-3d w-full block text-center bg-emerald-500 text-white font-kids text-xs py-2.5 rounded-xl shadow-[0_4px_0_#047857]">
+                            📎 Buka / Download
+                        </a>
+                    {% endif %}
+                </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <div class="panel-clay-3d p-10 bg-white border-b-8 border-slate-200 text-center">
+            <span class="text-4xl">📭</span>
+            <p class="font-kids text-slate-600 mt-3">Belum ada materi buat filter ini nih...</p>
+            <p class="text-slate-400 text-xs mt-1">Coba pilih mata pelajaran lain atau reset filter ya.</p>
+        </div>
+    {% endif %}
+
+</div>
+{% endblock %}
