@@ -1,0 +1,33 @@
+{% extends 'portal/guru_dashboard.html' %}
+{% load static %}
+
+{% block sub_content %}
+<div class="max-w-6xl mx-auto space-y-6 text-sm">
+
+    <!-- Header -->
+    <div class="panel-clay-3d p-6 bg-gradient-to-r from-sky-500 to-indigo-500 text-white border-b-[8px] border-indigo-700">
+        <span class="bg-yellow-400 text-slate-900 font-kids text-[10px] px-3 py-1 rounded-full uppercase tracking-wider shadow">KELAS {{ kelas }}</span>
+        <h1 class="font-kids text-2xl mt-2 mb-1 tracking-wide">Pilih Mata Pelajaran 📚</h1>
+        <p class="text-indigo-100 text-xs font-medium">Klik salah satu mata pelajaran untuk lihat & kelola materinya.</p>
+    </div>
+
+    <a href="{% url 'guru_dashboard' %}" class="inline-block text-xs text-slate-400 hover:text-indigo-600 font-bold transition">
+        ← Kembali ke Dashboard
+    </a>
+
+    <!-- GRID MAPEL -->
+    <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-5">
+        {% for m in mapel_data %}
+            <a href="{% url 'kelola_materi' %}?kelas={{ kelas }}&mapel={{ m.kode }}"
+               class="panel-clay-3d p-5 bg-white border-b-8 border-sky-300 flex flex-col items-center text-center gap-2 hover:border-indigo-400 transition">
+                <span class="text-3xl">{{ m.icon }}</span>
+                <h4 class="font-kids text-sm text-slate-800">{{ m.nama }}</h4>
+                <span class="text-[10px] font-bold text-slate-400 uppercase tracking-wider bg-slate-100 px-2 py-0.5 rounded-full">
+                    {{ m.jumlah }} materi
+                </span>
+            </a>
+        {% endfor %}
+    </div>
+
+</div>
+{% endblock %}

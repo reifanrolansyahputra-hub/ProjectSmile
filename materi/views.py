@@ -11,6 +11,16 @@ def _get_role(user):
         return None
 
 
+MAPEL_LIST = [
+    ("MTK", "Matematika", "📐"),
+    ("IPA", "IPA", "🧬"),
+    ("PKN", "PKN", "🦅"),
+    
+    ("ING", "Bahasa Inggris", "🇬🇧"),
+    ("IND", "Bahasa Indonesia", "🇮🇩"),
+]
+
+
 # ===========================
 # VIEW UNTUK GURU
 # ===========================
@@ -23,9 +33,7 @@ def kelola_materi(request):
     mapel = request.GET.get("mapel")
     kelas = request.GET.get("kelas")
 
-    materis = Materi.objects.filter(
-        guru=request.user
-    ).order_by("-created_at")
+    materis = Materi.objects.filter(guru=request.user).order_by("-created_at")
 
     if mapel:
         materis = materis.filter(mapel=mapel)
@@ -33,15 +41,34 @@ def kelola_materi(request):
     if kelas:
         materis = materis.filter(kelas=kelas)
 
-    return render(
-        request,
-        "materi/kelola_materi.html",
-        {
-            "materis": materis,
-            "mapel_aktif": mapel,
-            "kelas_aktif": kelas,
-        }
-    )
+    return render(request, "materi/kelola_materi.html", {
+        "materis": materis,
+        "mapel_aktif": mapel,
+        "kelas_aktif": kelas,
+    })
+
+
+@login_required
+def pilih_mapel_kelas(request, kelas):
+    if _get_role(request.user) not in ("admin", "guru"):
+        return redirect("murid_dashboard")
+
+    mapel_data = []
+    for kode, nama, icon in MAPEL_LIST:
+        jumlah = Materi.objects.filter(
+            guru=request.user, kelas=kelas, mapel=kode
+        ).count()
+        mapel_data.append({
+            "kode": kode,
+            "nama": nama,
+            "icon": icon,
+            "jumlah": jumlah,
+        })
+
+    return render(request, "materi/pilih_mapel.html", {
+        "kelas": kelas,
+        "mapel_data": mapel_data,
+    })
 
 
 @login_required
@@ -67,14 +94,9 @@ def edit_materi(request, id):
     if _get_role(request.user) not in ("admin", "guru"):
         return redirect("murid_dashboard")
 
-    materi = get_object_or_404(
-        Materi,
-        id=id,
-        guru=request.user
-    )
+    materi = get_object_or_404(Materi, id=id, guru=request.user)
 
     if request.method == "POST":
-
         materi.judul = request.POST.get("judul")
         materi.mapel = request.POST.get("mapel")
         materi.kelas = request.POST.get("kelas")
@@ -84,21 +106,14 @@ def edit_materi(request, id):
             materi.file = request.FILES.get("file")
 
         materi.save()
-
         return redirect("kelola_materi")
 
-    materis = Materi.objects.filter(
-        guru=request.user
-    ).order_by("-created_at")
+    materis = Materi.objects.filter(guru=request.user).order_by("-created_at")
 
-    return render(
-        request,
-        "materi/kelola_materi.html",
-        {
-            "materis": materis,
-            "edit_data": materi
-        }
-    )
+    return render(request, "materi/kelola_materi.html", {
+        "materis": materis,
+        "edit_data": materi
+    })
 
 
 @login_required
@@ -106,14 +121,8 @@ def hapus_materi(request, id):
     if _get_role(request.user) not in ("admin", "guru"):
         return redirect("murid_dashboard")
 
-    materi = get_object_or_404(
-        Materi,
-        id=id,
-        guru=request.user
-    )
-
+    materi = get_object_or_404(Materi, id=id, guru=request.user)
     materi.delete()
-
     return redirect("kelola_materi")
 
 
@@ -134,27 +143,17 @@ def daftar_materi(request):
 
     if mapel:
         materis = materis.filter(mapel=mapel)
-
     if guru:
         materis = materis.filter(guru__username=guru)
-
     if kelas:
         materis = materis.filter(kelas=kelas)
 
-    guru_list = (
-        Materi.objects
-        .values_list("guru__username", flat=True)
-        .distinct()
-    )
+    guru_list = Materi.objects.values_list("guru__username", flat=True).distinct()
 
-    return render(
-        request,
-        "materi/daftar_materi.html",
-        {
-            "materis": materis,
-            "guru_list": guru_list,
-            "mapel_aktif": mapel,
-            "guru_aktif": guru,
-            "kelas_aktif": kelas,
-        }
-    )
+    return render(request, "materi/daftar_materi.html", {
+        "materis": materis,
+        "guru_list": guru_list,
+        "mapel_aktif": mapel,
+        "guru_aktif": guru,
+        "kelas_aktif": kelas,
+    })

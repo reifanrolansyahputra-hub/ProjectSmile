@@ -100,6 +100,47 @@
 
     <!-- DAFTAR MATERI GURU -->
     <div class="space-y-3">
+        <!-- FILTER BAR -->
+<form method="GET" class="panel-clay-3d p-4 bg-white border-b-4 border-slate-200 flex flex-wrap items-end gap-4">
+    <div class="flex flex-col gap-1">
+        <label class="text-[10px] font-bold text-slate-500 uppercase tracking-wider">Mata Pelajaran</label>
+        <select name="mapel" onchange="this.form.submit()" class="text-xs font-semibold rounded-xl border-2 border-slate-100 px-3 py-2 focus:outline-none focus:border-sky-400 bg-gray-50/50">
+            <option value="">Semua Mapel</option>
+            <option value="MTK" {% if mapel_aktif == "MTK" %}selected{% endif %}>Matematika</option>
+            <option value="IPA" {% if mapel_aktif == "IPA" %}selected{% endif %}>IPA</option>
+            <option value="IPS" {% if mapel_aktif == "IPS" %}selected{% endif %}>IPS</option>
+            <option value="BIO" {% if mapel_aktif == "BIO" %}selected{% endif %}>Biologi</option>
+            <option value="FIS" {% if mapel_aktif == "FIS" %}selected{% endif %}>Fisika</option>
+            <option value="KIM" {% if mapel_aktif == "KIM" %}selected{% endif %}>Kimia</option>
+            <option value="ING" {% if mapel_aktif == "ING" %}selected{% endif %}>Bahasa Inggris</option>
+            <option value="IND" {% if mapel_aktif == "IND" %}selected{% endif %}>Bahasa Indonesia</option>
+        </select>
+    </div>
+
+    <div class="flex flex-col gap-1">
+        <label class="text-[10px] font-bold text-slate-500 uppercase tracking-wider">Kelas</label>
+        <select name="kelas" onchange="this.form.submit()" class="text-xs font-semibold rounded-xl border-2 border-slate-100 px-3 py-2 focus:outline-none focus:border-sky-400 bg-gray-50/50">
+            <option value="">Semua Kelas</option>
+            {% for i in "123456" %}
+                <option value="{{ i }}" {% if kelas_aktif == i %}selected{% endif %}>Kelas {{ i }}</option>
+            {% endfor %}
+        </select>
+    </div>
+
+    <noscript>
+        <button type="submit" class="portal-btn-3d bg-sky-500 text-white font-kids text-xs px-5 py-2.5 rounded-xl shadow-[0_4px_0_#075985]">
+            🔍 Filter
+        </button>
+    </noscript>
+{% if kelas_aktif %}
+    <a href="{% url 'pilih_mapel_kelas' kelas=kelas_aktif %}" class="text-[11px] font-bold text-slate-400 hover:text-indigo-600">
+        ← Kembali ke Kelas {{ kelas_aktif }}
+    </a>
+{% endif %}
+    {% if mapel_aktif or kelas_aktif %}
+        <a href="{% url 'kelola_materi' %}" class="text-[11px] font-bold text-rose-500 hover:underline mb-1">✕ Reset filter</a>
+    {% endif %}
+</form>
         <h3 class="font-kids text-lg text-slate-700">📋 Daftar Materi Kamu</h3>
 
         {% if materis %}
