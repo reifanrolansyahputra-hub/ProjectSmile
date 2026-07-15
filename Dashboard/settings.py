@@ -133,6 +133,7 @@ MEDIA_ROOT = BASE_DIR / "media"
 # PENTING: string ini HARUS SAMA PERSIS dengan SSO_SHARED_SECRET di backend Node.js.
 # Untuk produksi nanti, pindahkan ke environment variable, jangan hardcode di sini.
 SSO_SHARED_SECRET = "da727c59842dece4ac522aad50de334f0dca8e65de8a3c89a27cdf060d64801b"
-
+GAME_SSO_SHARED_SECRET = "d3458c7d3ecfdce522fc61f4f819384d4fac5de192eee8a0dcd00d13acb4330c"
 # Alamat server quiz Node.js
 QUIZ_APP_URL = "http://localhost:3000"
+GAME_APP_URL = "http://127.0.0.1:5500/Quiz/UI_gamelivepuzle.html"

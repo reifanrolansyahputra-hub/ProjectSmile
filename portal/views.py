@@ -6,7 +6,12 @@ from django.conf import settings
 from .models import Project
 from materi.models import Materi
 from accounts.models import Profile
-
+# Pemetaan role Django -> role yang dikenal Quiz GAME (Live Puzzle Game)
+GAME_ROLE_MAP = {
+    "admin": "guru",
+    "guru": "guru",
+    "murid": "murid",
+}
 # Pemetaan role Django -> role yang dikenal quiz (quiz cuma punya 'guru' & 'murid')
 QUIZ_ROLE_MAP = {
     "admin": "guru",
@@ -75,3 +80,31 @@ def buka_quiz(request):
     token = jwt.encode(payload, settings.SSO_SHARED_SECRET, algorithm="HS256")
 
     return redirect(f"{settings.QUIZ_APP_URL}/?ssoToken={token}")
+
+@login_required
+def buka_quiz_game(request):
+    """
+    SSO ke Quiz GAME (Live Puzzle Game) — project TERPISAH dari Quiz
+    Pelajaran di atas: game berbasis HTML/JS statis + backend Flask
+    (server.py), bukan Node.js. Token singkat (60 detik) dikirim lewat
+    query string ?ssoToken=..., lalu diverifikasi oleh server.py.
+    """
+    try:
+        profile = Profile.objects.get(user=request.user)
+        role_django = profile.role
+    except Profile.DoesNotExist:
+        role_django = "murid"
+
+    role_game = GAME_ROLE_MAP.get(role_django, "murid")
+
+    payload = {
+        "username": request.user.username,
+        "fname": request.user.first_name or request.user.username,
+        "lname": request.user.last_name or "-",
+        "role": role_game,
+        "sso": True,
+        "exp": int(time.time()) + 60,
+    }
+    token = jwt.encode(payload, settings.GAME_SSO_SHARED_SECRET, algorithm="HS256")
+
+    return redirect(f"{settings.GAME_APP_URL}?ssoToken={token}")
