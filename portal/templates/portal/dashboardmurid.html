@@ -17,42 +17,69 @@
 {% block content %}
 <div class="split-dashboard min-h-screen flex flex-col md:flex-row">
 
-   <aside class="w-full md:w-72 flex flex-col justify-between gap-6 z-10" style="background:#0e7490;">
+   <aside class="w-full md:w-72 flex flex-col justify-between gap-6 z-10 bg-white border-r border-slate-200">
     <div>
         <!-- LOGO SMILE -->
         <div class="flex items-center gap-3 px-6 py-6">
-            <div class="w-11 h-11 bg-white rounded-full flex items-center justify-center shadow">
+            <div class="w-11 h-11 bg-slate-50 rounded-full flex items-center justify-center shadow-sm border border-slate-100">
                 <span class="text-xl">😊</span>
             </div>
             <div class="leading-tight">
-                <h2 class="font-kids text-xl text-white tracking-wide">SMILE</h2>
-                <span class="text-[9px] text-cyan-100 font-semibold tracking-wide block">SMart Interactive LEarning</span>
+                <h2 class="font-kids text-xl text-slate-800 tracking-wide">SMILE</h2>
+                <span class="text-[9px] text-slate-400 font-semibold tracking-wide block">Smart Interactive Learning with Gesture Recognition</span>
             </div>
         </div>
 
-        <div class="border-t border-white/10"></div>
+        <div class="border-t border-slate-100"></div>
 
         <nav class="mt-4">
-            <a href="{% url 'murid_dashboard' %}" class="flex items-center gap-3 px-6 py-3 text-white bg-white/15 border-l-4 border-white font-semibold text-sm">
-                <span class="text-lg">🎛️</span> <span>Dashboard</span>
-            </a>
-            <a href="{% url 'daftar_materi' %}" class="flex items-center gap-3 px-6 py-3 text-cyan-50 hover:bg-white/10 border-l-4 border-transparent font-semibold text-sm transition">
-                <span class="text-lg">📚</span> <span>Materi Belajar</span>
-            </a>
-            <a href="{% url 'buka_quiz' %}" target="_blank" class="flex items-center gap-3 px-6 py-3 text-cyan-50 hover:bg-white/10 border-l-4 border-transparent font-semibold text-sm transition">
-                <span class="text-lg">📝</span> <span>SMILE Quiz</span>
-            </a>
-            <a href="{% url 'buka_quiz_game' %}" target="_blank" class="flex items-center gap-3 px-6 py-3 text-cyan-50 hover:bg-white/10 border-l-4 border-transparent font-semibold text-sm transition">
-                <span class="text-lg">🎮</span> <span>SMILE Puzzle Game</span>
-            </a>
-        </nav>
+    <a href="{% url 'murid_dashboard' %}"
+        class="flex items-center gap-3 px-6 py-3 font-semibold text-sm border-l-4 transition
+        {% if request.resolver_match.url_name == 'murid_dashboard' %}
+            text-slate-800 bg-slate-50 border-cyan-600
+        {% else %}
+            text-slate-500 hover:bg-slate-50 border-transparent
+        {% endif %}">
+        <span class="text-lg">🎛️</span> <span>Dashboard</span>
+    </a>
+
+    <a href="{% url 'daftar_materi' %}"
+        class="flex items-center gap-3 px-6 py-3 font-semibold text-sm border-l-4 transition
+        {% if request.resolver_match.url_name == 'daftar_materi' %}
+            text-slate-800 bg-slate-50 border-cyan-600
+        {% else %}
+            text-slate-500 hover:bg-slate-50 border-transparent
+        {% endif %}">
+        <span class="text-lg">📚</span> <span>Materi Belajar</span>
+    </a>
+
+    <a href="{% url 'buka_quiz' %}" target="_blank"
+        class="flex items-center gap-3 px-6 py-3 font-semibold text-sm border-l-4 transition
+        {% if request.resolver_match.url_name == 'buka_quiz' %}
+            text-slate-800 bg-slate-50 border-cyan-600
+        {% else %}
+            text-slate-500 hover:bg-slate-50 border-transparent
+        {% endif %}">
+        <span class="text-lg">📝</span> <span>SMILE Quiz</span>
+    </a>
+
+    <a href="{% url 'buka_quiz_game' %}" target="_blank"
+        class="flex items-center gap-3 px-6 py-3 font-semibold text-sm border-l-4 transition
+        {% if request.resolver_match.url_name == 'buka_quiz_game' %}
+            text-slate-800 bg-slate-50 border-cyan-600
+        {% else %}
+            text-slate-500 hover:bg-slate-50 border-transparent
+        {% endif %}">
+        <span class="text-lg">🎮</span> <span>SMILE Puzzle Game</span>
+    </a>
+</nav>
     </div>
 
     <div class="px-6 pb-6">
-        <div class="border-t border-white/10 pt-4 text-center">
-            <span class="text-[9px] text-cyan-100 uppercase tracking-wider block mb-1">Login Sebagai</span>
-            <div class="font-kids text-sm text-white mb-3">{{ request.user.username }}</div>
-            <a href="{% url 'logout' %}" class="w-full block text-center bg-white/15 text-white font-semibold py-2 rounded-lg text-xs hover:bg-white/25 transition">Keluar</a>
+        <div class="border-t border-slate-100 pt-4 text-center">
+            <span class="text-[9px] text-slate-400 uppercase tracking-wider block mb-1">Login Sebagai</span>
+            <div class="font-kids text-sm text-slate-700 mb-3">{{ request.user.username }}</div>
+            <a href="{% url 'logout' %}" class="w-full block text-center bg-slate-100 text-slate-600 font-semibold py-2 rounded-lg text-xs hover:bg-slate-200 transition">Keluar</a>
         </div>
     </div>
 </aside>
@@ -61,7 +88,14 @@
         {% block sub_content %}
         <div class="max-w-6xl mx-auto space-y-6 text-sm">
 
-            <!-- Top Bar Ringkas Info Murid -->
+            <!-- Banner Mulai Petualangan (dipindah ke atas) -->
+            <div class="panel-clay-3d p-5 bg-gradient-to-r from-blue-600 to-indigo-600 text-white border-b-4 border-indigo-800 rounded-2xl">
+                <span class="bg-yellow-400 text-slate-900 font-kids text-[9px] px-2.5 py-0.5 rounded-full uppercase tracking-wider font-bold">ZONA BELAJAR</span>
+                <h2 class="font-kids text-xl mt-1.5 mb-1">Smart Interactive Learning with Gesture Recognition! ✨</h2>
+                <p class="text-indigo-100 text-xs">Pilih materi seru di bawah ini untuk mengumpulkan poin bintang rahasia hasil sinkronisasi modul pembelajaran!</p>
+            </div>
+
+            <!-- Top Bar Ringkas Info Murid (dipindah ke bawah) -->
             <div class="flex flex-col sm:flex-row items-center justify-between bg-white border-2 border-slate-200 p-4 rounded-2xl shadow-sm gap-4">
                 <div class="flex items-center space-x-3">
                     <div class="w-10 h-10 bg-emerald-400 rounded-xl flex items-center justify-center font-kids text-lg text-white shadow-inner">👶</div>
@@ -86,13 +120,6 @@
                         </div>
                     </div>
                 </div>
-            </div>
-
-            <!-- Banner Mulai Petualangan -->
-            <div class="panel-clay-3d p-5 bg-gradient-to-r from-blue-600 to-indigo-600 text-white border-b-4 border-indigo-800 rounded-2xl">
-                <span class="bg-yellow-400 text-slate-900 font-kids text-[9px] px-2.5 py-0.5 rounded-full uppercase tracking-wider font-bold">ZONA BELAJAR</span>
-                <h2 class="font-kids text-xl mt-1.5 mb-1">Mulai Petualangan Belajar! ✨</h2>
-                <p class="text-indigo-100 text-xs">Pilih materi seru di bawah ini untuk mengumpulkan poin bintang rahasia hasil sinkronisasi modul pembelajaran!</p>
             </div>
 
             <!-- Pilih Mata Pelajaran -->
