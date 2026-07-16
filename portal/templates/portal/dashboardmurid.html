@@ -20,13 +20,13 @@
    <aside class="w-full md:w-72 flex flex-col justify-between gap-6 z-10 bg-white border-r border-slate-200">
     <div>
         <!-- LOGO SMILE -->
-        <div class="flex items-center gap-3 px-6 py-6">
+        <div class="flex items-center gap-3 px-6 py-4 bg-gradient-to-r from-blue-400 to-indigo-600 p-6">
             <div class="w-11 h-11 bg-slate-50 rounded-full flex items-center justify-center shadow-sm border border-slate-100">
                 <span class="text-xl">😊</span>
             </div>
             <div class="leading-tight">
-                <h2 class="font-kids text-xl text-slate-800 tracking-wide">SMILE</h2>
-                <span class="text-[9px] text-slate-400 font-semibold tracking-wide block">Smart Interactive Learning with Gesture Recognition</span>
+                <h2 class="font-kids text-xl text-white tracking-wide">SMILE</h2>
+                <span class="text-[9px] text-white font-semibold tracking-wide block">Smart Interactive Learning with Gesture Recognition</span>
             </div>
         </div>
 
@@ -76,7 +76,7 @@
     </div>
 
     <div class="px-6 pb-6">
-        <div class="border-t border-slate-100 pt-4 text-center">
+        <div class="border-t border-slate-100 pt-4 text-center ">
             <span class="text-[9px] text-slate-400 uppercase tracking-wider block mb-1">Login Sebagai</span>
             <div class="font-kids text-sm text-slate-700 mb-3">{{ request.user.username }}</div>
             <a href="{% url 'logout' %}" class="w-full block text-center bg-slate-100 text-slate-600 font-semibold py-2 rounded-lg text-xs hover:bg-slate-200 transition">Keluar</a>
@@ -89,11 +89,24 @@
         <div class="max-w-6xl mx-auto space-y-6 text-sm">
 
             <!-- Banner Mulai Petualangan (dipindah ke atas) -->
-            <div class="panel-clay-3d p-5 bg-gradient-to-r from-blue-600 to-indigo-600 text-white border-b-4 border-indigo-800 rounded-2xl">
+        
+        <div class="panel-clay-3d p-2 bg-gradient-to-r from-blue-600 to-indigo-600 text-white border-b-4 border-indigo-800 rounded-2xl">
+            <div class="flex items-center justify-center gap-3 py-2">
+                <div class="w-11 h-11 bg-slate-50 rounded-full flex items-center justify-center shadow-sm border border-slate-100">
+                    <span class="text-xl">😊</span>
+                </div>
+                <div class="leading-tight">
+                    <h2 class="font-kids text-xl text-white tracking-wide">SMILE</h2>
+                </div>
+            </div>
+            <div class="leading-tight">
                 <span class="bg-yellow-400 text-slate-900 font-kids text-[9px] px-2.5 py-0.5 rounded-full uppercase tracking-wider font-bold">ZONA BELAJAR</span>
                 <h2 class="font-kids text-xl mt-1.5 mb-1">Smart Interactive Learning with Gesture Recognition! ✨</h2>
                 <p class="text-indigo-100 text-xs">Pilih materi seru di bawah ini untuk mengumpulkan poin bintang rahasia hasil sinkronisasi modul pembelajaran!</p>
             </div>
+        </div>
+        
+            
 
             <!-- Top Bar Ringkas Info Murid (dipindah ke bawah) -->
             <div class="flex flex-col sm:flex-row items-center justify-between bg-white border-2 border-slate-200 p-4 rounded-2xl shadow-sm gap-4">
@@ -104,21 +117,6 @@
                         <span class="text-xs text-slate-400 font-bold">Siswa</span>
                     </div>
                 </div>
-
-                <!-- Papan Skor Bintang -->
-                <div class="flex items-center space-x-4 bg-amber-50 border border-amber-200 px-4 py-2 rounded-xl">
-                    <div class="flex items-center space-x-1.5">
-                        <span class="text-xl">⭐</span>
-                        <span class="font-kids text-lg text-amber-700">120</span>
-                        <span class="text-[10px] text-amber-600 font-bold uppercase tracking-wider">Poin Bintang</span>
-                    </div>
-                    <div class="h-6 w-[1px] bg-amber-200"></div>
-                    <div class="text-[10px] text-slate-500">
-                        <div class="font-bold text-slate-600">Level 4</div>
-                        <div class="w-20 bg-slate-200 h-1.5 rounded-full mt-0.5 overflow-hidden">
-                            <div class="bg-amber-400 h-full w-[70%] rounded-full"></div>
-                        </div>
-                    </div>
                 </div>
             </div>
 
