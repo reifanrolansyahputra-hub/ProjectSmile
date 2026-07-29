@@ -5,7 +5,7 @@
 <div class="max-w-6xl mx-auto space-y-8 text-sm">
 
     <!-- Header -->
-    <div class="panel-clay-3d p-6 bg-gradient-to-r from-sky-500 to-indigo-500 text-white border-b-[8px] border-indigo-700">
+    <div class="panel-clay-3d p-2 bg-gradient-to-r from-purple-600 to-pink-500 text-white border-b-4 border-purple-800 rounded-2xl">
         <span class="bg-yellow-400 text-slate-900 font-kids text-[10px] px-3 py-1 rounded-full uppercase tracking-wider shadow">PORTAL GURU</span>
         <h1 class="font-kids text-2xl mt-2 mb-1 tracking-wide">📚 Kelola Materi</h1>
         <p class="text-indigo-100 text-xs font-medium">Tambah, edit, dan hapus materi pembelajaran kamu di sini.</p>
@@ -81,14 +81,14 @@
                     type="file"
                     name="file"
                     {% if not edit_data %}required{% endif %}
-                    class="w-full text-xs font-medium text-gray-600 file:mr-4 file:py-2.5 file:px-4 file:rounded-xl file:border-0 file:font-kids file:text-xs file:bg-sky-500 file:text-white hover:file:bg-sky-600 file:cursor-pointer">
+                    class="w-full text-xs font-medium text-gray-600 file:mr-4 file:py-2.5 file:px-4 file:rounded-xl file:border-0 file:font-kids file:text-xs file:bg-purple-800 file:text-white hover:file:bg-sky-600 file:cursor-pointer">
                 {% if edit_data.file %}
                     <p class="text-[10px] text-slate-400 mt-1.5">📎 File saat ini: {{ edit_data.file.name }}</p>
                 {% endif %}
             </div>
 
             <div class="flex items-center gap-3 pt-2">
-                <button type="submit" class="portal-btn-3d bg-sky-500 text-white font-kids text-sm px-6 py-3 rounded-2xl shadow-[0_5px_0_#075985]">
+                <button type="submit" class="panel-clay-3d p-2 bg-gradient-to-r from-purple-600 to-pink-500 text-white border-b-4 border-purple-800 rounded-2xl">
                     {% if edit_data %}✏ Update Materi{% else %}💾 Simpan Materi{% endif %}
                 </button>
                 {% if edit_data %}
