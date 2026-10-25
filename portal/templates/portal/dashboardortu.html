@@ -1,0 +1,188 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block extra_css %}
+<script src="https://cdn.tailwindcss.com"></script>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Poppins:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+    .split-dashboard { font-family: 'Poppins', sans-serif; background-color: #f4f5f7; }
+    .font-kids { font-family: 'Fredoka One', cursive; }
+    .panel-clay-3d { background: #ffffff; border-radius: 20px; box-shadow: 0 1px 3px rgba(0,0,0,0.06); border: 1px solid #e5e7eb; }
+    .portal-btn-3d { transition: all 0.15s ease; }
+    .portal-btn-3d:active { transform: scale(0.98); }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="split-dashboard min-h-screen flex flex-col md:flex-row">
+
+    <aside class="w-full md:w-72 flex flex-col justify-between gap-6 z-10 bg-white border-r border-slate-200">
+        <div>
+            <!-- LOGO SMILE -->
+            <div class="flex items-center gap-3 px-6 py-4 bg-gradient-to-r from-teal-400 to-emerald-600 p-6">
+                <div class="w-11 h-11 bg-slate-50 rounded-full flex items-center justify-center shadow-sm border border-slate-100">
+                    <span class="text-xl">😊</span>
+                </div>
+                <div class="leading-tight">
+                    <h2 class="font-kids text-xl text-white tracking-wide">SMILE</h2>
+                    <span class="text-[9px] text-white font-semibold tracking-wide block">Portal Orang Tua</span>
+                </div>
+            </div>
+
+            <div class="border-t border-slate-100"></div>
+
+            {% if daftar_anak|length > 1 %}
+            <div class="px-6 py-4 border-b border-slate-100">
+                <label class="text-[9px] font-bold text-slate-400 uppercase tracking-wider block mb-1.5">Lihat Data Anak</label>
+                <div class="flex flex-wrap gap-1.5">
+                    {% for anak in daftar_anak %}
+                        <a href="?anak={{ anak.id }}"
+                           class="text-[11px] font-bold px-2.5 py-1.5 rounded-lg border-2 transition
+                           {% if siswa_aktif.id == anak.id %}bg-emerald-500 border-emerald-500 text-white{% else %}bg-white border-slate-200 text-slate-500 hover:border-emerald-300{% endif %}">
+                            {{ anak.nama_lengkap }}
+                        </a>
+                    {% endfor %}
+                </div>
+            </div>
+            {% endif %}
+
+            <nav class="mt-4">
+                <a href="{% url 'orangtua_dashboard' %}"
+                    class="flex items-center gap-3 px-6 py-3 font-semibold text-sm border-l-4 transition
+                    {% if request.resolver_match.url_name == 'orangtua_dashboard' %}
+                        text-slate-800 bg-slate-50 border-emerald-600
+                    {% else %}
+                        text-slate-500 hover:bg-slate-50 border-transparent
+                    {% endif %}">
+                    <span class="text-lg">🎛️</span> <span>Dashboard</span>
+                </a>
+
+                <a href="{% url 'absensi_anak' %}{% if siswa_aktif %}?anak={{ siswa_aktif.id }}{% endif %}"
+                    class="flex items-center gap-3 px-6 py-3 font-semibold text-sm border-l-4 transition
+                    {% if request.resolver_match.url_name == 'absensi_anak' %}
+                        text-slate-800 bg-slate-50 border-emerald-600
+                    {% else %}
+                        text-slate-500 hover:bg-slate-50 border-transparent
+                    {% endif %}">
+                    <span class="text-lg">🗓️</span> <span>Absensi Anak</span>
+                </a>
+
+                <a href="{% url 'nilai_anak' %}{% if siswa_aktif %}?anak={{ siswa_aktif.id }}{% endif %}"
+                    class="flex items-center gap-3 px-6 py-3 font-semibold text-sm border-l-4 transition
+                    {% if request.resolver_match.url_name == 'nilai_anak' %}
+                        text-slate-800 bg-slate-50 border-emerald-600
+                    {% else %}
+                        text-slate-500 hover:bg-slate-50 border-transparent
+                    {% endif %}">
+                    <span class="text-lg">📝</span> <span>Nilai Tugas</span>
+                </a>
+
+                <a href="{% url 'ranking_anak' %}{% if siswa_aktif %}?anak={{ siswa_aktif.id }}{% endif %}"
+                    class="flex items-center gap-3 px-6 py-3 font-semibold text-sm border-l-4 transition
+                    {% if request.resolver_match.url_name == 'ranking_anak' %}
+                        text-slate-800 bg-slate-50 border-emerald-600
+                    {% else %}
+                        text-slate-500 hover:bg-slate-50 border-transparent
+                    {% endif %}">
+                    <span class="text-lg">🏆</span> <span>Ranking</span>
+                </a>
+
+                <a href="{% url 'pembayaran_anak' %}{% if siswa_aktif %}?anak={{ siswa_aktif.id }}{% endif %}"
+                    class="flex items-center gap-3 px-6 py-3 font-semibold text-sm border-l-4 transition
+                    {% if request.resolver_match.url_name == 'pembayaran_anak' %}
+                        text-slate-800 bg-slate-50 border-emerald-600
+                    {% else %}
+                        text-slate-500 hover:bg-slate-50 border-transparent
+                    {% endif %}">
+                    <span class="text-lg">💳</span> <span>Pembayaran SPP</span>
+                </a>
+            </nav>
+        </div>
+
+        <div class="px-6 pb-6">
+            <div class="border-t border-slate-100 pt-4 text-center">
+                <span class="text-[9px] text-slate-400 uppercase tracking-wider block mb-1">Login Sebagai</span>
+                <div class="font-kids text-sm text-slate-700 mb-3">{{ request.user.username }}</div>
+                <a href="{% url 'logout' %}" class="w-full block text-center bg-slate-100 text-slate-600 font-semibold py-2 rounded-lg text-xs hover:bg-slate-200 transition">Keluar</a>
+            </div>
+        </div>
+    </aside>
+
+    <main class="flex-1 p-6 md:p-8 space-y-8 overflow-y-auto max-h-screen">
+        {% block sub_content %}
+        <div class="max-w-6xl mx-auto space-y-6 text-sm">
+
+            <div class="panel-clay-3d p-2 bg-gradient-to-r from-teal-600 to-emerald-600 text-white border-b-4 border-emerald-800 rounded-2xl">
+                <div class="flex items-center justify-center gap-3 py-2">
+                    <div class="w-11 h-11 bg-slate-50 rounded-full flex items-center justify-center shadow-sm border border-slate-100">
+                        <span class="text-xl">😊</span>
+                    </div>
+                    <div class="leading-tight">
+                        <h2 class="font-kids text-xl text-white tracking-wide">SMILE</h2>
+                    </div>
+                </div>
+                <div class="leading-tight">
+                    <span class="bg-yellow-400 text-slate-900 font-kids text-[9px] px-2.5 py-0.5 rounded-full uppercase tracking-wider font-bold">PORTAL ORANG TUA</span>
+                    <h2 class="font-kids text-xl mt-1.5 mb-1">Halo, {{ request.user.first_name|default:request.user.username }}! 👋</h2>
+                    <p class="text-emerald-100 text-xs">Pantau kehadiran, nilai, ranking, dan pembayaran SPP putra/putri Anda di sini.</p>
+                </div>
+            </div>
+
+            {% if not orangtua %}
+                <div class="panel-clay-3d p-10 bg-white border-b-8 border-slate-200 text-center">
+                    <span class="text-4xl">⚠️</span>
+                    <p class="font-kids text-slate-600 mt-3">Akun orang tua kamu belum ditautkan ke data lengkap.</p>
+                    <p class="text-slate-400 text-xs mt-1">Hubungi admin sekolah untuk melengkapi data akun ini.</p>
+                </div>
+            {% elif not daftar_anak %}
+                <div class="panel-clay-3d p-10 bg-white border-b-8 border-slate-200 text-center">
+                    <span class="text-4xl">👶</span>
+                    <p class="font-kids text-slate-600 mt-3">Belum ada anak yang ditautkan ke akun ini.</p>
+                    <p class="text-slate-400 text-xs mt-1">Hubungi admin sekolah untuk menautkan data anak Anda.</p>
+                </div>
+            {% else %}
+                <div class="flex flex-col sm:flex-row items-center justify-between bg-white border-2 border-slate-200 p-4 rounded-2xl shadow-sm gap-4">
+                    <div class="flex items-center space-x-3">
+                        <div class="w-10 h-10 bg-teal-400 rounded-xl flex items-center justify-center font-kids text-lg text-white shadow-inner">👶</div>
+                        <div>
+                            <h4 class="font-kids text-slate-800 leading-tight">{{ siswa_aktif.nama_lengkap }}</h4>
+                            <span class="text-xs text-slate-400 font-bold">
+                                {% if siswa_aktif.kelas %}Kelas {{ siswa_aktif.kelas.nama }}{% else %}Kelas belum diatur{% endif %}
+                                {% if siswa_aktif.nisn %} &middot; NISN {{ siswa_aktif.nisn }}{% endif %}
+                            </span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="space-y-3">
+                    <h3 class="font-kids text-base text-slate-700 flex items-center gap-1.5">📋 RINGKASAN {{ siswa_aktif.nama_lengkap|upper }}</h3>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                        <a href="{% url 'absensi_anak' %}?anak={{ siswa_aktif.id }}" class="portal-btn-3d flex flex-col gap-2 p-4 bg-white border-2 border-sky-200 hover:border-sky-400 rounded-xl transition">
+                            <span class="text-2xl">🗓️</span>
+                            <h5 class="font-kids text-xs text-slate-800">Absensi</h5>
+                            <p class="text-[10px] text-slate-500 font-medium">Rekap kehadiran harian</p>
+                        </a>
+                        <a href="{% url 'nilai_anak' %}?anak={{ siswa_aktif.id }}" class="portal-btn-3d flex flex-col gap-2 p-4 bg-white border-2 border-violet-200 hover:border-violet-400 rounded-xl transition">
+                            <span class="text-2xl">📝</span>
+                            <h5 class="font-kids text-xs text-slate-800">Nilai Tugas</h5>
+                            <p class="text-[10px] text-slate-500 font-medium">Nilai tiap tugas &amp; mapel</p>
+                        </a>
+                        <a href="{% url 'ranking_anak' %}?anak={{ siswa_aktif.id }}" class="portal-btn-3d flex flex-col gap-2 p-4 bg-white border-2 border-amber-200 hover:border-amber-400 rounded-xl transition">
+                            <span class="text-2xl">🏆</span>
+                            <h5 class="font-kids text-xs text-slate-800">Ranking</h5>
+                            <p class="text-[10px] text-slate-500 font-medium">Ranking kelas &amp; paralel</p>
+                        </a>
+                        <a href="{% url 'pembayaran_anak' %}?anak={{ siswa_aktif.id }}" class="portal-btn-3d flex flex-col gap-2 p-4 bg-white border-2 border-emerald-200 hover:border-emerald-400 rounded-xl transition">
+                            <span class="text-2xl">💳</span>
+                            <h5 class="font-kids text-xs text-slate-800">Pembayaran SPP</h5>
+                            <p class="text-[10px] text-slate-500 font-medium">Status &amp; riwayat bayar SPP</p>
+                        </a>
+                    </div>
+                </div>
+            {% endif %}
+
+        </div>
+        {% endblock %}
+    </main>
+</div>
+{% endblock %}

@@ -158,7 +158,11 @@
                         </div>
 
                         <div class="grid grid-cols-3 gap-2 pt-2">
+                            {% if materi.file %}
                             <a href="{{ materi.file.url }}" target="_blank" class="portal-btn-3d text-center bg-slate-500 text-white font-kids text-[10px] py-2 rounded-lg shadow-[0_3px_0_#334155]">📄 Lihat</a>
+                            {% else %}
+                            <span class="portal-btn-3d text-center bg-slate-200 text-slate-400 font-kids text-[10px] py-2 rounded-lg">Tanpa File</span>
+                            {% endif %}
                             <a href="{% url 'edit_materi' materi.id %}" class="portal-btn-3d text-center bg-amber-500 text-white font-kids text-[10px] py-2 rounded-lg shadow-[0_3px_0_#b45309]">✏ Edit</a>
                             <a href="{% url 'hapus_materi' materi.id %}" onclick="return confirm('Yakin ingin menghapus materi ini?')" class="portal-btn-3d text-center bg-rose-500 text-white font-kids text-[10px] py-2 rounded-lg shadow-[0_3px_0_#9f1239]">🗑 Hapus</a>
                         </div>

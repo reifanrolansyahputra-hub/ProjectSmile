@@ -31,10 +31,13 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    'jazzmin',
     'materi',
     'portal',
     'core',
     'accounts',
+    'akademik',
+    'pembayaran',
     'rest_framework',
     'django.contrib.admin',
     'django.contrib.auth',
@@ -127,6 +130,49 @@ STATICFILES_DIRS = [
 MEDIA_URL = "/media/"
 
 MEDIA_ROOT = BASE_DIR / "media"
+
+
+# ===== Jazzmin (tema admin) =====
+JAZZMIN_SETTINGS = {
+    "site_title": "SMILE Admin",
+    "site_header": "SMILE",
+    "site_brand": "SMILE Admin",
+    "welcome_sign": "Selamat datang di Panel Admin SMILE",
+    "copyright": "Project Smile",
+    "show_sidebar": True,
+    "navigation_expanded": True,
+    "order_with_respect_to": [
+        "akademik.Kelas",
+        "akademik.Siswa",
+        "akademik.OrangTua",
+        "accounts.Profile",
+        "akademik.Absensi",
+        "akademik.Tugas",
+        "akademik.NilaiTugas",
+        "pembayaran",
+        "materi",
+        "portal",
+    ],
+    "icons": {
+        "auth.user": "fas fa-user",
+        "auth.Group": "fas fa-users",
+        "accounts.Profile": "fas fa-id-badge",
+        "akademik.Kelas": "fas fa-chalkboard",
+        "akademik.Siswa": "fas fa-child",
+        "akademik.OrangTua": "fas fa-people-roof",
+        "akademik.Absensi": "fas fa-calendar-check",
+        "akademik.Tugas": "fas fa-pen",
+        "akademik.NilaiTugas": "fas fa-star",
+        "pembayaran.RekeningBank": "fas fa-building-columns",
+        "pembayaran.TagihanSPP": "fas fa-file-invoice",
+        "pembayaran.PembayaranSPP": "fas fa-money-bill",
+        "materi.Materi": "fas fa-book",
+        "portal.Project": "fas fa-rocket",
+    },
+}
+JAZZMIN_UI_TWEAKS = {
+    "theme": "flatly",
+}
 
 
 # ===== Konfigurasi SSO ke Quiz App (Node.js) =====

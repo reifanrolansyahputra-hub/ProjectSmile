@@ -1,0 +1,72 @@
+{% extends base_template %}
+{% load pembayaran_extras %}
+
+{% block sub_content %}
+<div class="max-w-3xl mx-auto space-y-6 text-sm">
+
+    {% if not siswa %}
+        <div class="panel-clay-3d p-10 bg-white border-b-8 border-slate-200 text-center">
+            <span class="text-4xl">⚠️</span>
+            <p class="font-kids text-slate-600 mt-3">
+                {% if tampilan == 'ortu' %}Belum ada data anak yang ditautkan ke akun ini.{% else %}Data siswa kamu belum ditautkan.{% endif %}
+            </p>
+            <p class="text-slate-400 text-xs mt-1">Hubungi admin sekolah untuk melengkapi data ini.</p>
+        </div>
+    {% else %}
+
+    <div class="panel-clay-3d p-5 bg-white border-b-8 border-emerald-200">
+        <h2 class="font-kids text-lg text-slate-800">💳 Pembayaran SPP {{ siswa.nama_lengkap }}</h2>
+        <p class="text-slate-400 text-xs mt-1">{% if siswa.kelas %}Kelas {{ siswa.kelas.nama }}{% endif %} &middot; Dicatat oleh admin sekolah</p>
+    </div>
+
+    {% if rekening_list %}
+    <div class="panel-clay-3d p-5 bg-gradient-to-r from-emerald-500 to-teal-500 text-white border-b-8 border-teal-700">
+        <h3 class="font-kids text-sm mb-3">🏦 Transfer SPP ke Rekening Berikut</h3>
+        <div class="space-y-2">
+            {% for r in rekening_list %}
+            <div class="bg-white/15 rounded-xl px-4 py-2.5">
+                <span class="font-kids text-sm block">{{ r.nama_bank }}</span>
+                <span class="text-xs text-emerald-50">{{ r.nomor_rekening }} a.n. {{ r.atas_nama }}</span>
+            </div>
+            {% endfor %}
+        </div>
+        <p class="text-[10px] text-emerald-100 mt-3">Setelah transfer, hubungi admin sekolah untuk konfirmasi — pembayaran akan dicatat manual oleh admin.</p>
+    </div>
+    {% endif %}
+
+    <div class="space-y-3">
+        <h3 class="font-kids text-base text-slate-700">📋 Riwayat Tagihan</h3>
+        <div class="panel-clay-3d divide-y divide-slate-100 overflow-hidden">
+            {% for t in tagihan_list %}
+            <div class="p-4">
+                <div class="flex items-center justify-between flex-wrap gap-2">
+                    <span class="font-bold text-slate-700 text-xs">{{ t.get_bulan_display }} {{ t.tahun }}</span>
+                    <span class="text-[10px] font-bold px-2.5 py-1 rounded-full
+                        {% if t.status == 'Lunas' %}bg-emerald-100 text-emerald-700
+                        {% elif t.status == 'Dibayar Sebagian' %}bg-amber-100 text-amber-700
+                        {% else %}bg-rose-100 text-rose-700{% endif %}">{{ t.status }}</span>
+                </div>
+                <div class="grid grid-cols-3 gap-2 mt-2 text-center">
+                    <div>
+                        <div class="font-bold text-slate-600 text-xs">{{ t.nominal_tagihan|rupiah }}</div>
+                        <div class="text-[9px] text-slate-400 uppercase">Tagihan</div>
+                    </div>
+                    <div>
+                        <div class="font-bold text-emerald-600 text-xs">{{ t.total_dibayar|rupiah }}</div>
+                        <div class="text-[9px] text-slate-400 uppercase">Dibayar</div>
+                    </div>
+                    <div>
+                        <div class="font-bold text-rose-500 text-xs">{{ t.sisa|rupiah }}</div>
+                        <div class="text-[9px] text-slate-400 uppercase">Sisa</div>
+                    </div>
+                </div>
+            </div>
+            {% empty %}
+            <p class="p-6 text-center text-slate-400 text-xs">Belum ada tagihan SPP yang tercatat.</p>
+            {% endfor %}
+        </div>
+    </div>
+
+    {% endif %}
+</div>
+{% endblock %}

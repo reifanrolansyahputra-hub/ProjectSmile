@@ -1,0 +1,33 @@
+{% extends 'portal/guru_dashboard.html' %}
+
+{% block sub_content %}
+<div class="max-w-6xl mx-auto space-y-6 text-sm">
+
+    <div class="panel-clay-3d p-5 bg-white border-b-8 border-cyan-200">
+        <h2 class="font-kids text-lg text-slate-800 flex items-center gap-2">{{ ikon }} {{ judul_halaman }}</h2>
+        <p class="text-slate-400 text-xs mt-1">{{ subjudul }}</p>
+    </div>
+
+    {% for tingkat, daftar_kelas in kelompok_kelas %}
+        <div class="space-y-3">
+            <h3 class="font-kids text-sm text-slate-600">Kelas {{ tingkat }}</h3>
+            <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
+                {% for k in daftar_kelas %}
+                    <a href="{% url url_name k.id %}" class="portal-btn-3d bg-white border-2 border-cyan-200 hover:border-cyan-400 p-4 rounded-xl shadow-sm transition flex flex-col gap-1">
+                        <div class="flex items-center justify-between">
+                            <h4 class="font-kids text-base text-slate-800">{{ k.nama }}</h4>
+                            <span class="text-lg">{{ ikon }}</span>
+                        </div>
+                        <span class="text-[10px] font-bold text-slate-400 bg-slate-100 inline-block px-2 py-0.5 rounded-full w-fit">{{ k.jumlah_siswa }} siswa</span>
+                    </a>
+                {% endfor %}
+            </div>
+        </div>
+    {% empty %}
+        <div class="panel-clay-3d p-10 text-center text-slate-400">
+            Belum ada kelas. Minta admin menambahkan kelas dulu lewat Django Admin.
+        </div>
+    {% endfor %}
+
+</div>
+{% endblock %}

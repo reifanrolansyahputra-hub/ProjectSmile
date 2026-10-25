@@ -11,5 +11,6 @@ urlpatterns = [
     path("dashboard/", views.admin_dashboard, name="dashboard_utama"),
     path("dashboard/guru/", views.guru_dashboard, name="guru_dashboard"), # Nama disamakan 'guru_dashboard'
     path("dashboard/murid/", views.murid_dashboard, name="murid_dashboard"), # Nama disamakan 'murid_dashboard'
+    path("dashboard/orangtua/", views.orangtua_dashboard, name="orangtua_dashboard"),
     path("buka-quiz-game/", views.buka_quiz_game, name="buka_quiz_game"),
 ]

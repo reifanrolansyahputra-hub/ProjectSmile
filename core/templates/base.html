@@ -18,6 +18,18 @@
 </head>
 
 <body>
+    {% if messages %}
+    <div class="fixed top-4 left-1/2 -translate-x-1/2 z-[999] w-[92%] max-w-md space-y-2">
+        {% for message in messages %}
+        <div class="rounded-2xl px-4 py-3 text-xs font-bold shadow-lg border-2 flex items-start gap-2
+            {% if message.tags == 'error' %}bg-red-50 border-red-200 text-red-700{% else %}bg-emerald-50 border-emerald-200 text-emerald-700{% endif %}">
+            <span>{% if message.tags == 'error' %}⚠️{% else %}✅{% endif %}</span>
+            <span>{{ message }}</span>
+        </div>
+        {% endfor %}
+    </div>
+    {% endif %}
+
     <!-- Tempat konten halaman lain akan muncul -->
     {% block content %}
     {% endblock %}

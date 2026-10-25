@@ -1,0 +1,114 @@
+{% extends 'portal/guru_dashboard.html' %}
+
+{% block sub_content %}
+<div class="max-w-5xl mx-auto space-y-6 text-sm">
+
+    <div class="panel-clay-3d p-5 bg-white border-b-8 border-violet-200">
+        <h2 class="font-kids text-lg text-slate-800">📝 Tugas &amp; Nilai</h2>
+        <p class="text-slate-400 text-xs mt-1">Buat tugas baru (tulis di buku atau online), lalu input nilainya per siswa.</p>
+    </div>
+
+    <!-- Form tambah / edit -->
+    <div class="panel-clay-3d p-5 border-b-8 border-violet-100">
+        <h3 class="font-kids text-sm text-slate-700 mb-3">{% if edit_data %}✏️ Edit Tugas{% else %}➕ Tambah Tugas Baru{% endif %}</h3>
+        <form method="post" action="{% if edit_data %}{% url 'edit_tugas' edit_data.id %}{% else %}{% url 'tambah_tugas' %}{% endif %}" class="space-y-3">
+            {% csrf_token %}
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                <div>
+                    <label class="text-[10px] font-bold text-slate-400 uppercase block mb-1">Judul Tugas</label>
+                    <input type="text" name="judul" required placeholder="Contoh: Tugas 1" value="{{ edit_data.judul|default:'' }}"
+                           class="w-full border-2 border-slate-200 rounded-lg px-3 py-2 text-xs focus:outline-none focus:border-violet-400">
+                </div>
+                <div>
+                    <label class="text-[10px] font-bold text-slate-400 uppercase block mb-1">Kelas</label>
+                    <select name="kelas" required class="w-full border-2 border-slate-200 rounded-lg px-3 py-2 text-xs focus:outline-none focus:border-violet-400">
+                        {% for k in kelas_semua %}
+                        <option value="{{ k.id }}" {% if edit_data.kelas_id == k.id %}selected{% endif %}>{{ k.nama }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div>
+                    <label class="text-[10px] font-bold text-slate-400 uppercase block mb-1">Mapel</label>
+                    <select name="mapel" required class="w-full border-2 border-slate-200 rounded-lg px-3 py-2 text-xs focus:outline-none focus:border-violet-400">
+                        {% for value, label in mapel_choices %}
+                        <option value="{{ value }}" {% if edit_data.mapel == value %}selected{% endif %}>{{ label }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div>
+                    <label class="text-[10px] font-bold text-slate-400 uppercase block mb-1">Jenis Tugas</label>
+                    <select name="jenis" required class="w-full border-2 border-slate-200 rounded-lg px-3 py-2 text-xs focus:outline-none focus:border-violet-400">
+                        {% for value, label in jenis_choices %}
+                        <option value="{{ value }}" {% if edit_data.jenis == value %}selected{% endif %}>{{ label }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div>
+                    <label class="text-[10px] font-bold text-slate-400 uppercase block mb-1">Tanggal</label>
+                    <input type="date" name="tanggal" value="{{ edit_data.tanggal|date:'Y-m-d' }}"
+                           class="w-full border-2 border-slate-200 rounded-lg px-3 py-2 text-xs focus:outline-none focus:border-violet-400">
+                </div>
+                <div>
+                    <label class="text-[10px] font-bold text-slate-400 uppercase block mb-1">Deskripsi (opsional)</label>
+                    <input type="text" name="deskripsi" value="{{ edit_data.deskripsi|default:'' }}" placeholder="Catatan singkat tugas"
+                           class="w-full border-2 border-slate-200 rounded-lg px-3 py-2 text-xs focus:outline-none focus:border-violet-400">
+                </div>
+            </div>
+            <div class="flex gap-2">
+                <button type="submit" class="portal-btn-3d bg-gradient-to-r from-violet-500 to-purple-500 text-white font-kids text-xs px-5 py-2.5 rounded-xl shadow-[0_3px_0_#6d28d9]">
+                    {% if edit_data %}💾 Simpan Perubahan{% else %}➕ Tambah Tugas{% endif %}
+                </button>
+                {% if edit_data %}
+                <a href="{% url 'daftar_tugas' %}" class="text-xs font-bold text-slate-400 px-4 py-2.5 hover:text-slate-600">Batal</a>
+                {% endif %}
+            </div>
+        </form>
+    </div>
+
+    <!-- Filter -->
+    <form method="get" class="flex flex-wrap items-center gap-2 bg-white border-2 border-slate-200 rounded-2xl p-3">
+        <select name="kelas" onchange="this.form.submit()" class="text-xs font-bold border-2 border-slate-200 rounded-lg px-2.5 py-1.5">
+            <option value="">Semua Kelas</option>
+            {% for k in kelas_semua %}
+            <option value="{{ k.id }}" {% if kelas_aktif == k.id|stringformat:'s' %}selected{% endif %}>{{ k.nama }}</option>
+            {% endfor %}
+        </select>
+        <select name="mapel" onchange="this.form.submit()" class="text-xs font-bold border-2 border-slate-200 rounded-lg px-2.5 py-1.5">
+            <option value="">Semua Mapel</option>
+            {% for value, label in mapel_choices %}
+            <option value="{{ value }}" {% if mapel_aktif == value %}selected{% endif %}>{{ label }}</option>
+            {% endfor %}
+        </select>
+        {% if kelas_aktif or mapel_aktif %}
+        <a href="{% url 'daftar_tugas' %}" class="text-[11px] font-bold text-slate-400 hover:text-slate-600">Reset filter</a>
+        {% endif %}
+    </form>
+
+    <!-- List tugas -->
+    <div class="space-y-3">
+        {% for t in tugas_list %}
+        <div class="panel-clay-3d p-4 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+            <div class="flex items-start gap-3">
+                <span class="text-2xl bg-violet-50 p-2 rounded-xl">{% if t.jenis == 'online' %}💻{% else %}📖{% endif %}</span>
+                <div>
+                    <h4 class="font-kids text-sm text-slate-800">{{ t.judul }}</h4>
+                    <p class="text-[11px] text-slate-400 font-bold mt-0.5">
+                        {{ t.kelas.nama }} &middot; {{ t.get_mapel_display }} &middot; {{ t.get_jenis_display }} &middot; {{ t.tanggal|date:'d-m-Y' }}
+                    </p>
+                    <p class="text-[10px] text-slate-400 mt-0.5">{{ t.jumlah_dinilai }} siswa sudah dinilai</p>
+                </div>
+            </div>
+            <div class="flex items-center gap-1.5 shrink-0">
+                <a href="{% url 'input_nilai' t.id %}" class="portal-btn-3d text-[11px] font-bold bg-violet-500 text-white px-3 py-2 rounded-lg shadow-[0_2px_0_#6d28d9]">Input Nilai</a>
+                <a href="{% url 'edit_tugas' t.id %}" class="portal-btn-3d text-[11px] font-bold bg-slate-100 text-slate-500 px-3 py-2 rounded-lg hover:bg-slate-200">Edit</a>
+                <a href="{% url 'hapus_tugas' t.id %}" onclick="return confirm('Hapus tugas {{ t.judul|escapejs }}? Semua nilai yang sudah diinput juga akan terhapus.');"
+                   class="portal-btn-3d text-[11px] font-bold bg-rose-50 text-rose-500 px-3 py-2 rounded-lg hover:bg-rose-100">Hapus</a>
+            </div>
+        </div>
+        {% empty %}
+        <div class="panel-clay-3d p-10 text-center text-slate-400 text-xs">Belum ada tugas. Tambahkan lewat form di atas.</div>
+        {% endfor %}
+    </div>
+
+</div>
+{% endblock %}
