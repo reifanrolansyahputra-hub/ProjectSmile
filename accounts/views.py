@@ -36,6 +36,9 @@ def login_view(request):
                 elif profile.role == "guru":
                     return redirect("guru_dashboard")
 
+                elif profile.role == "orang_tua":
+                    return redirect("orangtua_dashboard")
+
                 else:
                     return redirect("murid_dashboard")
 

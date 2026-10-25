@@ -1,0 +1,46 @@
+{% extends 'portal/guru_dashboard.html' %}
+
+{% block sub_content %}
+<div class="max-w-4xl mx-auto space-y-6 text-sm">
+
+    <div class="panel-clay-3d p-5 bg-white border-b-8 border-violet-200">
+        <div class="flex items-center justify-between flex-wrap gap-3">
+            <div>
+                <h2 class="font-kids text-lg text-slate-800">{% if tugas.jenis == 'online' %}💻{% else %}📖{% endif %} {{ tugas.judul }}</h2>
+                <p class="text-slate-400 text-xs mt-1">{{ tugas.kelas.nama }} &middot; {{ tugas.get_mapel_display }} &middot; {{ tugas.get_jenis_display }} &middot; {{ tugas.tanggal|date:'d-m-Y' }}</p>
+            </div>
+            <a href="{% url 'daftar_tugas' %}" class="text-xs font-bold text-violet-600 hover:underline">← Semua Tugas</a>
+        </div>
+    </div>
+
+    <form method="post" class="space-y-3">
+        {% csrf_token %}
+        <div class="panel-clay-3d divide-y divide-slate-100 overflow-hidden">
+            <div class="flex items-center gap-3 p-3 bg-slate-50 text-[10px] font-bold text-slate-400 uppercase">
+                <span class="w-full sm:w-44 shrink-0">Siswa</span>
+                <span class="w-20 shrink-0">Nilai</span>
+                <span class="flex-1">Catatan (opsional)</span>
+            </div>
+            {% for item in data_siswa %}
+            <div class="flex flex-col sm:flex-row sm:items-center gap-2 p-3">
+                <span class="font-bold text-slate-700 text-xs w-full sm:w-44 shrink-0 truncate">{{ forloop.counter }}. {{ item.siswa.nama_lengkap }}</span>
+                <input type="number" min="0" max="100" name="nilai_{{ item.siswa.id }}" value="{{ item.nilai }}" placeholder="0-100"
+                       class="w-20 border-2 border-slate-200 rounded-lg px-2 py-1.5 text-xs font-bold text-center focus:outline-none focus:border-violet-400">
+                <input type="text" name="catatan_{{ item.siswa.id }}" value="{{ item.catatan }}" placeholder="Catatan singkat"
+                       class="flex-1 border-2 border-slate-200 rounded-lg px-2.5 py-1.5 text-[11px] focus:outline-none focus:border-violet-400">
+            </div>
+            {% empty %}
+            <p class="p-6 text-center text-slate-400 text-xs">Belum ada siswa aktif di kelas ini.</p>
+            {% endfor %}
+        </div>
+
+        {% if data_siswa %}
+        <button type="submit" class="portal-btn-3d w-full bg-gradient-to-r from-violet-500 to-purple-500 text-white font-kids text-sm py-3 rounded-xl shadow-[0_4px_0_#6d28d9]">
+            💾 Simpan Nilai
+        </button>
+        <p class="text-center text-[10px] text-slate-400">Kosongkan kolom nilai kalau siswa belum mau dinilai dulu — nilai lama tidak akan berubah.</p>
+        {% endif %}
+    </form>
+
+</div>
+{% endblock %}

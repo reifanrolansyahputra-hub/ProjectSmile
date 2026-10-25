@@ -79,6 +79,40 @@
                     <span class="text-lg">📚</span> <span>Semua Materi</span>
                 </a>
 
+                <div class="border-t border-dashed border-slate-200 my-2"></div>
+
+                <a href="{% url 'pilih_kelas_absensi' %}"
+                    class="flex items-center gap-3 px-6 py-3 font-semibold text-sm border-l-4 transition
+                    {% if request.resolver_match.url_name == 'pilih_kelas_absensi' or request.resolver_match.url_name == 'absen_kelas' %}
+                        text-slate-800 bg-slate-50 border-cyan-600
+                    {% else %}
+                        text-slate-500 hover:bg-slate-50 border-transparent
+                    {% endif %}">
+                    <span class="text-lg">🗓️</span> <span>Absensi Murid</span>
+                </a>
+
+                <a href="{% url 'daftar_tugas' %}"
+                    class="flex items-center gap-3 px-6 py-3 font-semibold text-sm border-l-4 transition
+                    {% if request.resolver_match.url_name == 'daftar_tugas' or request.resolver_match.url_name == 'input_nilai' %}
+                        text-slate-800 bg-slate-50 border-cyan-600
+                    {% else %}
+                        text-slate-500 hover:bg-slate-50 border-transparent
+                    {% endif %}">
+                    <span class="text-lg">📝</span> <span>Tugas &amp; Nilai</span>
+                </a>
+
+                <a href="{% url 'pilih_kelas_ranking' %}"
+                    class="flex items-center gap-3 px-6 py-3 font-semibold text-sm border-l-4 transition
+                    {% if request.resolver_match.url_name == 'pilih_kelas_ranking' or request.resolver_match.url_name == 'lihat_ranking_guru' %}
+                        text-slate-800 bg-slate-50 border-cyan-600
+                    {% else %}
+                        text-slate-500 hover:bg-slate-50 border-transparent
+                    {% endif %}">
+                    <span class="text-lg">🏆</span> <span>Ranking Kelas</span>
+                </a>
+
+                <div class="border-t border-dashed border-slate-200 my-2"></div>
+
                 <a href="{% url 'buka_quiz' %}" target="_blank"
                     class="flex items-center gap-3 px-6 py-3 font-semibold text-sm border-l-4 transition
                     {% if request.resolver_match.url_name == 'buka_quiz' %}
@@ -233,6 +267,28 @@
                 {% else %}
                     <p class="text-slate-400 text-xs">Belum ada materi. Yuk tambahkan lewat menu Kelola Materi.</p>
                 {% endif %}
+            </div>
+
+            <!-- Kelas & Penilaian -->
+            <div class="border-t-2 border-dashed border-slate-200 pt-4 mt-6">
+                <h3 class="font-kids text-base text-slate-700 mb-3 flex items-center gap-1.5">🗓️ KELAS &amp; PENILAIAN</h3>
+                <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                    <a href="{% url 'pilih_kelas_absensi' %}" class="portal-btn-3d flex flex-col gap-2 p-4 bg-white border-2 border-cyan-200 hover:border-cyan-400 rounded-xl text-left transition">
+                        <span class="text-2xl">🗓️</span>
+                        <h5 class="font-kids text-xs text-slate-800">Absen Murid</h5>
+                        <p class="text-[10px] text-slate-500 font-medium">Catat kehadiran per kelas, per hari</p>
+                    </a>
+                    <a href="{% url 'daftar_tugas' %}" class="portal-btn-3d flex flex-col gap-2 p-4 bg-white border-2 border-violet-200 hover:border-violet-400 rounded-xl text-left transition">
+                        <span class="text-2xl">📝</span>
+                        <h5 class="font-kids text-xs text-slate-800">Tugas &amp; Nilai</h5>
+                        <p class="text-[10px] text-slate-500 font-medium">Buat tugas, input nilai tulis/online</p>
+                    </a>
+                    <a href="{% url 'pilih_kelas_ranking' %}" class="portal-btn-3d flex flex-col gap-2 p-4 bg-white border-2 border-amber-200 hover:border-amber-400 rounded-xl text-left transition">
+                        <span class="text-2xl">🏆</span>
+                        <h5 class="font-kids text-xs text-slate-800">Ranking Kelas</h5>
+                        <p class="text-[10px] text-slate-500 font-medium">Ranking kelas &amp; ranking paralel</p>
+                    </a>
+                </div>
             </div>
 
             <!-- Aktivitas Lainnya -->

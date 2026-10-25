@@ -7,6 +7,7 @@ class Profile(models.Model):
         ('admin', 'Admin'),
         ('guru', 'Guru'),
         ('murid', 'Murid'),
+        ('orang_tua', 'Orang Tua'),
     ]
 
     user = models.OneToOneField(User, on_delete=models.CASCADE)

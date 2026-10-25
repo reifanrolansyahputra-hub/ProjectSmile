@@ -1,0 +1,113 @@
+{% extends base_template %}
+
+{% block sub_content %}
+<div class="max-w-4xl mx-auto space-y-6 text-sm">
+
+    {% if tampilan == 'murid' or tampilan == 'ortu' %}
+        {% if not siswa %}
+            <div class="panel-clay-3d p-10 bg-white border-b-8 border-slate-200 text-center">
+                <span class="text-4xl">⚠️</span>
+                <p class="font-kids text-slate-600 mt-3">
+                    {% if tampilan == 'ortu' %}Belum ada data anak yang ditautkan ke akun ini.{% else %}Data siswa kamu belum ditautkan.{% endif %}
+                </p>
+                <p class="text-slate-400 text-xs mt-1">Hubungi admin sekolah untuk melengkapi data ini.</p>
+            </div>
+        {% elif not kelas %}
+            <div class="panel-clay-3d p-10 bg-white border-b-8 border-slate-200 text-center">
+                <span class="text-4xl">🏫</span>
+                <p class="font-kids text-slate-600 mt-3">{{ siswa.nama_lengkap }} belum ditempatkan ke kelas manapun.</p>
+                <p class="text-slate-400 text-xs mt-1">Hubungi admin sekolah untuk mengatur kelasnya.</p>
+            </div>
+        {% endif %}
+    {% endif %}
+
+    {% if kelas %}
+    <div class="panel-clay-3d p-5 bg-white border-b-8 border-amber-200">
+        <div class="flex items-center justify-between flex-wrap gap-3">
+            <div>
+                <h2 class="font-kids text-lg text-slate-800">🏆 Ranking {{ kelas.nama }}</h2>
+                <p class="text-slate-400 text-xs mt-1">Skor = 70% rata-rata nilai tugas + 30% persentase kehadiran.</p>
+            </div>
+            {% if tampilan == 'guru' %}
+            <a href="{% url 'pilih_kelas_ranking' %}" class="text-xs font-bold text-amber-600 hover:underline">← Ganti Kelas</a>
+            {% endif %}
+        </div>
+
+        <div class="flex gap-2 mt-4">
+            {% if tampilan == 'guru' %}
+                <a href="{% url 'lihat_ranking_guru' kelas.id %}?mode=kelas" class="portal-btn-3d text-xs font-bold px-4 py-2 rounded-lg {% if mode == 'kelas' %}bg-amber-500 text-white{% else %}bg-slate-100 text-slate-500{% endif %}">Ranking Kelas</a>
+                <a href="{% url 'lihat_ranking_guru' kelas.id %}?mode=paralel" class="portal-btn-3d text-xs font-bold px-4 py-2 rounded-lg {% if mode == 'paralel' %}bg-amber-500 text-white{% else %}bg-slate-100 text-slate-500{% endif %}">Ranking Paralel (Kelas {{ kelas.tingkat }})</a>
+            {% elif tampilan == 'murid' %}
+                <a href="{% url 'ranking_saya' %}?mode=kelas" class="portal-btn-3d text-xs font-bold px-4 py-2 rounded-lg {% if mode == 'kelas' %}bg-amber-500 text-white{% else %}bg-slate-100 text-slate-500{% endif %}">Ranking Kelas</a>
+                <a href="{% url 'ranking_saya' %}?mode=paralel" class="portal-btn-3d text-xs font-bold px-4 py-2 rounded-lg {% if mode == 'paralel' %}bg-amber-500 text-white{% else %}bg-slate-100 text-slate-500{% endif %}">Ranking Paralel (Kelas {{ kelas.tingkat }})</a>
+            {% else %}
+                <a href="{% url 'ranking_anak' %}?mode=kelas&anak={{ siswa.id }}" class="portal-btn-3d text-xs font-bold px-4 py-2 rounded-lg {% if mode == 'kelas' %}bg-amber-500 text-white{% else %}bg-slate-100 text-slate-500{% endif %}">Ranking Kelas</a>
+                <a href="{% url 'ranking_anak' %}?mode=paralel&anak={{ siswa.id }}" class="portal-btn-3d text-xs font-bold px-4 py-2 rounded-lg {% if mode == 'paralel' %}bg-amber-500 text-white{% else %}bg-slate-100 text-slate-500{% endif %}">Ranking Paralel (Kelas {{ kelas.tingkat }})</a>
+            {% endif %}
+        </div>
+    </div>
+
+    {% if baris_saya %}
+    <div class="panel-clay-3d p-5 bg-gradient-to-r from-amber-400 to-orange-400 text-white border-b-8 border-orange-600">
+        <div class="flex items-center justify-between flex-wrap gap-4">
+            <div>
+                <span class="text-[10px] font-bold uppercase tracking-wider text-orange-100">Peringkat {{ siswa.nama_lengkap }}</span>
+                <h3 class="font-kids text-3xl">#{{ baris_saya.rank }} <span class="text-sm font-semibold">dari {{ hasil|length }} siswa</span></h3>
+            </div>
+            <div class="flex gap-4 text-center">
+                <div>
+                    <div class="font-kids text-xl">{{ baris_saya.rata_nilai }}</div>
+                    <div class="text-[9px] uppercase font-bold text-orange-100">Rata Nilai</div>
+                </div>
+                <div>
+                    <div class="font-kids text-xl">{{ baris_saya.persen_hadir }}%</div>
+                    <div class="text-[9px] uppercase font-bold text-orange-100">Kehadiran</div>
+                </div>
+                <div>
+                    <div class="font-kids text-xl">{{ baris_saya.skor }}</div>
+                    <div class="text-[9px] uppercase font-bold text-orange-100">Skor</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+
+    <div class="panel-clay-3d overflow-x-auto">
+        <table class="w-full text-xs">
+            <thead>
+                <tr class="bg-slate-50 text-slate-400 uppercase text-[10px]">
+                    <th class="text-left px-4 py-2.5">#</th>
+                    <th class="text-left px-3 py-2.5">Siswa</th>
+                    {% if mode == 'paralel' %}<th class="px-3 py-2.5">Kelas</th>{% endif %}
+                    <th class="px-3 py-2.5">Tugas Dinilai</th>
+                    <th class="px-3 py-2.5">Rata Nilai</th>
+                    <th class="px-3 py-2.5">% Hadir</th>
+                    <th class="px-3 py-2.5">Skor</th>
+                </tr>
+            </thead>
+            <tbody class="divide-y divide-slate-100">
+                {% for row in hasil %}
+                <tr class="{% if siswa and row.siswa.id == siswa.id %}bg-amber-50{% endif %}">
+                    <td class="px-4 py-2.5 font-kids text-slate-700">
+                        {% if row.rank == 1 %}🥇{% elif row.rank == 2 %}🥈{% elif row.rank == 3 %}🥉{% else %}{{ row.rank }}{% endif %}
+                    </td>
+                    <td class="px-3 py-2.5 font-bold text-slate-700">
+                        {{ row.siswa.nama_lengkap }}
+                        {% if siswa and row.siswa.id == siswa.id %}<span class="text-[9px] bg-amber-400 text-white px-1.5 py-0.5 rounded-full ml-1">KAMU</span>{% endif %}
+                    </td>
+                    {% if mode == 'paralel' %}<td class="text-center text-slate-500">{{ row.siswa.kelas.nama }}</td>{% endif %}
+                    <td class="text-center text-slate-500">{{ row.total_tugas }}</td>
+                    <td class="text-center text-slate-500">{{ row.rata_nilai }}</td>
+                    <td class="text-center text-slate-500">{{ row.persen_hadir }}%</td>
+                    <td class="text-center font-kids text-amber-600">{{ row.skor }}</td>
+                </tr>
+                {% empty %}
+                <tr><td colspan="7" class="text-center text-slate-400 py-8">Belum ada siswa di kelas ini.</td></tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    {% endif %}
+
+</div>
+{% endblock %}

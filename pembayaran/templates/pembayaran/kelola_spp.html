@@ -1,0 +1,142 @@
+{% extends 'portal/dashboard.html' %}
+{% load pembayaran_extras %}
+
+{% block sub_content %}
+<div class="max-w-6xl mx-auto space-y-6 text-sm">
+
+    <div class="panel-clay-3d p-5 bg-white border-b-8 border-emerald-200">
+        <h2 class="font-kids text-lg text-slate-800">💳 Kelola Pembayaran SPP</h2>
+        <p class="text-slate-400 text-xs mt-1">Atur rekening dummy, generate tagihan bulanan, dan catat pembayaran siswa.</p>
+    </div>
+
+    <!-- Rekening Bank -->
+    <div class="panel-clay-3d p-5 border-b-8 border-slate-100">
+        <h3 class="font-kids text-sm text-slate-700 mb-3">🏦 Rekening Bank (Dummy)</h3>
+
+        <div class="space-y-2 mb-4">
+            {% for r in rekening_list %}
+            <div class="flex items-center justify-between bg-slate-50 rounded-xl px-4 py-2.5">
+                <div>
+                    <span class="font-bold text-slate-700 text-xs">{{ r.nama_bank }}</span>
+                    <span class="text-slate-400 text-xs"> — {{ r.nomor_rekening }} a.n. {{ r.atas_nama }}</span>
+                </div>
+                <div class="flex items-center gap-2">
+                    <span class="text-[10px] font-bold px-2 py-0.5 rounded-full {% if r.aktif %}bg-emerald-100 text-emerald-700{% else %}bg-slate-200 text-slate-500{% endif %}">
+                        {% if r.aktif %}Aktif{% else %}Nonaktif{% endif %}
+                    </span>
+                    <a href="{% url 'toggle_rekening' r.id %}" class="text-[10px] font-bold text-slate-400 hover:text-slate-600">{% if r.aktif %}Nonaktifkan{% else %}Aktifkan{% endif %}</a>
+                    <a href="{% url 'hapus_rekening' r.id %}" onclick="return confirm('Hapus rekening {{ r.nama_bank|escapejs }}?');" class="text-[10px] font-bold text-rose-400 hover:text-rose-600">Hapus</a>
+                </div>
+            </div>
+            {% empty %}
+            <p class="text-slate-400 text-xs">Belum ada rekening. Tambahkan lewat form di bawah.</p>
+            {% endfor %}
+        </div>
+
+        <form method="post" action="{% url 'tambah_rekening' %}" class="grid grid-cols-1 sm:grid-cols-4 gap-2">
+            {% csrf_token %}
+            <input type="text" name="nama_bank" placeholder="Nama bank (BCA, BRI, dst)" required class="border-2 border-slate-200 rounded-lg px-3 py-2 text-xs focus:outline-none focus:border-emerald-400">
+            <input type="text" name="nomor_rekening" placeholder="Nomor rekening" required class="border-2 border-slate-200 rounded-lg px-3 py-2 text-xs focus:outline-none focus:border-emerald-400">
+            <input type="text" name="atas_nama" placeholder="Atas nama" required class="border-2 border-slate-200 rounded-lg px-3 py-2 text-xs focus:outline-none focus:border-emerald-400">
+            <button type="submit" class="portal-btn-3d bg-emerald-500 text-white font-kids text-xs py-2 rounded-lg shadow-[0_3px_0_#047857]">+ Tambah Rekening</button>
+        </form>
+    </div>
+
+    <!-- Generate Tagihan -->
+    <div class="panel-clay-3d p-5 border-b-8 border-emerald-100">
+        <h3 class="font-kids text-sm text-slate-700 mb-3">🧾 Generate Tagihan SPP Bulanan</h3>
+        <p class="text-slate-400 text-xs mb-3">Membuat tagihan untuk semua siswa aktif yang sudah punya kelas, sesuai nominal SPP kelas masing-masing. Siswa yang sudah punya tagihan di bulan itu akan dilewati otomatis.</p>
+        <form method="post" action="{% url 'generate_tagihan' %}" class="flex flex-wrap items-center gap-2">
+            {% csrf_token %}
+            <select name="bulan" class="border-2 border-slate-200 rounded-lg px-3 py-2 text-xs font-bold">
+                {% for value, label in bulan_choices %}
+                <option value="{{ value }}" {% if value == bulan_sekarang %}selected{% endif %}>{{ label }}</option>
+                {% endfor %}
+            </select>
+            <select name="tahun" class="border-2 border-slate-200 rounded-lg px-3 py-2 text-xs font-bold">
+                {% for th in tahun_pilihan %}
+                <option value="{{ th }}" {% if th == tahun_sekarang %}selected{% endif %}>{{ th }}</option>
+                {% endfor %}
+            </select>
+            <button type="submit" class="portal-btn-3d bg-gradient-to-r from-emerald-500 to-teal-500 text-white font-kids text-xs px-5 py-2.5 rounded-xl shadow-[0_3px_0_#0f766e]">⚡ Generate Tagihan</button>
+        </form>
+    </div>
+
+    <!-- Filter -->
+    <form method="get" class="flex flex-wrap items-center gap-2 bg-white border-2 border-slate-200 rounded-2xl p-3">
+        <select name="kelas" onchange="this.form.submit()" class="text-xs font-bold border-2 border-slate-200 rounded-lg px-2.5 py-1.5">
+            <option value="">Semua Kelas</option>
+            {% for k in kelas_semua %}
+            <option value="{{ k.id }}" {% if kelas_aktif == k.id|stringformat:'s' %}selected{% endif %}>{{ k.nama }}</option>
+            {% endfor %}
+        </select>
+        <select name="bulan" onchange="this.form.submit()" class="text-xs font-bold border-2 border-slate-200 rounded-lg px-2.5 py-1.5">
+            <option value="">Semua Bulan</option>
+            {% for value, label in bulan_choices %}
+            <option value="{{ value }}" {% if bulan_aktif == value|stringformat:'s' %}selected{% endif %}>{{ label }}</option>
+            {% endfor %}
+        </select>
+        <select name="tahun" onchange="this.form.submit()" class="text-xs font-bold border-2 border-slate-200 rounded-lg px-2.5 py-1.5">
+            <option value="">Semua Tahun</option>
+            {% for th in tahun_pilihan %}
+            <option value="{{ th }}" {% if tahun_aktif == th|stringformat:'s' %}selected{% endif %}>{{ th }}</option>
+            {% endfor %}
+        </select>
+        <select name="status" onchange="this.form.submit()" class="text-xs font-bold border-2 border-slate-200 rounded-lg px-2.5 py-1.5">
+            <option value="">Semua Status</option>
+            <option value="Lunas" {% if status_aktif == 'Lunas' %}selected{% endif %}>Lunas</option>
+            <option value="Dibayar Sebagian" {% if status_aktif == 'Dibayar Sebagian' %}selected{% endif %}>Dibayar Sebagian</option>
+            <option value="Belum Bayar" {% if status_aktif == 'Belum Bayar' %}selected{% endif %}>Belum Bayar</option>
+        </select>
+        {% if kelas_aktif or bulan_aktif or tahun_aktif or status_aktif %}
+        <a href="{% url 'kelola_spp' %}" class="text-[11px] font-bold text-slate-400 hover:text-slate-600">Reset filter</a>
+        {% endif %}
+    </form>
+
+    <!-- List tagihan -->
+    <div class="panel-clay-3d overflow-x-auto">
+        <table class="w-full text-xs">
+            <thead>
+                <tr class="bg-slate-50 text-slate-400 uppercase text-[10px]">
+                    <th class="text-left px-4 py-2.5">Siswa</th>
+                    <th class="px-3 py-2.5">Kelas</th>
+                    <th class="px-3 py-2.5">Periode</th>
+                    <th class="px-3 py-2.5">Tagihan</th>
+                    <th class="px-3 py-2.5">Dibayar</th>
+                    <th class="px-3 py-2.5">Sisa</th>
+                    <th class="px-3 py-2.5">Status</th>
+                    <th class="px-3 py-2.5"></th>
+                </tr>
+            </thead>
+            <tbody class="divide-y divide-slate-100">
+                {% for t in tagihan_list %}
+                <tr>
+                    <td class="px-4 py-2.5 font-bold text-slate-700">{{ t.siswa.nama_lengkap }}</td>
+                    <td class="text-center text-slate-500">{{ t.siswa.kelas.nama|default:'-' }}</td>
+                    <td class="text-center text-slate-500">{{ t.get_bulan_display }} {{ t.tahun }}</td>
+                    <td class="text-center text-slate-500">{{ t.nominal_tagihan|rupiah }}</td>
+                    <td class="text-center text-emerald-600 font-bold">{{ t.total_dibayar|rupiah }}</td>
+                    <td class="text-center text-rose-500 font-bold">{{ t.sisa|rupiah }}</td>
+                    <td class="text-center">
+                        <span class="text-[10px] font-bold px-2 py-0.5 rounded-full
+                            {% if t.status == 'Lunas' %}bg-emerald-100 text-emerald-700
+                            {% elif t.status == 'Dibayar Sebagian' %}bg-amber-100 text-amber-700
+                            {% else %}bg-rose-100 text-rose-700{% endif %}">{{ t.status }}</span>
+                    </td>
+                    <td class="text-center">
+                        {% if t.status != 'Lunas' %}
+                        <a href="{% url 'catat_pembayaran' t.id %}" class="portal-btn-3d text-[11px] font-bold bg-emerald-500 text-white px-3 py-1.5 rounded-lg shadow-[0_2px_0_#047857]">Catat Bayar</a>
+                        {% else %}
+                        <a href="{% url 'catat_pembayaran' t.id %}" class="text-[11px] font-bold text-slate-400 hover:text-slate-600">Detail</a>
+                        {% endif %}
+                    </td>
+                </tr>
+                {% empty %}
+                <tr><td colspan="8" class="text-center text-slate-400 py-8">Belum ada tagihan. Generate dulu lewat form di atas.</td></tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+</div>
+{% endblock %}

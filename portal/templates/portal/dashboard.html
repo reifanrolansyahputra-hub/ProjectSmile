@@ -1,0 +1,210 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block extra_css %}
+<script src="https://cdn.tailwindcss.com"></script>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Poppins:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+    .split-dashboard { font-family: 'Poppins', sans-serif; background-color: #f4f5f7; }
+    .font-kids { font-family: 'Fredoka One', cursive; }
+    .panel-clay-3d { background: #ffffff; border-radius: 20px; box-shadow: 0 1px 3px rgba(0,0,0,0.06); border: 1px solid #e5e7eb; }
+    .portal-btn-3d { transition: all 0.15s ease; }
+    .portal-btn-3d:active { transform: scale(0.98); }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="split-dashboard min-h-screen flex flex-col md:flex-row">
+
+    <aside class="w-full md:w-72 flex flex-col justify-between gap-6 z-10 bg-white border-r border-slate-200">
+        <div>
+            <!-- LOGO SMILE -->
+            <div class="flex items-center gap-3 px-6 py-4 bg-gradient-to-r from-slate-700 to-slate-900 p-6">
+                <div class="w-11 h-11 bg-slate-50 rounded-full flex items-center justify-center shadow-sm border border-slate-100">
+                    <span class="text-xl">😊</span>
+                </div>
+                <div class="leading-tight">
+                    <h2 class="font-kids text-xl text-white tracking-wide">SMILE</h2>
+                    <span class="text-[9px] text-amber-300 font-bold tracking-widest uppercase block">Admin Panel</span>
+                </div>
+            </div>
+
+            <div class="border-t border-slate-100"></div>
+
+            <nav class="mt-4">
+                <a href="{% url 'admin_dashboard' %}"
+                    class="flex items-center gap-3 px-6 py-3 font-semibold text-sm border-l-4 transition text-slate-800 bg-slate-50 border-amber-500">
+                    <span class="text-lg">🎛️</span> <span>Dashboard</span>
+                </a>
+
+                <p class="px-6 pt-4 pb-1 text-[9px] font-bold text-slate-400 uppercase tracking-widest">Data Sekolah</p>
+                <a href="/admin/akademik/kelas/" class="flex items-center gap-3 px-6 py-3 font-semibold text-sm border-l-4 border-transparent text-slate-500 hover:bg-slate-50 transition">
+                    <span class="text-lg">🏫</span> <span>Kelola Kelas</span>
+                </a>
+                <a href="/admin/akademik/siswa/" class="flex items-center gap-3 px-6 py-3 font-semibold text-sm border-l-4 border-transparent text-slate-500 hover:bg-slate-50 transition">
+                    <span class="text-lg">🧒</span> <span>Kelola Siswa</span>
+                </a>
+                <a href="/admin/akademik/orangtua/" class="flex items-center gap-3 px-6 py-3 font-semibold text-sm border-l-4 border-transparent text-slate-500 hover:bg-slate-50 transition">
+                    <span class="text-lg">👨‍👩‍👧</span> <span>Kelola Orang Tua</span>
+                </a>
+                <a href="/admin/accounts/profile/" class="flex items-center gap-3 px-6 py-3 font-semibold text-sm border-l-4 border-transparent text-slate-500 hover:bg-slate-50 transition">
+                    <span class="text-lg">👤</span> <span>Kelola Akun &amp; Role</span>
+                </a>
+
+                <p class="px-6 pt-4 pb-1 text-[9px] font-bold text-slate-400 uppercase tracking-widest">Akademik</p>
+                <a href="{% url 'pilih_kelas_absensi' %}" class="flex items-center gap-3 px-6 py-3 font-semibold text-sm border-l-4 border-transparent text-slate-500 hover:bg-slate-50 transition">
+                    <span class="text-lg">🗓️</span> <span>Absensi</span>
+                </a>
+                <a href="{% url 'daftar_tugas' %}" class="flex items-center gap-3 px-6 py-3 font-semibold text-sm border-l-4 border-transparent text-slate-500 hover:bg-slate-50 transition">
+                    <span class="text-lg">📝</span> <span>Tugas &amp; Nilai</span>
+                </a>
+                <a href="{% url 'pilih_kelas_ranking' %}" class="flex items-center gap-3 px-6 py-3 font-semibold text-sm border-l-4 border-transparent text-slate-500 hover:bg-slate-50 transition">
+                    <span class="text-lg">🏆</span> <span>Ranking</span>
+                </a>
+
+                <p class="px-6 pt-4 pb-1 text-[9px] font-bold text-slate-400 uppercase tracking-widest">Keuangan</p>
+                <a href="{% url 'kelola_spp' %}" class="flex items-center gap-3 px-6 py-3 font-semibold text-sm border-l-4 transition
+                    {% if request.resolver_match.url_name == 'kelola_spp' %}text-slate-800 bg-slate-50 border-amber-500{% else %}text-slate-500 hover:bg-slate-50 border-transparent{% endif %}">
+                    <span class="text-lg">💳</span> <span>Pembayaran SPP</span>
+                </a>
+
+                <p class="px-6 pt-4 pb-1 text-[9px] font-bold text-slate-400 uppercase tracking-widest">Lainnya</p>
+                <a href="{% url 'kelola_materi' %}" class="flex items-center gap-3 px-6 py-3 font-semibold text-sm border-l-4 border-transparent text-slate-500 hover:bg-slate-50 transition">
+                    <span class="text-lg">📚</span> <span>Materi</span>
+                </a>
+                <a href="/admin/" class="flex items-center gap-3 px-6 py-3 font-semibold text-sm border-l-4 border-transparent text-slate-500 hover:bg-slate-50 transition">
+                    <span class="text-lg">⚙️</span> <span>Django Admin (lengkap)</span>
+                </a>
+            </nav>
+        </div>
+
+        <div class="px-6 pb-6">
+            <div class="border-t border-slate-100 pt-4 text-center">
+                <span class="text-[9px] text-slate-400 uppercase tracking-wider block mb-1">Login Sebagai</span>
+                <div class="font-kids text-sm text-slate-700 mb-3">{{ request.user.username }}</div>
+                <a href="{% url 'logout' %}" class="w-full block text-center bg-slate-100 text-slate-600 font-semibold py-2 rounded-lg text-xs hover:bg-slate-200 transition">Keluar</a>
+            </div>
+        </div>
+    </aside>
+
+    <main class="flex-1 p-6 md:p-8 space-y-8 overflow-y-auto max-h-screen">
+        {% block sub_content %}
+        <div class="max-w-6xl mx-auto space-y-6 text-sm">
+
+            <!-- Banner -->
+            <div class="panel-clay-3d p-2 bg-gradient-to-r from-slate-800 to-slate-900 text-white border-b-4 border-amber-500 rounded-2xl">
+                <div class="flex items-center justify-center gap-3 py-2">
+                    <div class="w-11 h-11 bg-slate-50 rounded-full flex items-center justify-center shadow-sm border border-slate-100">
+                        <span class="text-xl">😊</span>
+                    </div>
+                    <div class="leading-tight">
+                        <h2 class="font-kids text-xl text-white tracking-wide">SMILE</h2>
+                    </div>
+                </div>
+                <div class="leading-tight">
+                    <span class="bg-amber-400 text-slate-900 font-kids text-[9px] px-2.5 py-0.5 rounded-full uppercase tracking-wider font-bold">PORTAL ADMIN</span>
+                    <h2 class="font-kids text-xl mt-1.5 mb-1">Halo, {{ request.user.first_name|default:request.user.username }}! 👋</h2>
+                    <p class="text-slate-300 text-xs">Ringkasan sekolah &amp; akses cepat ke semua fitur pengelolaan.</p>
+                </div>
+            </div>
+
+            <!-- Stat Cards -->
+            <div class="grid grid-cols-2 lg:grid-cols-4 gap-4">
+                <div class="panel-clay-3d p-4 border-b-4 border-cyan-400">
+                    <span class="text-2xl">🏫</span>
+                    <h3 class="font-kids text-2xl text-slate-800 mt-1">{{ stats.jumlah_kelas }}</h3>
+                    <p class="text-[10px] text-slate-400 font-bold uppercase tracking-wider">Kelas</p>
+                </div>
+                <div class="panel-clay-3d p-4 border-b-4 border-emerald-400">
+                    <span class="text-2xl">🧒</span>
+                    <h3 class="font-kids text-2xl text-slate-800 mt-1">{{ stats.jumlah_siswa }}</h3>
+                    <p class="text-[10px] text-slate-400 font-bold uppercase tracking-wider">Siswa Aktif</p>
+                </div>
+                <div class="panel-clay-3d p-4 border-b-4 border-purple-400">
+                    <span class="text-2xl">🧑‍🏫</span>
+                    <h3 class="font-kids text-2xl text-slate-800 mt-1">{{ stats.jumlah_guru }}</h3>
+                    <p class="text-[10px] text-slate-400 font-bold uppercase tracking-wider">Guru</p>
+                </div>
+                <div class="panel-clay-3d p-4 border-b-4 border-amber-400">
+                    <span class="text-2xl">👨‍👩‍👧</span>
+                    <h3 class="font-kids text-2xl text-slate-800 mt-1">{{ stats.jumlah_ortu }}</h3>
+                    <p class="text-[10px] text-slate-400 font-bold uppercase tracking-wider">Orang Tua</p>
+                </div>
+            </div>
+
+            <!-- SPP ringkas -->
+            <div class="panel-clay-3d p-5 border-b-8 border-emerald-300">
+                <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-3">
+                    <h3 class="font-kids text-base text-slate-700 flex items-center gap-1.5">💳 SPP {{ nama_bulan_tahun_ini|upper }}</h3>
+                    <a href="{% url 'kelola_spp' %}" class="portal-btn-3d text-center bg-emerald-500 text-white font-kids text-xs px-4 py-2 rounded-lg shadow-[0_3px_0_#047857]">Kelola Pembayaran SPP ➔</a>
+                </div>
+                {% if stats.tagihan_bulan_ini %}
+                <div class="grid grid-cols-3 gap-3 text-center">
+                    <div class="bg-slate-50 rounded-xl p-3">
+                        <h4 class="font-kids text-lg text-slate-800">{{ stats.tagihan_bulan_ini }}</h4>
+                        <p class="text-[10px] text-slate-400 font-bold uppercase">Total Tagihan</p>
+                    </div>
+                    <div class="bg-emerald-50 rounded-xl p-3">
+                        <h4 class="font-kids text-lg text-emerald-600">{{ stats.tagihan_lunas }}</h4>
+                        <p class="text-[10px] text-slate-400 font-bold uppercase">Lunas</p>
+                    </div>
+                    <div class="bg-rose-50 rounded-xl p-3">
+                        <h4 class="font-kids text-lg text-rose-500">{{ stats.tagihan_belum_lunas }}</h4>
+                        <p class="text-[10px] text-slate-400 font-bold uppercase">Belum Lunas</p>
+                    </div>
+                </div>
+                {% else %}
+                <p class="text-slate-400 text-xs">Tagihan SPP bulan ini belum dibuat. Klik tombol di atas untuk generate tagihan.</p>
+                {% endif %}
+            </div>
+
+            <!-- Daftar kelas -->
+            <div class="space-y-3">
+                <h3 class="font-kids text-base text-slate-700 flex items-center gap-1.5">🏫 DAFTAR KELAS</h3>
+                <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
+                    {% for k in kelas_list %}
+                        <a href="{% url 'lihat_ranking_guru' k.id %}" class="bg-white border-2 border-slate-200 hover:border-amber-400 p-4 rounded-xl shadow-sm transition flex flex-col gap-1">
+                            <div class="flex items-center justify-between">
+                                <h4 class="font-kids text-sm text-slate-800">{{ k.nama }}</h4>
+                                <span class="text-[10px] font-bold text-slate-400 bg-slate-100 px-2 py-0.5 rounded-full">{{ k.jumlah_siswa }} siswa</span>
+                            </div>
+                            <p class="text-[10px] text-slate-400">{% if k.wali_kelas %}Wali: {{ k.wali_kelas.get_full_name|default:k.wali_kelas.username }}{% else %}Lihat ranking ➔{% endif %}</p>
+                        </a>
+                    {% empty %}
+                        <p class="text-slate-400 text-xs col-span-full">Belum ada kelas. Tambahkan lewat Kelola Kelas.</p>
+                    {% endfor %}
+                </div>
+            </div>
+
+            <!-- Akses cepat -->
+            <div class="border-t-2 border-dashed border-slate-200 pt-4 mt-6">
+                <h3 class="font-kids text-base text-slate-700 mb-3 flex items-center gap-1.5">🚀 AKSES CEPAT</h3>
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <a href="/admin/akademik/siswa/" class="portal-btn-3d flex items-center justify-between p-3 bg-gradient-to-r from-cyan-500 to-blue-500 text-white rounded-xl border-b-4 border-blue-700 text-left">
+                        <div class="flex items-center space-x-3">
+                            <span class="text-2xl bg-white/20 p-1 rounded-lg">🧒</span>
+                            <div>
+                                <h5 class="font-kids text-xs">Tambah / Atur Siswa</h5>
+                                <p class="text-[10px] text-blue-100 font-medium">Daftarkan murid baru &amp; tentukan kelasnya</p>
+                            </div>
+                        </div>
+                        <span class="text-xs font-bold bg-blue-700/30 px-2 py-1 rounded-md">BUKA ➔</span>
+                    </a>
+                    <a href="/admin/akademik/orangtua/" class="portal-btn-3d flex items-center justify-between p-3 bg-gradient-to-r from-teal-500 to-emerald-500 text-white rounded-xl border-b-4 border-emerald-700 text-left">
+                        <div class="flex items-center space-x-3">
+                            <span class="text-2xl bg-white/20 p-1 rounded-lg">👨‍👩‍👧</span>
+                            <div>
+                                <h5 class="font-kids text-xs">Tambah / Atur Orang Tua</h5>
+                                <p class="text-[10px] text-emerald-100 font-medium">Buat akun orang tua &amp; tautkan ke anaknya</p>
+                            </div>
+                        </div>
+                        <span class="text-xs font-bold bg-emerald-700/30 px-2 py-1 rounded-md">BUKA ➔</span>
+                    </a>
+                </div>
+            </div>
+
+        </div>
+        {% endblock %}
+    </main>
+</div>
+{% endblock %}
